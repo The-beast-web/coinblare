@@ -1,7 +1,8 @@
 @extends('customer.layout.master')
 
 @section('content')
-<div class="nk-content nk-content-fluid">
+@include('customer.layout.preloader')
+<div class="nk-content nk-content-fluid mt-5 d-none" id="market">
     <div class="container-xl wide-lg">
         <div class="nk-content-body">
             <div class="nk-block-head">

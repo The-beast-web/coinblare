@@ -1,7 +1,8 @@
 @extends('customer.layout.master')
 
 @section('content')
-    <div class="nk-content nk-content-fluid " id="method">
+@include('customer.layout.preloader')
+    <div class="nk-content nk-content-fluid method d-none mt-5" id="market">
         <div class="container-xl wide-lg">
             <div class="nk-content-body">
                 <div class="components-preview wide-lg mx-auto">
@@ -248,54 +249,18 @@
                                 <form action="#" class="buysell-form">
                                     <div class="buysell-field form-group">
                                         <div class="form-label-group">
-                                            <label class="form-label" for="buysell-amount">Amount</label>
+                                            <label class="form-label" for="buysell-amount">Amount to Buy</label>
                                         </div>
                                         <div class="form-control-group">
                                             <input type="number" class="form-control form-control-lg form-control-number"
                                                 id="buysell-amount" name="bs-amount" placeholder="0.055960">
                                             <div class="form-dropdown">
-                                                <div class="text">NGN</div>
+                                                <div class="text">BTC</div>
                                             </div>
-                                        </div>
-                                        <div class="form-note-group">
-                                            <span class="buysell-min form-note-alt">Minimum: 10.00 USD</span>
-                                            <span class="buysell-min form-note-alt">Service Fee : <em
-                                                    class="ni ni-sign-kobo"></em><span id="commission">0</span></span>
-                                            <span class="buysell-rate form-note-alt"><span id="naira">0</span> NGN =
-                                                <span id="coin">0</span> BTC</span>
-                                        </div>
-                                    </div><!-- .buysell-field -->
-                                    <div class="buysell-field form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label">Payment Method</label>
-                                        </div>
-                                        <div class="form-pm-group">
-                                            <ul class="buysell-pm-list">
-                                                <li class="buysell-pm-item">
-                                                    <input class="buysell-pm-control" type="radio" name="bs-method"
-                                                        id="pm-paypal" checked>
-                                                    <label class="buysell-pm-label" for="pm-paypal">
-                                                        <span class="pm-name">Account Balance</span>
-                                                    </label>
-                                                </li>
-                                                <li class="buysell-pm-item">
-                                                    <input class="buysell-pm-control" type="radio" name="bs-method"
-                                                        id="pm-bank">
-                                                    <label class="buysell-pm-label" for="pm-bank">
-                                                        <span class="pm-name">Paystack</span>
-                                                    </label>
-                                                </li>
-                                                <li class="buysell-pm-item">
-                                                    <input class="buysell-pm-control" type="radio" name="bs-method"
-                                                        id="pm-card" />
-                                                    <label class="buysell-pm-label" for="pm-card">
-                                                        <span class="pm-name">Flutterwave</span> </label>
-                                                </li>
-                                            </ul>
                                         </div>
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action">
-                                        <button class="btn btn-lg btn-block btn-primary" id="continue-buy"
+                                        <button type="button" class="btn btn-lg btn-block btn-primary" id="continue-buy"
                                             disabled>Continue to Buy</button>
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action">
@@ -317,9 +282,21 @@
                                         </div>
                                         <div class="form-control-group">
                                             <input type="number" class="form-control form-control-lg form-control-number"
-                                                id="sell-amount" name="bs-amount" placeholder="0.055960">
+                                                id="sell-coin" name="bs-amount" placeholder="0.055960">
                                             <div class="form-dropdown">
                                                 <div class="text">BTC</div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .buysell-field -->
+                                    <div class="buysell-field form-group">
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="buysell-amount">Price</label>
+                                        </div>
+                                        <div class="form-control-group">
+                                            <input type="number" class="form-control form-control-lg form-control-number"
+                                                id="sell-amount" name="bs-amount" placeholder="0.055960">
+                                            <div class="form-dropdown">
+                                                <div class="text">NGN</div>
                                             </div>
                                         </div>
                                         <div class="form-note-group">
@@ -386,7 +363,7 @@
                     </div>
                     <div class="nk-block">
                         <div class="text-center">
-                            <img src="{{ asset('images/qr/qr-code.png') }}" alt="">
+                            <div id="qr-code"></div>
                         </div>
                         <div class="nk-refwg-url mt-3 mb-1">
                             <div class="form-control-wrap">
@@ -491,4 +468,10 @@
             </div><!-- .modal-content -->
         </div><!-- .modla-dialog -->
     </div><!-- .modal -->
+    @push('script')
+<script>
+    $("#qr-code").barcode("stringtogenerate","code39");
+</script>
+@endpush
 @endsection
+

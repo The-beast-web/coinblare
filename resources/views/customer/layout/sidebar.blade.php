@@ -3,12 +3,14 @@
         <div class="nk-sidebar-brand">
             <a href="html/crypto/index.html" class="logo-link nk-sidebar-logo">
                 <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
-                <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x"
+                    alt="logo-dark">
                 <span class="nio-version">Crypto</span>
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">
-            <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+            <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em
+                    class="icon ni ni-arrow-left"></em></a>
         </div>
     </div><!-- .nk-sidebar-element -->
     <div class="nk-sidebar-element">
@@ -21,7 +23,8 @@
                             <div class="user-balance">2.014095 <small class="currency currency-btc">BTC</small></div>
                             <div class="user-balance-alt">18,934.84 <span class="currency currency-btc">BTC</span></div>
                         </div>
-                        <a href="#" class="btn btn-white btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
+                        <a href="#" class="btn btn-white btn-icon btn-light"><em
+                                class="icon ni ni-line-chart"></em></a>
                     </div>
                     <ul class="user-account-data gy-1">
                         <li>
@@ -44,8 +47,10 @@
                     </ul>
                     <div class="user-account-actions">
                         <ul class="g-3">
-                            <li><a href="#" class="btn btn-lg btn-primary"><span>Deposit</span></a></li>
-                            <li><a href="#" class="btn btn-lg btn-warning"><span>Withdraw</span></a></li>
+                            <li><a href="{{ route('customer.deposit') }}"
+                                    class="btn btn-lg btn-primary"><span>Deposit</span></a></li>
+                            <li><a href="{{ route('customer.withdrawal') }}"
+                                    class="btn btn-lg btn-warning"><span>Withdraw</span></a></li>
                         </ul>
                     </div>
                 </div><!-- .nk-sidebar-widget -->
@@ -80,19 +85,28 @@
                             </a>
                         </li>
                         <li class="nk-menu-item">
-                            <a href="html/crypto/profile.html" class="nk-menu-link">
+                            <a href="{{ route('customer.profile') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
                                 <span class="nk-menu-text">My Profile</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{ route('customer.my-sales') }}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-bag"></em></span>
+                                <span class="nk-menu-text">My Sales</span>
                             </a>
                         </li>
                         <li class="nk-menu-heading">
                             <h6 class="overline-title">User</h6>
                         </li>
                         <li class="nk-menu-item">
-                            <a href="html/index.html" class="nk-menu-link">
-                                <span class="nk-menu-icon"><em class="icon ni ni-dashlite"></em></span>
-                                <span class="nk-menu-text">Main Dashboard</span>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-signout"></em></span>
+                                <span class="nk-menu-text">Logout</span>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </li>
                     </ul><!-- .nk-menu -->
                 </div><!-- .nk-sidebar-menu -->

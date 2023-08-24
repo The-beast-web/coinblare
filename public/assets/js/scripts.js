@@ -29,11 +29,6 @@
     NioApp.AddInBody(_sidebar);
   };
 
-  $('#buysell-amount').on('keydown, keyup', function () {
-    document.getElementById('commission').innerHTML = document.getElementById('buysell-amount').value / 100 * 2;
-    document.getElementById('naira').innerHTML = document.getElementById('buysell-amount').value;
-    document.getElementById('coin').innerHTML = document.getElementById('buysell-amount').value / 2000;
-  });
 
   $('#sell-amount').on('keydown, keyup', function () {
     document.getElementById('commission-sell').innerHTML = document.getElementById('sell-amount').value * 2000000 / 100 * 2;
@@ -48,7 +43,7 @@
     var isValid = $('input[type=radio]').is(':checked');
     if (isValid) {
       $('#buy-sell').removeClass('d-none');
-      $('#method').addClass('d-none');
+      $('.method').addClass('d-none');
       if ($('#bitcoin').is(':checked')) {
         $('#message-buy').html($('#bitcoin').val());
         $('#message-sell').html($('#bitcoin').val());
@@ -113,12 +108,40 @@
   });
 
   $('#sell-amount').on('keydown, keyup', function () {
-    if ($('#sell-amount').val() !== "") {
+    if ($('#sell-amount').val() !== "" && $('#sell-coin').val() !== "") {
       $('#continue').prop('disabled', false);
       $('.btc').html($('#sell-amount').val());
     } else {
       $('#continue').prop('disabled', true);
     }
+  });
+
+  $('#sell-coin').on('keydown, keyup', function () {
+    if ($('#sell-amount').val() !== "" && $('#sell-coin').val() !== "") {
+      $('#continue').prop('disabled', false);
+      $('.btc').html($('#sell-amount').val());
+    } else {
+      $('#continue').prop('disabled', true);
+    }
+  });
+
+
+  $('#card').on('click', function () {
+    $('#card-pm').removeClass('d-none');
+    $('#bank-pm').addClass('d-none');
+  });
+
+  $('#local-bank').on('click', function () {
+    $('#bank-pm').removeClass('d-none');
+    $('#card-pm').addClass('d-none');
+  });
+
+  $('div.myDiv').hide();
+  $('.default').show();
+  $('#myselection').on('change', function () {
+    var demovalue = $(this).val();
+    $("div.myDiv").hide();
+    $("#show" + demovalue).show();
   });
 
 
@@ -130,6 +153,25 @@
     }
   });
 
+  $('#continue-buy').on('click', function () {
+    window.location.href = "myaccount/marketplace";
+  });
+
+  $(window).on('load', function () {
+    $('.ok').fadeIn();
+    $('.ok').delay(2500).fadeOut();
+    $('#preloader').delay(2500).queue(function () {
+      $(this).addClass('d-none').dequeue();
+      $('#market').removeClass('d-none');
+    });
+  });
+
+  $('#withdraw').on('click', function(){
+    $('.spinner-border').removeClass('d-none');
+    $('#withdraw').prop('disabled', true);
+    $('#wit').html('Loading...');
+  })
+
   $('#continue').on('click', function () {
     if ($('#pm-external').is(':checked')) {
       $('#buy-coin').modal('show');
@@ -138,12 +180,44 @@
     }
   });
 
-  $('.back').on('click', function(){
-$('#buy-sell').addClass('d-none');
-$('#method').removeClass('d-none');
+  $('.back').on('click', function () {
+    $('#buy-sell').addClass('d-none');
+    $('.method').removeClass('d-none');
   });
 
+  $('#security-pin').on('click', function () {
+    if ($('#security-pin').is(':checked')) {
+      $('#security-pin-modal').modal('show');
+    } else {
+      $('#security-pin-modal').modal('show');
+    }
 
+    if ($('#pin-code').val() == "") {
+      if ($('#security-pin').is(':checked')) {
+        $('#security-pin').prop('checked', false);
+      } else {
+        $('#security-pin').prop('checked', true);
+      }
+    }
+  });
+
+  $('#pin-code').on('keydown, keyup', function () {
+    if ($('#pin-code').val() !== "") {
+      $('#set-pin').prop('disabled', false);
+    } else {
+      $('#set-pin').prop('disabled', true);
+    }
+  });
+
+  $('#set-pin').on('click', function () {
+    if ($('#security-pin').is(':checked')) {
+      $('#security-pin').prop('checked', false);
+      $('#security-pin-modal').modal('hide');
+    } else {
+      $('#security-pin').prop('checked', true);
+      $('#security-pin-modal').modal('hide');
+    }
+  });
 
   // ClassInit @v1.0
   NioApp.ClassNavMenu = function () {

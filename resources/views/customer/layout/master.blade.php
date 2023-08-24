@@ -15,14 +15,9 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.2') }}">
-    <style>
-        .hi:focus{
-            border: none
-        }
-    </style>
 </head>
 
-<body class="nk-body npc-crypto bg-white has-sidebar ">
+<body class="nk-body npc-crypto bg-white has-sidebar">
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
@@ -49,6 +44,8 @@
     <script src="{{ asset('assets/js/bundle.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('assets/js/charts/chart-crypto.js?ver=3.1.2') }}"></script>
+
+@stack('script')
 </body>
 
 </html>

@@ -1,7 +1,8 @@
 @extends('customer.layout.master')
 
 @section('content')
-    <div class="nk-content nk-content-fluid">
+@include('customer.layout.preloader')
+    <div class="nk-content nk-content-fluid d-none mt-5" id="market">
         <div class="container-xl wide-lg">
             <div class="nk-content-body">
                 <div class="nk-block-head">
@@ -9,7 +10,7 @@
                     </div>
                     <div class="nk-block-between-md g-4">
                         <div class="nk-block-head-content">
-                            <h2 class="nk-block-title fw-normal">Abu Bin Ishityak</h2>
+                            <h2 class="nk-block-title fw-normal text-capitalize">{{ Auth::user()->name }}</h2>
                             <div class="nk-block-des">
                                 <p>At a glance summary of your account. Have fun!</p>
                             </div>

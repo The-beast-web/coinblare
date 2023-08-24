@@ -1,7 +1,8 @@
 @extends('customer.layout.master')
 
 @section('content')
-<div class="nk-content nk-content-fluid">
+@include('customer.layout.preloader')
+<div class="nk-content nk-content-fluid mt-5 d-none" id="market">
     <div class="container-xl wide-lg">
         <div class="nk-content-body">
             <div class="nk-block-head">
@@ -12,22 +13,6 @@
                         <div class="nk-block-des">
                             <p>Here is the list of your wallets!</p>
                         </div>
-                    </div>
-                    <div class="nk-block-head-content">
-                        <ul class="nk-block-tools gx-3">
-                            <li class="opt-menu-md dropdown">
-                                <a href="#" class="btn btn-dim btn-outline-light btn-icon" data-bs-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
-                                <div class="dropdown-menu  dropdown-menu-xs dropdown-menu-end">
-                                    <ul class="link-list-plain sm">
-                                        <li><a href="#">Display</a></li>
-                                        <li><a href="#">Show</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a href="#" class="btn btn-primary"><span>Send</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
-                            <li><a href="#" class="btn btn-warning"><span>Deposit</span> <em class="icon ni ni-arrow-long-up"></em></a></li>
-                            <li><a href="#" class="btn btn-dim btn-outline-light"><span>Withdraw</span> <em class="icon ni ni-arrow-long-down"></em></a></li>
-                        </ul>
                     </div>
                 </div><!-- .nk-block-between -->
             </div><!-- .nk-block-head -->
