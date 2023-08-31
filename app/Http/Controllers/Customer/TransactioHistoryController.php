@@ -9,6 +9,7 @@ class TransactioHistoryController extends Controller
 {
     public function index()
     {
+        $this->seo()->setTitle('Transaction History');
         return view('customer.transaction-history.index');
     }
 }

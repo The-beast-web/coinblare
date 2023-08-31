@@ -23,44 +23,20 @@
                     </div>
                 </div>
                 <div class="row g-gs">
-                    <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
-                        <div class="card card-bordered is-dark">        
-                            <div class="nk-wgw">
-                                <div class="nk-wgw-inner">
-                                    <a class="nk-wgw-name" href="html/crypto/wallet-bitcoin.html">
-                                        <div class="nk-wgw-icon is-default">
-                                            <em class="icon ni ni-sign-kobo"></em>
-                                        </div>
-                                        <h5 class="nk-wgw-title title">NioWallet</h5>
-                                    </a>
-                                    <div class="nk-wgw-balance">
-                                        <div class="amount">40.509505<span class="currency currency-nio">NIO</span></div>
-                                        <div class="amount-sm">8,924.63<span class="currency currency-usd">USD</span></div>
-                                    </div>
-                                </div>
-                                <div class="nk-wgw-actions">
-                                    <ul>
-                                        <li><a href="#"><em class="icon ni ni-arrow-up-right"></em> <span>Send</span></a></li>
-                                        <li><a href="#"><em class="icon ni ni-arrow-down-left"></em><span>Receive</span></a></li>
-                                        <li><a href="#"><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div><!-- .card -->
-                    </div><!-- .col -->
+                    @foreach ($wallet as $wall)
                     <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
                         <div class="card card-bordered">
                             <div class="nk-wgw">
                                 <div class="nk-wgw-inner">
                                     <a class="nk-wgw-name" href="html/crypto/wallet-bitcoin.html">
                                         <div class="nk-wgw-icon">
-                                            <em class="icon ni ni-sign-eth"></em>
+                                            <em class="{{ $wall->wallet_symbol }}"></em>
                                         </div>
-                                        <h5 class="nk-wgw-title title">Ethereum Wallet</h5>
+                                        <h5 class="nk-wgw-title title text-capitalize">{{ $wall->crypto_wallet }} Wallet</h5>
                                     </a>
                                     <div class="nk-wgw-balance">
-                                        <div class="amount">0.452058<span class="currency currency-eth">ETH</span></div>
-                                        <div class="amount-sm">1,583.25<span class="currency currency-usd">USD</span></div>
+                                        <div class="amount">{{ $wall->balance_in_crypto }}<span class="currency currency-btc">{{ $wall->abbr }}</span></div>
+                                        <div class="amount-sm">{{ number_format($wall->balance_in_currency) }}<span class="currency currency-usd">USD</span></div>
                                     </div>
                                 </div>
                                 <div class="nk-wgw-actions">
@@ -73,31 +49,7 @@
                             </div>
                         </div><!-- .card -->
                     </div><!-- .col -->
-                    <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
-                        <div class="card card-bordered">
-                            <div class="nk-wgw">
-                                <div class="nk-wgw-inner">
-                                    <a class="nk-wgw-name" href="html/crypto/wallet-bitcoin.html">
-                                        <div class="nk-wgw-icon">
-                                            <em class="icon ni ni-sign-btc"></em>
-                                        </div>
-                                        <h5 class="nk-wgw-title title">Bitcoin Wallet</h5>
-                                    </a>
-                                    <div class="nk-wgw-balance">
-                                        <div class="amount">4.434953<span class="currency currency-btc">BTC</span></div>
-                                        <div class="amount-sm">28,247.63<span class="currency currency-usd">USD</span></div>
-                                    </div>
-                                </div>
-                                <div class="nk-wgw-actions">
-                                    <ul>
-                                        <li><a href="#"><em class="icon ni ni-arrow-up-right"></em> <span>Send</span></a></li>
-                                        <li><a href="#"><em class="icon ni ni-arrow-down-left"></em><span>Receive</span></a></li>
-                                        <li><a href="#"><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div><!-- .card -->
-                    </div><!-- .col -->
+                    @endforeach
                 </div><!-- .row -->
             </div>
         </div>

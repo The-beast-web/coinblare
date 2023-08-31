@@ -1,117 +1,92 @@
 @extends('customer.layout.master')
 
 @section('content')
-@include('customer.layout.preloader')
-    <div class="nk-content nk-content-fluid mt-5 d-none" id="market">
+    @include('customer.layout.preloader')
+    <div class="nk-content nk-content-fluid mt-5 mb-5 d-none" id="market">
         <div class="container-xl wide-lg">
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">
-                    <div class="nk-block-between">
+                    <div class="nk-block-between g-3">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Marketplace</h3>
-                            <div class="nk-block-des text-soft">
-                                <p>You have total 95 matches.</p>
-                            </div>
-                        </div><!-- .nk-block-head-content -->
-                    </div><!-- .nk-block-between -->
+                            <h3 class="nk-block-title page-title">Marketplace Match</h3>
+                                <div class="nk-block-des text-soft">
+                                    <p>Best Available Offer</p>
+                                </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <a href="{{ route('customer.buy-sell') }}"
+                                class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                    class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                            <a href="{{ route('customer.buy-sell')}}"
+                                class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em
+                                    class="icon ni ni-arrow-left"></em></a>
+                        </div>
+                    </div>
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
                     <div class="row g-gs">
-                        <div class="col-sm-6 col-xl-4">
-                            <div class="card card-bordered h-100">
+                        <div class="col-xl-12">
+                            <div class="card card-bordered">
                                 <div class="card-inner">
-                                    <div class="project">
-                                        <div class="project-head">
-                                            <a href="html/apps-kanban.html" class="project-title">
-                                                <div class="user-avatar sq bg-purple"><span>DD</span></div>
-                                                <div class="project-info">
-                                                    <h6 class="title">Harrison Ehiogu</h6>
+                                    <div class="nk-block">
+                                        <div class="overline-title-alt mb-2 mt-2">In Offer</div>
+                                        <div class="profile-balance">
+                                            <div class="profile-balance-group gx-4">
+                                                <div class="profile-balance-sub">
+                                                    <div class="profile-balance-amount">
+                                                        <div class="number"> <small class="currency currency-usd">{{ request()->session()->get('amount') }} {{ $crypto->abbr }}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-balance-subtitle">Unit Offer</div>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <div class="project-progress">
-                                            <div class="project-progress-details">
-                                                <div class="project-progress-task"><span>0.002 BTC</span></div>
-                                                <div class="project-progress-percent"><em
-                                                        class="ni ni-sign-kobo"></em>{{ number_format(20000) }}</div>
+                                                <div class="profile-balance-sub">
+                                                    <span class="profile-balance-plus text-soft"><em
+                                                            class="icon ni ni-minus"></em></span>
+                                                    <div class="profile-balance-amount">
+                                                        <div class="number"><em class="ni ni-sign-dollar"></em>{{ number_format($price) }}</div>
+                                                    </div>
+                                                    <div class="profile-balance-subtitle">Unit Price</div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="project-meta mt-5">
-                                            <span class="badge badge-dim bg-warning"><em
-                                                    class="icon ni ni-clock"></em><span>5 Days ago</span></span>
-                                        </div>
-                                        <div class="text-center mt-5">
-                                            <a href="{{ route('customer.detail') }}"
-                                                class="btn btn-dim btn-outline-light"><em
-                                                    class="ni ni-eye-fill"></em>&nbsp;&nbsp;View Details</a>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-xl-4">
-                            <div class="card card-bordered h-100">
-                                <div class="card-inner">
-                                    <div class="project">
-                                        <div class="project-head">
-                                            <a href="html/apps-kanban.html" class="project-title">
-                                                <div class="user-avatar sq bg-purple"><span>JS</span></div>
-                                                <div class="project-info">
-                                                    <h6 class="title">Jon Snow</h6>
+                                    <div class="nk-block">
+                                        <h6 class="lead-text mb-3">Payment Methods</h6>
+                                        <form action="{{ route('customer.payment') }}" method="POST">
+                                            @csrf
+                                        <div class="row g-3">
+                                            <div class="col-12 col-lg-6 col-xl-12">
+                                                <div class="form-pm-group">
+                                                    <ul class="buysell-pm-list">
+                                                        <li class="buysell-pm-item">
+                                                            <input class="buysell-pm-control" checked type="radio"
+                                                                name="bs-method" id="pm-bank" value="Paystack">
+                                                            <label class="buysell-pm-label" for="pm-bank">
+                                                                <span class="pm-name">Paystack</span>
+                                                            </label>
+                                                        </li>
+                                                        <li class="buysell-pm-item">
+                                                            <input class="buysell-pm-control" type="radio"
+                                                                name="bs-method" id="pm-card" value="Flutterwave">
+                                                            <label class="buysell-pm-label" for="pm-card">
+                                                                <span class="pm-name">Flutterwave</span> </label>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <div class="project-progress">
-                                            <div class="project-progress-details">
-                                                <div class="project-progress-task"><span>0.002 BTC</span></div>
-                                                <div class="project-progress-percent"><em
-                                                        class="ni ni-sign-kobo"></em>{{ number_format(13000) }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="project-meta mt-5">
-                                            <span class="badge badge-dim bg-warning"><em
-                                                    class="icon ni ni-clock"></em><span>5 Days ago</span></span>
-                                        </div>
-                                        <div class="text-center mt-5">
-                                            <button class="btn btn-dim btn-outline-light"><em
-                                                    class="ni ni-eye-fill"></em>&nbsp;&nbsp;View Details</button>
-                                        </div>
+                                            </div><!-- .col -->
+                                            <div class="col-12 col-lg-6 col-xl-12">
+                                                <button
+                                                    class="h-100 w-100 btn-dim btn btn-outline-primary border border-dashed round-sm p-4 d-flex align-items-center justify-content-center">
+                                                    <span class="text-soft">Proceed to buy {{ request()->session()->get('amount') }} {{ $crypto->abbr }} for {{ number_format($price) }} USD</span>
+                                                </button>
+                                            </div><!-- .col -->
+                                        </div><!-- .row -->
+                                        </form>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-xl-4">
-                            <div class="card card-bordered h-100">
-                                <div class="card-inner">
-                                    <div class="project">
-                                        <div class="project-head">
-                                            <a href="html/apps-kanban.html" class="project-title">
-                                                <div class="user-avatar sq bg-purple"><span>DD</span></div>
-                                                <div class="project-info">
-                                                    <h6 class="title">Harrison Ehiogu</h6>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="project-progress">
-                                            <div class="project-progress-details">
-                                                <div class="project-progress-task"><span>0.002 BTC</span></div>
-                                                <div class="project-progress-percent"><em
-                                                        class="ni ni-sign-kobo"></em>{{ number_format(20000) }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="project-meta mt-5">
-                                            <span class="badge badge-dim bg-warning"><em
-                                                    class="icon ni ni-clock"></em><span>5 Days ago</span></span>
-                                        </div>
-                                        <div class="text-center mt-5">
-                                            <button class="btn btn-dim btn-outline-light"><em
-                                                    class="ni ni-eye-fill"></em>&nbsp;&nbsp;View Details</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </div><!-- .card-inner -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                    </div><!-- .row -->
                 </div><!-- .nk-block -->
             </div>
         </div>

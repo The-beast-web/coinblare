@@ -9,6 +9,7 @@ class MySalesController extends Controller
 {
     public function index()
     {
+        $this->seo()->setTitle('My Sales');
         return view('customer.my-sales.index');
     }
 }

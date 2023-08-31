@@ -36,6 +36,13 @@ return [
             'throw' => false,
         ],
 
+        'mydisk' => [
+            'driver' => 'local',
+            'root' => public_path('uploads'),
+            'throw' => false,
+            'url' => env('APP_URL').'/uploads',
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

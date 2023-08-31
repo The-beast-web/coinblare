@@ -31,78 +31,11 @@
 
 
   $('#sell-amount').on('keydown, keyup', function () {
-    document.getElementById('commission-sell').innerHTML = document.getElementById('sell-amount').value * 2000000 / 100 * 2;
-    document.getElementById('coin-sell').innerHTML = document.getElementById('sell-amount').value;
-    document.getElementById('naira-sell').innerHTML = document.getElementById('sell-amount').value * 2000000;
-    document.getElementById('cost').innerHTML = document.getElementById('sell-amount').value;
-
+    document.getElementById('commission-sell').innerHTML = document.getElementById('sell-amount').value / 100 * 2
   });
 
   $('#bs-btn').attr("disabled", true);
-  $('#bs-btn').on('click', function () {
-    var isValid = $('input[type=radio]').is(':checked');
-    if (isValid) {
-      $('#buy-sell').removeClass('d-none');
-      $('.method').addClass('d-none');
-      if ($('#bitcoin').is(':checked')) {
-        $('#message-buy').html($('#bitcoin').val());
-        $('#message-sell').html($('#bitcoin').val());
-        $('#coin-wallet').html($('#bitcoin').val());
-      }
-      if ($('#ether').is(':checked')) {
-        $('#message-buy').html($('#ether').val());
-        $('#message-sell').html($('#ether').val());
-        $('#coin-wallet').html($('#ether').val());
-      }
-      if ($('#tether').is(':checked')) {
-        $('#message-buy').html($('#tether').val());
-        $('#message-sell').html($('#tether').val());
-        $('#coin-wallet').html($('#tether').val());
-      }
-      if ($('#binance').is(':checked')) {
-        $('#message-buy').html($('#binance').val());
-        $('#message-sell').html($('#binance').val());
-        $('#coin-wallet').html($('#binance').val());
-      }
-      if ($('#xrp').is(':checked')) {
-        $('#message-buy').html($('#xrp').val());
-        $('#message-sell').html($('#xrp').val());
-        $('#coin-wallet').html($('#xrp').val());
-      }
-      if ($('#usdollar').is(':checked')) {
-        $('#message-buy').html($('#usdollar').val());
-        $('#message-sell').html($('#usdollar').val());
-        $('#coin-wallet').html($('#usdollar').val());
-      }
-      if ($('#dogecoin').is(':checked')) {
-        $('#message-buy').html($('#dogecoin').val());
-        $('#message-sell').html($('#dogecoin').val());
-        $('#coin-wallet').html($('#dogecoin').val());
-      }
-      if ($('#cardano').is(':checked')) {
-        $('#message-buy').html($('#cardano').val());
-        $('#message-sell').html($('#cardano').val());
-        $('#coin-wallet').html($('#cardano').val());
-      }
-      if ($('#solana').is(':checked')) {
-        $('#message-buy').html($('#solana').val());
-        $('#message-sell').html($('#solana').val());
-        $('#coin-wallet').html($('#solana').val());
-      }
-      if ($('#tron').is(':checked')) {
-        $('#message-buy').html($('#tron').val());
-        $('#message-sell').html($('#tron').val());
-        $('#coin-wallet').html($('#tron').val());
-      }
-      if ($('#litecoin').is(':checked')) {
-        $('#message-buy').html($('#litecoin').val());
-        $('#message-sell').html($('#litecoin').val());
-        $('#coin-wallet').html($('#litecoin').val());
-      }
-    } else {
-      $('#ok')[0].style.display = isValid ? "none" : "block";
-    }
-  });
+
   $('input[type=radio]').on('click', function () {
     $('#bs-btn').removeAttr("disabled");
   });
@@ -125,17 +58,6 @@
     }
   });
 
-
-  $('#card').on('click', function () {
-    $('#card-pm').removeClass('d-none');
-    $('#bank-pm').addClass('d-none');
-  });
-
-  $('#local-bank').on('click', function () {
-    $('#bank-pm').removeClass('d-none');
-    $('#card-pm').addClass('d-none');
-  });
-
   $('div.myDiv').hide();
   $('.default').show();
   $('#myselection').on('change', function () {
@@ -147,15 +69,16 @@
 
   $('#buysell-amount').on('keydown, keyup', function () {
     if ($('#buysell-amount').val() !== "") {
+      $('#buy-amount').removeClass('d-none');
+      $('#buy-amount').html($('#buysell-amount').val());
       $('#continue-buy').removeAttr('disabled');
     } else {
       $('#continue-buy').prop('disabled', true);
+      $('#buy-amount').addClass('d-none');
     }
   });
 
-  $('#continue-buy').on('click', function () {
-    window.location.href = "myaccount/marketplace";
-  });
+
 
   $(window).on('load', function () {
     $('.ok').fadeIn();
@@ -291,7 +214,7 @@
 
   // CurrentLink Detect @v1.0
   NioApp.CurrentLink = function () {
-    var _link = '.nk-menu-link, .menu-link, .nav-link',
+    var _link = '',
       _currentURL = window.location.href,
       fileName = _currentURL.substring(0, _currentURL.indexOf("#") == -1 ? _currentURL.length : _currentURL.indexOf("#")),
       fileName = fileName.substring(0, fileName.indexOf("?") == -1 ? fileName.length : fileName.indexOf("?"));

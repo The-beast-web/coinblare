@@ -20,31 +20,11 @@
                     <div class="user-account-info between-center">
                         <div class="user-account-main">
                             <h6 class="overline-title-alt">Available Balance</h6>
-                            <div class="user-balance">2.014095 <small class="currency currency-btc">BTC</small></div>
-                            <div class="user-balance-alt">18,934.84 <span class="currency currency-btc">BTC</span></div>
+                            <div class="user-balance">{{ number_format(Auth::user()->balance, 2) }} <small class="currency currency-btc">USD</small></div>
                         </div>
                         <a href="#" class="btn btn-white btn-icon btn-light"><em
                                 class="icon ni ni-line-chart"></em></a>
                     </div>
-                    <ul class="user-account-data gy-1">
-                        <li>
-                            <div class="user-account-label">
-                                <span class="sub-text">Profits (7d)</span>
-                            </div>
-                            <div class="user-account-value">
-                                <span class="lead-text">+ 0.0526 <span class="currency currency-btc">BTC</span></span>
-                                <span class="text-success ms-2">3.1% <em class="icon ni ni-arrow-long-up"></em></span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="user-account-label">
-                                <span class="sub-text">Deposit in orders</span>
-                            </div>
-                            <div class="user-account-value">
-                                <span class="sub-text">0.005400 <span class="currency currency-btc">BTC</span></span>
-                            </div>
-                        </li>
-                    </ul>
                     <div class="user-account-actions">
                         <ul class="g-3">
                             <li><a href="{{ route('customer.deposit') }}"
@@ -60,40 +40,46 @@
                         <li class="nk-menu-heading">
                             <h6 class="overline-title">Menu</h6>
                         </li>
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {!! getRoute('customer.dashboard') !!}">
                             <a href="{{ route('customer.dashboard') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
                                 <span class="nk-menu-text">Dashboard</span>
                             </a>
                         </li>
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {!! getRoute('customer.wallets') !!}">
                             <a href="{{ route('customer.wallets') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
                                 <span class="nk-menu-text">Wallets</span>
                             </a>
                         </li>
-                        <li class="nk-menu-item">
-                            <a href="{{ route('customer.buy-sell') }}" class="nk-menu-link">
+                        <li class="nk-menu-item {!! getRoute(['customer.buy-sell-select', 'customer.buy-sell']) !!}">
+                            <a href="{{ route('customer.buy-sell-select') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-coins"></em></span>
                                 <span class="nk-menu-text">Buy / Sell</span>
                             </a>
                         </li>
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {!! getRoute('customer.transaction-history') !!}">
                             <a href="{{ route('customer.transaction-history') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                 <span class="nk-menu-text">Transaction History</span>
                             </a>
                         </li>
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {!! getRoute('customer.profile') !!}">
                             <a href="{{ route('customer.profile') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
                                 <span class="nk-menu-text">My Profile</span>
                             </a>
                         </li>
-                        <li class="nk-menu-item">
+                        <li class="nk-menu-item {!! getRoute('customer.my-sales') !!}">
                             <a href="{{ route('customer.my-sales') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-bag"></em></span>
                                 <span class="nk-menu-text">My Sales</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item {!! getRoute('customer.market-analysis') !!}">
+                            <a href="{{ route('customer.market-analysis') }}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-bar-chart"></em></span>
+                                <span class="nk-menu-text">Market Analysis</span>
                             </a>
                         </li>
                         <li class="nk-menu-heading">
