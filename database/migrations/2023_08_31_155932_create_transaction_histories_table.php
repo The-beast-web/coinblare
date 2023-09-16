@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('transaction_histories', function (Blueprint $table) {
             $table->id();
+            $table->string('tranx_type');
+            $table->string('amount');
+            $table->string('price');
             $table->timestamps();
         });
     }

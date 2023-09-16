@@ -25,7 +25,8 @@
                                     {{ request()->session()->get('crypto') }}</h3>
                             </div><!-- .buysell-title -->
                             <div class="buysell-block">
-                                <form action="{{ route('customer.buy_coin') }}" id="purchase_form" method="POST" class="buysell-form">
+                                <form action="{{ route('customer.buy_coin') }}" id="purchase_form" method="POST"
+                                    class="buysell-form">
                                     @csrf
                                     <div class="buysell-field form-group">
                                         <div class="form-label-group">
@@ -40,8 +41,8 @@
                                         </div>
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action">
-                                        <button type="submit" class="btn btn-lg btn-block btn-primary" disabled id="continue-buy">Buy <span
-                                                id="buy-amount" class="d-none mx-1"
+                                        <button type="submit" class="btn btn-lg btn-block btn-primary" disabled
+                                            id="continue-buy">Buy <span id="buy-amount" class="d-none mx-1"
                                                 style="width:auto;"></span>{{ request()->session()->get('crypto_abbr') }}</button>
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action mt-4">
@@ -58,7 +59,8 @@
                                     {{ request()->session()->get('crypto') }}</h3>
                             </div><!-- .buysell-title -->
                             <div class="buysell-block">
-                                <form action="{{ route('customer.sell_coin') }}" id="sell-form" method="POST" class="buysell-form">
+                                <form action="{{ route('customer.sell_coin') }}" id="sell-form" method="POST"
+                                    class="buysell-form">
                                     @csrf
                                     <div class="buysell-field form-group">
                                         <div class="form-label-group">
@@ -104,8 +106,8 @@
                                                     </label>
                                                 </li>
                                                 <li class="buysell-pm-item">
-                                                    <input class="buysell-pm-control" type="radio" name="payment_method"
-                                                        id="pm-external" value="external">
+                                                    <input class="buysell-pm-control" type="radio"
+                                                        name="payment_method" id="pm-external" value="external">
                                                     <label class="buysell-pm-label" for="pm-external">
                                                         <span class="pm-name">External Wallet</span>
                                                     </label>
@@ -189,54 +191,54 @@
 
         $(document).ready(function() {
 
-$('#sell-form').on('submit', function(e) {
+            $('#sell-form').on('submit', function(e) {
 
-    e.preventDefault();
+                e.preventDefault();
 
-    form = $(this);
+                form = $(this);
 
-    if (form.valid()) {
+                if (form.valid()) {
 
-        var f = form.find(':submit');
+                    var f = form.find(':submit');
 
-        var button = f.html();
+                    var button = f.html();
 
-        f.attr("disabled", "disabled")
-            .html(
-                '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span><span>Loading...</span>'
-            );
+                    f.attr("disabled", "disabled")
+                        .html(
+                            '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span><span>Loading...</span>'
+                        );
 
-        // $(form).ajaxSubmit();
-        $.ajax({
-            url: form.attr('action'),
-            type: "POST",
-            data: form.serialize(),
-            success: function(result) {
+                    // $(form).ajaxSubmit();
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "POST",
+                        data: form.serialize(),
+                        success: function(result) {
 
-                console.log(result);
+                            console.log(result);
 
-                f.removeAttr("disabled").html(button);
+                            f.removeAttr("disabled").html(button);
 
-                window.location.replace(result.redirect_url);
+                            window.location.replace(result.redirect_url);
 
-            },
-            error: function(xhr, status, error) {
+                        },
+                        error: function(xhr, status, error) {
 
-                f.removeAttr("disabled").html(button);
+                            f.removeAttr("disabled").html(button);
 
-                $.each(xhr.responseJSON.errors, function(key, item) {
-                    $('input[name = ' + key + ']')
-                        .removeClass('is-valid')
-                        .addClass('is-invalid')
-                        .after('<div class="invalid-feedback">' + item +
-                            '</div>');
+                            $.each(xhr.responseJSON.errors, function(key, item) {
+                                $('input[name = ' + key + ']')
+                                    .removeClass('is-valid')
+                                    .addClass('is-invalid')
+                                    .after('<div class="invalid-feedback">' + item +
+                                        '</div>');
 
-                });
+                            });
 
-            }
+                        }
+                    });
+                }
+            });
         });
-    }
-});
-});
     </script>
 @endpush

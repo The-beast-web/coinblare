@@ -58,6 +58,12 @@
                                 <span class="nk-menu-text">Buy / Sell</span>
                             </a>
                         </li>
+                        <li class="nk-menu-item">
+                            <a href="#" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-coins"></em></span>
+                                <span class="nk-menu-text">Transfer</span>
+                            </a>
+                        </li>
                         <li class="nk-menu-item {!! getRoute('customer.transaction-history') !!}">
                             <a href="{{ route('customer.transaction-history') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>

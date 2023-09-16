@@ -42,11 +42,13 @@
     <script src="{{ asset('assets/js/bundle.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('assets/js/charts/chart-crypto.js?ver=3.1.2') }}"></script>
-    <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+    <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
     @stack('script')
     @stack('widget')
     @stack('buy-coin')
     @stack('sell-coin')
+    @stack('profile')
+    @stack('support')
 </body>
 
 </html>

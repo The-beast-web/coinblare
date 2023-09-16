@@ -1,7 +1,7 @@
 @extends('customer.layout.master')
 
 @section('content')
-@include('customer.layout.preloader')
+    @include('customer.layout.preloader')
     <div class="nk-content nk-content-fluid d-none mt-5 mb-5" id="market">
         <div class="container-xl wide-lg">
             <div class="nk-content-body">
@@ -60,7 +60,8 @@
                                             <div class="nk-wg7">
                                                 <div class="nk-wg7-stats">
                                                     <div class="nk-wg7-title">Available balance in USD</div>
-                                                    <div class="number-lg amount">{{ number_format($wallet->sum('balance_in_currency')) }}</div>
+                                                    <div class="number-lg amount">
+                                                        {{ number_format(Auth::user()->balance, 2) }}</div>
                                                 </div>
                                                 <div class="nk-wg7-stats-group">
                                                     <div class="nk-wg7-stats w-50">
@@ -93,25 +94,26 @@
                                 </div><!-- .nk-block-head -->
                                 <div class="row g-2">
                                     @foreach ($wall as $w)
-                                    <div class="col-sm-4">
-                                        <div class="card bg-light">
-                                            <div class="nk-wgw sm">
-                                                <a class="nk-wgw-inner" href="html/crypto/wallet-bitcoin.html">
-                                                    <div class="nk-wgw-name">
-                                                        <div class="nk-wgw-icon">
-                                                            <em class="{{ $w->wallet_symbol }}"></em>
+                                        <div class="col-sm-4">
+                                            <div class="card bg-light">
+                                                <div class="nk-wgw sm">
+                                                    <a class="nk-wgw-inner" href="html/crypto/wallet-bitcoin.html">
+                                                        <div class="nk-wgw-name">
+                                                            <div class="nk-wgw-icon">
+                                                                <em class="{{ $w->wallet_symbol }}"></em>
+                                                            </div>
+                                                            <h5 class="nk-wgw-title title text-capitalize">
+                                                                {{ $w->crypto_wallet }} Wallet</h5>
                                                         </div>
-                                                        <h5 class="nk-wgw-title title text-capitalize">{{ $w->crypto_wallet }} Wallet</h5>
-                                                    </div>
-                                                    <div class="nk-wgw-balance">
-                                                        <div class="amount">{{ $w->balance_in_crypto }}<span
-                                                                class="currency currency-nio">{{ $w->abbr }}</span>
+                                                        <div class="nk-wgw-balance">
+                                                            <div class="amount">{{ $w->balance_in_crypto }}<span
+                                                                    class="currency currency-nio">{{ $w->abbr }}</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div><!-- .col -->  
+                                        </div><!-- .col -->
                                     @endforeach
                                 </div><!-- .row -->
                             </div><!-- .nk-block -->
@@ -136,98 +138,41 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="all">
                                     <div class="tranx-list card card-bordered">
+                                        @foreach ($history as $h)
                                         <div class="tranx-item">
                                             <div class="tranx-col">
                                                 <div class="tranx-info">
                                                     <div class="tranx-data">
-                                                        <div class="tranx-label">Buy Bitcoin <em
-                                                                class="tranx-icon sm icon ni ni-sign-btc"></em>
+                                                        <div class="tranx-label text-capitalize">
+                                                               {{ $h->tranx_type }}
                                                         </div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
+                                                        <div class="tranx-date">{{ $h->created_at->toFormattedDateString() }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="tranx-col">
                                                 <div class="tranx-amount">
-                                                    <div class="number">0.5384 <span
-                                                            class="currency currency-btc">BTC</span></div>
-                                                    <div class="number-sm">3,980.93 <span
+                                                    <div class="number">{{ $h->amount }} <span
+                                                            class="currency currency-btc">{{ $h->abbr }}</span></div>
+                                                    <div class="number-sm">{{ number_format($h->price, 2) }} <span
                                                             class="currency currency-usd">USD</span></div>
                                                 </div>
                                             </div>
                                         </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Sell Ehtereum <span
-                                                                class="tranx-icon sm"><img src="./images/coins/eth.svg"
-                                                                    alt=""></span></div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">1.538405 <span
-                                                            class="currency currency-btc">ETH</span></div>
-                                                    <div class="number-sm">1,176.34 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Buy Bitcoin <em
-                                                                class="tranx-icon sm icon ni ni-sign-btc"></em>
-                                                        </div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">0.5384 <span
-                                                            class="currency currency-btc">BTC</span></div>
-                                                    <div class="number-sm">3,980.93 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Buy Ehtereum <span
-                                                                class="tranx-icon sm"><img src="./images/coins/eth.svg"
-                                                                    alt=""></span></div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">1.538405 <span
-                                                            class="currency currency-btc">ETH</span></div>
-                                                    <div class="number-sm">1,176.34 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
+                                        @endforeach
                                     </div><!-- .tranx-list -->
                                 </div>
+                               
                                 <div class="tab-pane" id="buy">
                                     <div class="tranx-list card card-bordered">
+                                        @foreach ($buy as $b)
                                         <div class="tranx-item">
                                             <div class="tranx-col">
                                                 <div class="tranx-info">
                                                     <div class="tranx-data">
-                                                        <div class="tranx-label">Buy Bitcoin <em
-                                                                class="tranx-icon sm icon ni ni-sign-btc"></em>
+                                                        <div class="tranx-label text-capitalize">{{ $b->tranx_type }}
                                                         </div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
+                                                        <div class="tranx-date">{{ $b->created_at->toFormattedDateString() }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,150 +185,34 @@
                                                 </div>
                                             </div>
                                         </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Buy Ehtereum <span
-                                                                class="tranx-icon sm"><img src="./images/coins/eth.svg"
-                                                                    alt=""></span></div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">1.538405 <span
-                                                            class="currency currency-btc">ETH</span></div>
-                                                    <div class="number-sm">1,176.34 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Buy Bitcoin <em
-                                                                class="tranx-icon sm icon ni ni-sign-btc"></em>
-                                                        </div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">0.5384 <span
-                                                            class="currency currency-btc">BTC</span></div>
-                                                    <div class="number-sm">3,980.93 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Buy Ehtereum <span
-                                                                class="tranx-icon sm"><img src="./images/coins/eth.svg"
-                                                                    alt=""></span></div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">1.538405 <span
-                                                            class="currency currency-btc">ETH</span></div>
-                                                    <div class="number-sm">1,176.34 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
+                                        @endforeach
                                     </div><!-- .tranx-list -->
                                 </div>
+
                                 <div class="tab-pane" id="sell">
                                     <div class="tranx-list card card-bordered">
+                                        @foreach ($sell as $s)
                                         <div class="tranx-item">
                                             <div class="tranx-col">
                                                 <div class="tranx-info">
                                                     <div class="tranx-data">
-                                                        <div class="tranx-label">Sell Bitcoin <em
-                                                                class="tranx-icon sm icon ni ni-sign-btc"></em>
+                                                        <div class="tranx-label text-capitalize">
+                                                            {{ $s->tranx_type }}
                                                         </div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
+                                                        <div class="tranx-date">{{ $s->created_at->toFormattedDateString() }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="tranx-col">
                                                 <div class="tranx-amount">
-                                                    <div class="number">0.5384 <span
-                                                            class="currency currency-btc">BTC</span></div>
-                                                    <div class="number-sm">3,980.93 <span
+                                                    <div class="number">{{ $s->amount }} <span
+                                                            class="currency currency-btc">{{ $s->abbr }}</span></div>
+                                                    <div class="number-sm">{{ $s->price }} <span
                                                             class="currency currency-usd">USD</span></div>
                                                 </div>
                                             </div>
                                         </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Sell Ehtereum <span
-                                                                class="tranx-icon sm"><img src="./images/coins/eth.svg"
-                                                                    alt=""></span></div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">1.538405 <span
-                                                            class="currency currency-btc">ETH</span></div>
-                                                    <div class="number-sm">1,176.34 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Sell Bitcoin <em
-                                                                class="tranx-icon sm icon ni ni-sign-btc"></em>
-                                                        </div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">0.5384 <span
-                                                            class="currency currency-btc">BTC</span></div>
-                                                    <div class="number-sm">3,980.93 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label">Sell Ehtereum <span
-                                                                class="tranx-icon sm"><img src="./images/coins/eth.svg"
-                                                                    alt=""></span></div>
-                                                        <div class="tranx-date">Nov 12, 2019 11:34 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">1.538405 <span
-                                                            class="currency currency-btc">ETH</span></div>
-                                                    <div class="number-sm">1,176.34 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
+                                        @endforeach
                                     </div><!-- .tranx-list -->
                                 </div>
                             </div>
@@ -433,7 +262,7 @@
                                 <div class="nk-refwg-head g-3">
                                     <div class="nk-refwg-title">
                                         <h5 class="title">Refer Us & Earn</h5>
-                                        <div class="title-sub">Use the bellow link to invite your friends.
+                                        <div class="title-sub"><b> Refer us and earn $20 for each time the invitee makes a trade.</b> <br> Use the bellow link to invite your friends.
                                         </div>
                                     </div>
                                     <div class="nk-refwg-action">
@@ -578,23 +407,24 @@
                 </a>
                 <div class="modal-body modal-body-lg">
                     <h5 class="title" style="font-family: Georgia;">Get Support</h5>
-                    <form action="" class="mt-3">
+                    <form action="{{ route('customer.support') }}" method="POST" id="getSupport" class="mt-3">
+                        @csrf
                         <div class="form-group">
                             <label class="form-label">Subject</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control form-control-lg"
+                                <input type="text" class="form-control form-control-lg" name="subject"
                                     placeholder="Enter the subject of your message">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Message</label>
                             <div class="form-control-wrap">
-                                <textarea class="form-control form-control-lg" cols="30" rows="10" placeholder="Write your message"></textarea>
+                                <textarea name="content" class="form-control form-control-lg" cols="30" rows="10"
+                                    placeholder="Write your message"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
-                                data-bs-target="#success">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -623,3 +453,61 @@
         </div>
     </div>
 @endsection
+@push('support')
+    {!! $validator->selector('#getSupport') !!}
+    <script>
+        $(document).ready(function() {
+
+            $('#getSupport').on('submit', function(e) {
+
+                e.preventDefault();
+
+                form = $(this);
+
+                if (form.valid()) {
+
+                    var f = form.find(':submit');
+
+                    var button = f.html();
+
+                    f.attr("disabled", "disabled")
+                        .html(
+                            '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span><span>Loading...</span>'
+                        );
+
+                    // $(form).ajaxSubmit();
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "POST",
+                        data: form.serialize(),
+                        success: function(result) {
+
+                            console.log(result);
+
+                            f.removeAttr("disabled").html(button);
+                            $('#support').modal('hide');
+                            $('#success').modal('show');
+
+                            window.location.replace(result.redirect_url);
+
+                        },
+                        error: function(xhr, status, error) {
+
+                            f.removeAttr("disabled").html(button);
+
+                            $.each(xhr.responseJSON.errors, function(key, item) {
+                                $('input[name = ' + key + ']')
+                                    .removeClass('is-valid')
+                                    .addClass('is-invalid')
+                                    .after('<div class="invalid-feedback">' + item +
+                                        '</div>');
+
+                            });
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+@endpush

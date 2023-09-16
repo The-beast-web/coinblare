@@ -37,6 +37,7 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->name('customer.')->prefix('myaccount')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/support', [DashboardController::class, 'support'])->name('support');
 
     /* Buy/Sell Routes */
     Route::get('/buy-sell/select', [BuySellController::class, 'select'])->name('buy-sell-select');
@@ -51,7 +52,13 @@ Route::middleware(['auth', 'verified'])->name('customer.')->prefix('myaccount')-
 
     Route::get('/wallets', [WalletController::class, 'index'])->name('wallets');
     Route::get('/transaction-history', [TransactioHistoryController::class, 'index'])->name('transaction-history');
+
+    /* My Profile Route */
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/update-profile', [ProfileController::class, 'update_profile'])->name('update');
+    Route::post('/change-password', [ProfileController::class, 'change_password'])->name('change-password');
+    /* End of My Profile Route */
+
     Route::get('/marketplace', [MarketplaceController::class, 'list'])->name('list');
     Route::post('/payment', [MarketplaceController::class, 'payment'])->name('payment');
     Route::get('/deposit', [TranxController::class, 'deposit'])->name('deposit');
@@ -65,18 +72,18 @@ Route::get('/pay', [PaystackController::class, 'pay'])->name('pay');
 
 Route::get('/verify', [PaystackController::class, 'verify'])->name('verify');
 
-Route::get('/cr', function(){
-return view('home');
+Route::get('/cr', function () {
+    return view('home');
 });
 
-Route::post('/crr', function(){
+Route::post('/crr', function () {
 
     $request = request()->all();
     $cry = new Cryptocurrency();
     $cry->name = $request['name'];
     $cry->value = $request['value'];
     $cry->address = $request['address'];
-    if(request()->has('image')){
+    if (request()->has('image')) {
         $path = Storage::disk('mydisk')->put('crypto', $request['image']);
         $cry->crypto_img = $path;
     }
