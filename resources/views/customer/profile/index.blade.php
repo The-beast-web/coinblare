@@ -21,7 +21,7 @@
                         <a class="nav-link active" data-bs-toggle="tab" href="#persona">Personal</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#security">Security</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#security">Payment & Security</a>
                     </li>
                 </ul><!-- .nk-menu -->
                 <!-- NK-Block -->
@@ -140,6 +140,26 @@
                                             </div>
                                         </div>
                                     </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <div class="between-center flex-wrap flex-md-nowrap g-3">
+                                            <div class="nk-block-text">
+                                                <h6>Withdrawal Method</h6>
+                                                <p>Bank transfer</p>
+                                            </div>
+                                            <div class="nk-block-actions flex-shrink-sm-0">
+                                                <ul class="align-center flex-wrap flex-sm-nowrap gx-3 gy-2">
+                                                    <li class="order-md-last">
+                                                        <a href="#change-method" data-bs-toggle="modal"
+                                                            class="btn btn-primary">Change Method</a>
+                                                    </li>
+                                                    <li>
+                                                        <em class="text-soft text-date fs-12px">Last changed: <span>Oct 2,
+                                                                2019</span></em>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
                                 </div><!-- .card-inner-group -->
                             </div><!-- .card -->
                         </div><!-- .nk-block -->
@@ -252,6 +272,110 @@
                                 </ul>
                             </div>
                         </div>
+                    </form>
+                </div><!-- .modal-body -->
+            </div><!-- .modal-content -->
+        </div><!-- .modal-dialog -->
+    </div><!-- .modal -->
+    <div class="modal fade" role="dialog" id="change-method">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                <div class="modal-body modal-body-lg">
+                    <h5 class="title">Change Withdrawal Method</h5>
+                    <form action="{{ route('customer.change-password') }}" method="POST" id="change-password7">
+                        @csrf
+                        <ul class="row g-2">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Select Withdrawal Method</label>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select js-select2" id="myselection"
+                                            data-placeholder="Select Payment Method">
+                                            <option value="Localbank">Local Bank</option>
+                                            <option value="Debitcard">Debit / Credit Card</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2 myDiv default" id="showLocalbank">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Account
+                                            Number</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" name="" id="acc-no"
+                                                class="form-control form-control-lg"
+                                                placeholder="Enter Your Bank Account Number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Account
+                                            Name</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" name="" id="acc-name"
+                                                class="form-control form-control-lg"
+                                                placeholder="Enter Your Bank Account Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Bank</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select js-select2" id="acc-bank"
+                                                data-placeholder="Select Your Bank">
+                                                <option value="">Default Option</option>
+                                                <option value="first bank">First Bank</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2 myDiv" id="showDebitcard">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Card Number</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" name="" id="card-no"
+                                                class="form-control form-control-lg"
+                                                placeholder="Enter Your Bank Account Number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">CVV</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" name="" id="card-cvv"
+                                                class="form-control form-control-lg"
+                                                placeholder="Enter Your Bank Account Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Expiry Date</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" name="" id="card-exp"
+                                                class="form-control form-control-lg"
+                                                placeholder="Enter Your Bank Account Name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary p-2"
+                                        id="withdraw">
+                                        <span class="spinner-border spinner-border-sm d-none"></span>
+                                        <span id="wit">Withdraw</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </ul>
                     </form>
                 </div><!-- .modal-body -->
             </div><!-- .modal-content -->

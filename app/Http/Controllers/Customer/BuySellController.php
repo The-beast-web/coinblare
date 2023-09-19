@@ -175,6 +175,7 @@ class BuySellController extends Controller
             $sell->amount = request()->session()->get('sell_amount');
             $sell->price = request()->session()->get('sell_price');
             $sell->crypto = request()->session()->get('crypto');
+            $sell->abbr = request()->session()->get('crypto_abbr');
             $sell->save();
 
             /* Save to Transaction History Table */

@@ -12,7 +12,14 @@ class TransactioHistoryController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Transaction History');
-        $tranx = TransactionHistory::where('user_id', Auth::id())->get();
+        $tranx = TransactionHistory::where('user_id', Auth::id())->orderByDesc('id')->get();
         return view('customer.transaction-history.index', compact('tranx'));
+    }
+
+    public function detail($id){
+        $this->seo()->setTitle('Transaction Detail');
+        $tranx = TransactionHistory::find($id);
+        $coin = explode(' ', $tranx->tranx_type);
+        return view('customer.transaction-history.detail', compact(['tranx', 'coin']));
     }
 }

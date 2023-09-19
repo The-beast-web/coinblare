@@ -205,7 +205,7 @@
                                             </div>
                                             <div class="tranx-col">
                                                 <div class="tranx-amount">
-                                                    <div class="number">{{ $s->amount }} <span
+                                                    <div class="number">{{ round($s->amount, 4) }} <span
                                                             class="currency currency-btc">{{ $s->abbr }}</span></div>
                                                     <div class="number-sm">{{ $s->price }} <span
                                                             class="currency currency-usd">USD</span></div>

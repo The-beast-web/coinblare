@@ -35,8 +35,8 @@
                                         <h5 class="nk-wgw-title title text-capitalize">{{ $wall->crypto_wallet }} Wallet</h5>
                                     </a>
                                     <div class="nk-wgw-balance">
-                                        <div class="amount">{{ $wall->balance_in_crypto }}<span class="currency currency-btc">{{ $wall->abbr }}</span></div>
-                                        <div class="amount-sm">{{ number_format($wall->balance_in_currency) }}<span class="currency currency-usd">USD</span></div>
+                                        <div class="amount">{{ round($wall->balance_in_crypto, 3) }}<span class="currency currency-btc">{{ $wall->abbr }}</span></div>
+                                        <div class="amount-sm">{{ number_format($wall->balance_in_currency, 2) }}<span class="currency currency-usd">USD</span></div>
                                     </div>
                                 </div>
                                 <div class="nk-wgw-actions">

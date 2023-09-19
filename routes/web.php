@@ -51,7 +51,11 @@ Route::middleware(['auth', 'verified'])->name('customer.')->prefix('myaccount')-
     /* End of Buy/Sell Route*/
 
     Route::get('/wallets', [WalletController::class, 'index'])->name('wallets');
+
+    /* Transaction History Route */
     Route::get('/transaction-history', [TransactioHistoryController::class, 'index'])->name('transaction-history');
+    Route::get('/transaction-history/{id}', [TransactioHistoryController::class, 'detail'])->name('transaction-history.detail');
+    /* End of Transaction History Route */
 
     /* My Profile Route */
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -60,9 +64,16 @@ Route::middleware(['auth', 'verified'])->name('customer.')->prefix('myaccount')-
     /* End of My Profile Route */
 
     Route::get('/marketplace', [MarketplaceController::class, 'list'])->name('list');
+
+    /* Tranx Routes */
     Route::post('/payment', [MarketplaceController::class, 'payment'])->name('payment');
     Route::get('/deposit', [TranxController::class, 'deposit'])->name('deposit');
     Route::get('/withdrawal', [TranxController::class, 'withdrawal'])->name('withdrawal');
+    Route::get('/transfer', [TranxController::class, 'transfer'])->name('transfer');
+    Route::post('/transfer_proccess', [TranxController::class, 'transfer_process'])->name('transfer_process');
+    Route::get('/transfer/successful', [TranxController::class, 'transfer_success'])->name('transfer-success');
+    /* End of Tranx Routes */
+
     Route::get('/my-sales', [MySalesController::class, 'index'])->name('my-sales');
     Route::get('/market-analysis', [MarketAnalysisController::class, 'index'])->name('market-analysis');
 });
