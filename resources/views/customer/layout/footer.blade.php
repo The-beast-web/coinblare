@@ -9,36 +9,18 @@
                     <li class="nav-item dropup">
                         <a href=""
                             class="dropdown-toggle dropdown-indicator has-indicator nav-link text-base"
-                            data-bs-toggle="dropdown" data-offset="0,10"><span>English</span></a>
+                            data-bs-toggle="dropdown" data-offset="0,10"><span>{{ lang(app()->getLocale()) }}</span></a>
                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
                             <ul class="language-list">
+                                @foreach ($lang as $l)
                                 <li>
-                                    <a href="#" class="language-item">
-                                        <span class="language-name">English</span>
+                                    <a href="{{ route('changeLang', $l->lang_code) }}" class="language-item">
+                                        <span class="language-name text-capitalize">{{ $l->language_name }}</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" class="language-item">
-                                        <span class="language-name">Español</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="language-item">
-                                        <span class="language-name">Français</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="language-item">
-                                        <span class="language-name">Türkçe</span>
-                                    </a>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a data-bs-toggle="modal" href="#region" class="nav-link"><em
-                                class="icon ni ni-globe"></em><span class="ms-1">Select
-                                Region</span></a>
                     </li>
                 </ul>
             </div>

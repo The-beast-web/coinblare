@@ -19,11 +19,10 @@
                 <div class="nk-sidebar-widget d-none d-xl-block">
                     <div class="user-account-info between-center">
                         <div class="user-account-main">
-                            <h6 class="overline-title-alt">Available Balance</h6>
+                            <h6 class="overline-title-alt">Total Balance</h6>
                             <div class="user-balance">{{ number_format(Auth::user()->balance, 2) }} <small class="currency currency-btc">USD</small></div>
+                            <div class="amount text-warning"><span class="text-capitalize text-white text-bold" style="font-size: 18px; font-family:Cambria;">withdrawalable : </span>{{ number_format(Auth::user()->withdrawalable,  2) }} <small class="currency currency-usd">USD</small></div>
                         </div>
-                        <a href="#" class="btn btn-white btn-icon btn-light"><em
-                                class="icon ni ni-line-chart"></em></a>
                     </div>
                     <div class="user-account-actions">
                         <ul class="g-3">

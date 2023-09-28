@@ -45,6 +45,9 @@
                                 <div class="form-control-group">
                                     <input type="text" class="form-control form-control-lg form-control-number text-small"
                                         id="buysell-amount" name="rec_crypto_id" placeholder="example@example.com" autocomplete="off">
+                                        <div class="form-dropdown">
+                                            <div class="text"><em class="ni ni-user"></em></div>
+                                        </div>
                                 </div>
                             </div><!-- .buysell-field -->
                             <div class="buysell-field form-group">  
@@ -53,7 +56,10 @@
                                 </div>
                                 <div class="form-control-group">
                                     <input type="password" class="form-control form-control-lg form-control-number"
-                                        id="buysell-amount" name="password" placeholder="Enter Your Password">
+                                        id="buysell-amount" name="password" placeholder="********">
+                                        <div class="form-dropdown">
+                                            <div class="text"><em class="ni ni-lock"></em></div>
+                                        </div>
                                 </div>
                             </div><!-- .buysell-field -->
                             <div class="buysell-field form-action">

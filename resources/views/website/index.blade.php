@@ -11,7 +11,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Home | DashLite Admin Template</title>
+    <title>Home - Cryptobot</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="./assets2/css/dashlite.css?ver=3.1.2">
     <link id="skin-default" rel="stylesheet" href="./assets2/css/theme.css?ver=3.1.2">
@@ -59,7 +59,7 @@
                                     @auth
                                         <li>
                                             <a href="{{ route('customer.dashboard') }}" class="btn btn-primary btn-lg"><em
-                                                    class="ni ni-home"></em>&nbsp;&nbsp;Home</a>
+                                                    class="ni ni-home"></em>&nbsp;&nbsp;Dashboard</a>
                                         </li>
                                     @endauth
                                 </ul>

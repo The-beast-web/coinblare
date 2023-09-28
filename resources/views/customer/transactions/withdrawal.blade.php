@@ -13,7 +13,8 @@
                     </div><!-- .nk-block-head -->
                     <div class="nk-block nk-block-lg">
                         <div class="card card-bordered">
-                            <form class="nk-stepper stepper-init is-alter" action="#" id="stepper-two-factor-auth">
+                            <form class="nk-stepper stepper-init is-alter" method="POST" action="{{ route('customer.withdrawal.process') }}" id="stepper-two-factor-auth">
+                                @csrf
                                 <div class="card-inner">
                                     <div class="nk-stepper-content">
                                         <div class="nk-stepper-steps stepper-steps">
@@ -28,100 +29,58 @@
                                                             <div class="form-control-group">
                                                                 <input type="number"
                                                                     class="form-control form-control-lg form-control-number text_field"
-                                                                    id="withdraw-amount" name="bs-amount"
-                                                                    placeholder="0.055960">
+                                                                    id="withdraw-amount" name="amount"
+                                                                    placeholder="0.00" autocomplete="off">
                                                                 <div class="form-dropdown">
-                                                                    <div class="text">NGN</div>
+                                                                    <div class="text">USD</div>
                                                                 </div>
                                                             </div>
+                                                            @error('amount')
+                                                            <i class="text-danger">{{ $message }}</i>
+                                                        @enderror
                                                         </div><!-- .buysell-field -->
                                                     </div>
                                                     <div class="col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Select Withdrawal Method</label>
-                                                            <div class="form-control-wrap">
-                                                                <select class="form-select js-select2" id="myselection"
-                                                                    data-placeholder="Select Payment Method">
-                                                                    <option value="Localbank">Local Bank</option>
-                                                                    <option value="Debitcard">Debit / Credit Card</option>
-                                                                </select>
+                                                        <div class="buysell-field form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label"
+                                                                    for="withdraw-amount">Paypal ID</label>
                                                             </div>
-                                                        </div>
+                                                            <div class="form-control-group">
+                                                                <input type="text"
+                                                                    class="form-control form-control-lg form-control-number text_field"
+                                                                    id="withdraw-amount" name="paypal_id"
+                                                                    placeholder="example@example.com" autocomplete="off">
+                                                                    <div class="form-dropdown">
+                                                                        <div class="text"><em class="ni ni-user"></em></div>
+                                                                    </div>
+                                                            </div>
+                                                            @error('paypal_id')
+                                                            <i class="text-danger">{{ $message }}</i>
+                                                        @enderror
+                                                        </div><!-- .buysell-field -->
                                                     </div>
-                                                    <div class="row g-2 myDiv default" id="showLocalbank">
-                                                        <div class="col-6">
-                                                            <div class="form-group">
-                                                                <label for="" class="form-label">Account
-                                                                    Number</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="number" name="" id="acc-no"
-                                                                        class="form-control form-control-lg"
-                                                                        placeholder="Enter Your Bank Account Number">
-                                                                </div>
-                                                            </div>
+                                                    <div class="buysell-field form-group">
+                                                        <div class="form-label-group">
+                                                            <label class="form-label"
+                                                                for="withdraw-amount">Password</label>
                                                         </div>
-                                                        <div class="col-6">
-                                                            <div class="form-group">
-                                                                <label for="" class="form-label">Account
-                                                                    Name</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="number" name="" id="acc-name"
-                                                                        class="form-control form-control-lg"
-                                                                        placeholder="Enter Your Bank Account Name">
+                                                        <div class="form-control-group">
+                                                            <input type="password"
+                                                                class="form-control form-control-lg form-control-number text_field"
+                                                                id="withdraw-amount" name="password" placeholder="********">
+                                                                <div class="form-dropdown">
+                                                                    <div class="text"><em class="ni ni-lock"></em></div>
                                                                 </div>
-                                                            </div>
                                                         </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Bank</label>
-                                                                <div class="form-control-wrap">
-                                                                    <select class="form-select js-select2" id="acc-bank"
-                                                                        data-placeholder="Select Your Bank">
-                                                                        <option value="">Default Option</option>
-                                                                        <option value="first bank">First Bank</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row g-2 myDiv" id="showDebitcard">
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label for="" class="form-label">Card Number</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="number" name="" id="card-no"
-                                                                        class="form-control form-control-lg"
-                                                                        placeholder="Enter Your Bank Account Number">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="form-group">
-                                                                <label for="" class="form-label">CVV</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="number" name="" id="card-cvv"
-                                                                        class="form-control form-control-lg"
-                                                                        placeholder="Enter Your Bank Account Name">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="form-group">
-                                                                <label for="" class="form-label">Expiry Date</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="number" name="" id="card-exp"
-                                                                        class="form-control form-control-lg"
-                                                                        placeholder="Enter Your Bank Account Name">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                        @error('password')
+                                                        <i class="text-danger">{{ $message }}</i>
+                                                    @enderror
+                                                    </div><!-- .buysell-field -->
                                                     <div class="col-12">
                                                         <div class="form-group">
-                                                            <button type="button" class="btn btn-primary p-2"
-                                                                id="withdraw">
-                                                                <span class="spinner-border spinner-border-sm d-none"></span>
-                                                                <span id="wit">Withdraw</span>
+                                                            <button type="submit" class="btn btn-primary p-2">
+                                                                Withdraw
                                                             </button>
                                                         </div>
                                                     </div>

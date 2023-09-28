@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Proengsoft\JsValidation\Facades\JsValidatorFacade;
+use Unicodeveloper\Paystack\Facades\Paystack;
+use Illuminate\Support\Str;
 
 class TranxController extends Controller
 {
@@ -22,10 +23,87 @@ class TranxController extends Controller
         return view('customer.transactions.deposit');
     }
 
+    public function deposit_process(Request $request)
+    {
+        $rules = [
+            'amount' => 'required',
+        ];
+
+        $message = [
+            'amount.required' => 'Please Enter An Amount'
+        ];
+
+        $validated =  $request->validate($rules, $message);
+
+        $request->session()->put('amount', $validated['amount']);
+
+        $data = array(
+            "amount" => $validated['amount'] * 100,
+            "reference" => Str::random(10),
+            "email" => Auth::user()->email,
+            "currency" => "USD",
+            "orderID" => rand(0000, 9999),
+            'metadata' => [
+                'order_id' => rand(000000000, 999999999)
+            ],
+            'callback_url' => route('customer.deposit.verify')
+        );
+
+        return Paystack::getAuthorizationUrl($data)->redirectNow();
+    }
+
+    public function deposit_verify(Request $request)
+    {
+        $user = User::where('id', Auth::id())->first();
+        $user->balance = $user->balance + $request->session()->get('amount');
+        $user->save();
+
+        return redirect()->route('customer.dashboard');
+    }
+
     public function withdrawal()
     {
         $this->seo()->setTitle('Withdrawal');
         return view('customer.transactions.withdrawal');
+    }
+
+    public function withdrawal_process(Request $request)
+    {
+        $rules = [
+            'amount' => ['required', function ($field, $value, $fail) {
+                if ($value < 1) {
+                    $fail('Please Enter A Valid Amount');
+                } elseif ($value > Auth::user()->balance) {
+                    $fail('Insuffient Balance');
+                }
+            }],
+            'paypal_id' => 'required|email',
+            'password' => ['required', function ($field, $value, $fail) {
+                if (!Hash::check($value, Auth::user()->password)) {
+                    $fail('Incorrect Password');
+                }
+            }]
+        ];
+
+        $message = [
+            'amount.required' => 'Please Enter An Amount',
+            'paypal_id.required' => 'Please Enter Your Paypal ID',
+            'paypal_id.email' => 'Invalid Paypal ID',
+            'password.required' => 'Please Enter Your Password'
+        ];
+
+        $validated = $request->validate($rules, $message);
+        $request->session()->put('amount', $validated['amount']);
+        $request->session()->put('paypal_id', $validated['paypal_id']);
+
+
+        return redirect()->route('customer.withdrawal.success');
+    }
+
+    public function withdrawal_success()
+    {
+        $this->seo()->setTitle('Withdrawal Successful');
+        return view('customer.transactions.withdrawal-success');
     }
 
     public function transfer()

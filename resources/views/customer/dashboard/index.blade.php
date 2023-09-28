@@ -6,7 +6,7 @@
         <div class="container-xl wide-lg">
             <div class="nk-content-body">
                 <div class="nk-block-head">
-                    <div class="nk-block-head-sub"><span>Welcome!</span>
+                    <div class="nk-block-head-sub"><span></span>
                     </div>
                     <div class="nk-block-between-md g-4">
                         <div class="nk-block-head-content">
@@ -18,9 +18,15 @@
                         <div class="nk-block-head-content">
                             <ul class="nk-block-tools gx-3">
                                 <li>
-                                    <a href="#" class="btn btn-primary">
+                                    <a href="{{ route('customer.deposit') }}" class="btn btn-primary">
                                         <span>Deposit</span>
                                         <em class="icon ni ni-arrow-long-right"></em>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('customer.withdrawal') }}" class="btn btn-warning">
+                                        <span>Withdrawal</span>
+                                        <em class="icon ni ni-arrow-long-left"></em>
                                     </a>
                                 </li>
                                 <li>
@@ -70,7 +76,7 @@
                                                     </div>
                                                     <div class="nk-wg7-stats w-50">
                                                         <div class="nk-wg7-title">Transactions</div>
-                                                        <div class="number-lg">34,405</div>
+                                                        <div class="number-lg">{{ $transactions->count('id') }}</div>
                                                     </div>
                                                 </div>
                                             </div><!-- .nk-wg7 -->
@@ -87,7 +93,7 @@
                                             <h5 class="nk-block-title title">Wallets</h5>
                                         </div>
                                         <div class="nk-block-head-content">
-                                            <a href="html/crypto/wallets.html" class="link link-primary">See
+                                            <a href="{{ route('customer.wallets') }}" class="link link-primary">See
                                                 All</a>
                                         </div>
                                     </div>
@@ -97,20 +103,20 @@
                                         <div class="col-sm-4">
                                             <div class="card bg-light">
                                                 <div class="nk-wgw sm">
-                                                    <a class="nk-wgw-inner" href="html/crypto/wallet-bitcoin.html">
+                                                    <div class="nk-wgw-inner">
                                                         <div class="nk-wgw-name">
-                                                            <div class="nk-wgw-icon">
-                                                                <em class="{{ $w->wallet_symbol }}"></em>
+                                                            <div class="nk-wgw-icon bg-transparent">
+                                                                <img src="{{ asset('uploads/'.$w->wallet_symbol) }}" alt="{{ $w->crypto_wallet }}">
                                                             </div>
                                                             <h5 class="nk-wgw-title title text-capitalize">
                                                                 {{ $w->crypto_wallet }} Wallet</h5>
                                                         </div>
                                                         <div class="nk-wgw-balance">
-                                                            <div class="amount">{{ $w->balance_in_crypto }}<span
+                                                            <div class="amount">{{ round($w->balance_in_crypto, 3) }}<span
                                                                     class="currency currency-nio">{{ $w->abbr }}</span>
                                                             </div>
                                                         </div>
-                                                    </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div><!-- .col -->
@@ -138,13 +144,16 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="all">
                                     <div class="tranx-list card card-bordered">
+                                        @if ($history->count() < 1)
+                                            <h5 class="text-white text-center p-3" style="font-style: italic;">No Activities Yet!</h5>
+                                        @else
                                         @foreach ($history as $h)
                                         <div class="tranx-item">
                                             <div class="tranx-col">
                                                 <div class="tranx-info">
                                                     <div class="tranx-data">
                                                         <div class="tranx-label text-capitalize">
-                                                               {{ $h->tranx_type }}
+                                                               {{ $h->method }} {{ $h->crypto }}
                                                         </div>
                                                         <div class="tranx-date">{{ $h->created_at->toFormattedDateString() }}</div>
                                                     </div>
@@ -159,18 +168,21 @@
                                                 </div>
                                             </div>
                                         </div><!-- .tranx-item -->
-                                        @endforeach
+                                        @endforeach 
+                                        @endif
                                     </div><!-- .tranx-list -->
                                 </div>
-                               
                                 <div class="tab-pane" id="buy">
                                     <div class="tranx-list card card-bordered">
+                                        @if ($buy->count() < 1)
+                                        <h5 class="text-white text-center p-4" style="font-style: italic;">No Buys Yet!</h5>
+                                    @else
                                         @foreach ($buy as $b)
                                         <div class="tranx-item">
                                             <div class="tranx-col">
                                                 <div class="tranx-info">
                                                     <div class="tranx-data">
-                                                        <div class="tranx-label text-capitalize">{{ $b->tranx_type }}
+                                                        <div class="tranx-label text-capitalize">{{ $b->method }} {{ $b->crypto }}
                                                         </div>
                                                         <div class="tranx-date">{{ $b->created_at->toFormattedDateString() }}</div>
                                                     </div>
@@ -186,18 +198,22 @@
                                             </div>
                                         </div><!-- .tranx-item -->
                                         @endforeach
+                                        @endif
                                     </div><!-- .tranx-list -->
                                 </div>
 
                                 <div class="tab-pane" id="sell">
                                     <div class="tranx-list card card-bordered">
+                                        @if ($sell->count() < 1)
+                                        <h5 class="text-white text-center p-3" style="font-style: italic;">No Sells Yet!</h5>
+                                        @else
                                         @foreach ($sell as $s)
                                         <div class="tranx-item">
                                             <div class="tranx-col">
                                                 <div class="tranx-info">
                                                     <div class="tranx-data">
                                                         <div class="tranx-label text-capitalize">
-                                                            {{ $s->tranx_type }}
+                                                            {{ $s->method }}  {{ $s->crypto }}
                                                         </div>
                                                         <div class="tranx-date">{{ $s->created_at->toFormattedDateString() }}</div>
                                                     </div>
@@ -213,6 +229,7 @@
                                             </div>
                                         </div><!-- .tranx-item -->
                                         @endforeach
+                                        @endif
                                     </div><!-- .tranx-list -->
                                 </div>
                             </div>
