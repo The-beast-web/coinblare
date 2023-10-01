@@ -6,20 +6,20 @@
         <div class="container-xl wide-lg">
             <div class="nk-content-body">
                 <div class="nk-block-head">
-                    <div class="nk-block-head-sub"><span></span>
+                    <div class="nk-block-head-sub"><span>{{ GoogleTranslate::trans('Welcome!', app()->getLocale()) }}</span>
                     </div>
                     <div class="nk-block-between-md g-4">
                         <div class="nk-block-head-content">
                             <h2 class="nk-block-title fw-normal text-capitalize">{{ Auth::user()->name }}</h2>
                             <div class="nk-block-des">
-                                <p>At a glance summary of your account. Have fun!</p>
+                                <p>{{ translate('At a glance summary of your account. Have fun!') }}</p>
                             </div>
                         </div><!-- .nk-block-head-content -->
                         <div class="nk-block-head-content">
                             <ul class="nk-block-tools gx-3">
                                 <li>
                                     <a href="{{ route('customer.deposit') }}" class="btn btn-primary">
-                                        <span>Deposit</span>
+                                        <span>{{ translate('Deposit') }}</span>
                                         <em class="icon ni ni-arrow-long-right"></em>
                                     </a>
                                 </li>
@@ -53,7 +53,11 @@
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
                     <div class="row gy-gs">
-                        <div class="col-lg-5 col-xl-4">
+                        <div
+                            class="
+                        @if ($wall->count() < 1) col-12
+                            @else
+                            col-lg-5 col-xl-4 @endif">
                             <div class="nk-block">
                                 <div class="nk-block-head-xs">
                                     <div class="nk-block-head-content">
@@ -85,50 +89,54 @@
                                 </div><!-- .nk-block -->
                             </div><!-- .nk-block -->
                         </div><!-- .col -->
-                        <div class="col-lg-7 col-xl-8">
-                            <div class="nk-block">
-                                <div class="nk-block-head-xs">
-                                    <div class="nk-block-between-md g-2">
-                                        <div class="nk-block-head-content">
-                                            <h5 class="nk-block-title title">Wallets</h5>
+                        @if ($wall->count() >= 1)
+                            <div class="col-lg-7 col-xl-8">
+                                <div class="nk-block">
+                                    <div class="nk-block-head-xs">
+                                        <div class="nk-block-between-md g-2">
+                                            <div class="nk-block-head-content">
+                                                <h5 class="nk-block-title title">Wallets</h5>
+                                            </div>
+                                            <div class="nk-block-head-content">
+                                                <a href="{{ route('customer.wallets') }}" class="link link-primary">See
+                                                    All</a>
+                                            </div>
                                         </div>
-                                        <div class="nk-block-head-content">
-                                            <a href="{{ route('customer.wallets') }}" class="link link-primary">See
-                                                All</a>
-                                        </div>
-                                    </div>
-                                </div><!-- .nk-block-head -->
-                                <div class="row g-2">
-                                    @foreach ($wall as $w)
-                                        <div class="col-sm-4">
-                                            <div class="card bg-light">
-                                                <div class="nk-wgw sm">
-                                                    <div class="nk-wgw-inner">
-                                                        <div class="nk-wgw-name">
-                                                            <div class="nk-wgw-icon bg-transparent">
-                                                                <img src="{{ asset('uploads/'.$w->wallet_symbol) }}" alt="{{ $w->crypto_wallet }}">
+                                    </div><!-- .nk-block-head -->
+                                    <div class="row g-2">
+                                        @foreach ($wall as $w)
+                                            <div class="col-sm-4">
+                                                <div class="card bg-light">
+                                                    <div class="nk-wgw sm">
+                                                        <div class="nk-wgw-inner">
+                                                            <div class="nk-wgw-name">
+                                                                <div class="nk-wgw-icon bg-transparent">
+                                                                    <img src="{{ asset('uploads/' . $w->wallet_symbol) }}"
+                                                                        alt="{{ $w->crypto_wallet }}">
+                                                                </div>
+                                                                <h5 class="nk-wgw-title title text-capitalize">
+                                                                    {{ $w->crypto_wallet }} Wallet</h5>
                                                             </div>
-                                                            <h5 class="nk-wgw-title title text-capitalize">
-                                                                {{ $w->crypto_wallet }} Wallet</h5>
-                                                        </div>
-                                                        <div class="nk-wgw-balance">
-                                                            <div class="amount">{{ round($w->balance_in_crypto, 3) }}<span
-                                                                    class="currency currency-nio">{{ $w->abbr }}</span>
+                                                            <div class="nk-wgw-balance">
+                                                                <div class="amount">
+                                                                    {{ round($w->balance_in_crypto, 3) }}<span
+                                                                        class="currency currency-nio">{{ $w->abbr }}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div><!-- .col -->
-                                    @endforeach
-                                </div><!-- .row -->
-                            </div><!-- .nk-block -->
-                        </div><!-- .col -->
+                                            </div><!-- .col -->
+                                        @endforeach
+                                    </div><!-- .row -->
+                                </div><!-- .nk-block -->
+                            </div><!-- .col -->
+                        @endif
                     </div><!-- .row -->
                 </div><!-- .nk-block -->
                 <div class="nk-block nk-block-lg">
                     <div class="row gy-gs">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card-head">
                                 <div class="card-title  mb-0">
                                     <h5 class="title">Recent Activities</h5>
@@ -145,59 +153,65 @@
                                 <div class="tab-pane active" id="all">
                                     <div class="tranx-list card card-bordered">
                                         @if ($history->count() < 1)
-                                            <h5 class="text-white text-center p-3" style="font-style: italic;">No Activities Yet!</h5>
+                                            <h5 class="text-white text-center p-3" style="font-style: italic; font-family: Courier New;">No Activities
+                                                Yet!</h5>
                                         @else
-                                        @foreach ($history as $h)
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label text-capitalize">
-                                                               {{ $h->method }} {{ $h->crypto }}
+                                            @foreach ($history as $h)
+                                                <div class="tranx-item">
+                                                    <div class="tranx-col">
+                                                        <div class="tranx-info">
+                                                            <div class="tranx-data">
+                                                                <div class="tranx-label text-capitalize">
+                                                                    {{ $h->method }} {{ $h->crypto }}
+                                                                </div>
+                                                                <div class="tranx-date">
+                                                                    {{ $h->created_at->toFormattedDateString() }}</div>
+                                                            </div>
                                                         </div>
-                                                        <div class="tranx-date">{{ $h->created_at->toFormattedDateString() }}</div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">{{ $h->amount }} <span
-                                                            class="currency currency-btc">{{ $h->abbr }}</span></div>
-                                                    <div class="number-sm">{{ number_format($h->price, 2) }} <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        @endforeach 
+                                                    <div class="tranx-col">
+                                                        <div class="tranx-amount">
+                                                            <div class="number">{{ $h->amount }} <span
+                                                                    class="currency currency-btc">{{ $h->abbr }}</span>
+                                                            </div>
+                                                            <div class="number-sm">{{ number_format($h->price, 2) }} <span
+                                                                    class="currency currency-usd">USD</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .tranx-item -->
+                                            @endforeach
                                         @endif
                                     </div><!-- .tranx-list -->
                                 </div>
                                 <div class="tab-pane" id="buy">
                                     <div class="tranx-list card card-bordered">
                                         @if ($buy->count() < 1)
-                                        <h5 class="text-white text-center p-4" style="font-style: italic;">No Buys Yet!</h5>
-                                    @else
-                                        @foreach ($buy as $b)
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label text-capitalize">{{ $b->method }} {{ $b->crypto }}
+                                            <h5 class="text-white text-center p-3" style="font-style: italic; font-family: Courier New;">No Buys
+                                                Yet!</h5>
+                                        @else
+                                            @foreach ($buy as $b)
+                                                <div class="tranx-item">
+                                                    <div class="tranx-col">
+                                                        <div class="tranx-info">
+                                                            <div class="tranx-data">
+                                                                <div class="tranx-label text-capitalize">
+                                                                    {{ $b->method }} {{ $b->crypto }}
+                                                                </div>
+                                                                <div class="tranx-date">
+                                                                    {{ $b->created_at->toFormattedDateString() }}</div>
+                                                            </div>
                                                         </div>
-                                                        <div class="tranx-date">{{ $b->created_at->toFormattedDateString() }}</div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">0.5384 <span
-                                                            class="currency currency-btc">BTC</span></div>
-                                                    <div class="number-sm">3,980.93 <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        @endforeach
+                                                    <div class="tranx-col">
+                                                        <div class="tranx-amount">
+                                                            <div class="number">0.5384 <span
+                                                                    class="currency currency-btc">BTC</span></div>
+                                                            <div class="number-sm">3,980.93 <span
+                                                                    class="currency currency-usd">USD</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .tranx-item -->
+                                            @endforeach
                                         @endif
                                     </div><!-- .tranx-list -->
                                 </div>
@@ -205,70 +219,37 @@
                                 <div class="tab-pane" id="sell">
                                     <div class="tranx-list card card-bordered">
                                         @if ($sell->count() < 1)
-                                        <h5 class="text-white text-center p-3" style="font-style: italic;">No Sells Yet!</h5>
+                                            <h5 class="text-white text-center p-3" style="font-style: italic; font-family: Courier New;">No Sells
+                                                Yet!</h5>
                                         @else
-                                        @foreach ($sell as $s)
-                                        <div class="tranx-item">
-                                            <div class="tranx-col">
-                                                <div class="tranx-info">
-                                                    <div class="tranx-data">
-                                                        <div class="tranx-label text-capitalize">
-                                                            {{ $s->method }}  {{ $s->crypto }}
+                                            @foreach ($sell as $s)
+                                                <div class="tranx-item">
+                                                    <div class="tranx-col">
+                                                        <div class="tranx-info">
+                                                            <div class="tranx-data">
+                                                                <div class="tranx-label text-capitalize">
+                                                                    {{ $s->method }} {{ $s->crypto }}
+                                                                </div>
+                                                                <div class="tranx-date">
+                                                                    {{ $s->created_at->toFormattedDateString() }}</div>
+                                                            </div>
                                                         </div>
-                                                        <div class="tranx-date">{{ $s->created_at->toFormattedDateString() }}</div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="tranx-col">
-                                                <div class="tranx-amount">
-                                                    <div class="number">{{ round($s->amount, 4) }} <span
-                                                            class="currency currency-btc">{{ $s->abbr }}</span></div>
-                                                    <div class="number-sm">{{ $s->price }} <span
-                                                            class="currency currency-usd">USD</span></div>
-                                                </div>
-                                            </div>
-                                        </div><!-- .tranx-item -->
-                                        @endforeach
+                                                    <div class="tranx-col">
+                                                        <div class="tranx-amount">
+                                                            <div class="number">{{ round($s->amount, 4) }} <span
+                                                                    class="currency currency-btc">{{ $s->abbr }}</span>
+                                                            </div>
+                                                            <div class="number-sm">{{ $s->price }} <span
+                                                                    class="currency currency-usd">USD</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .tranx-item -->
+                                            @endforeach
                                         @endif
                                     </div><!-- .tranx-list -->
                                 </div>
                             </div>
-                        </div><!-- .col -->
-                        <div class="col-md-6">
-                            <div class="card-head">
-                                <div class="card-title mb-1 mt-1">
-                                    <h5 class="title">Balance Flow</h5>
-                                </div>
-                            </div><!-- .card-title -->
-                            <div class="card card-bordered">
-                                <div class="card-inner">
-                                    <div class="nk-wg4">
-                                        <div class="nk-wg4-group justify-center gy-3 gx-4">
-                                            <div class="nk-wg4-item">
-                                                <div class="sub-text">
-                                                    <div class="dot dot-lg sq" data-bg="#5ce0aa"></div>
-                                                    <span>Received</span>
-                                                </div>
-                                            </div>
-                                            <div class="nk-wg4-item">
-                                                <div class="sub-text">
-                                                    <div class="dot dot-lg sq" data-bg="#798bff"></div>
-                                                    <span>Send</span>
-                                                </div>
-                                            </div>
-                                            <div class="nk-wg4-item">
-                                                <div class="sub-text">
-                                                    <div class="dot dot-lg sq" data-bg="#f6ca3e"></div>
-                                                    <span>Withdraw</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-ck3">
-                                        <canvas class="chart-account-summary" id="summaryBalance"></canvas>
-                                    </div>
-                                </div><!-- .card-inner -->
-                            </div><!-- .card -->
                         </div><!-- .col -->
                     </div><!-- .row -->
                 </div><!-- .nk-block -->
@@ -279,7 +260,8 @@
                                 <div class="nk-refwg-head g-3">
                                     <div class="nk-refwg-title">
                                         <h5 class="title">Refer Us & Earn</h5>
-                                        <div class="title-sub"><b> Refer us and earn $20 for each time the invitee makes a trade.</b> <br> Use the bellow link to invite your friends.
+                                        <div class="title-sub"><b> Refer us and earn $20 for each time the invitee makes a
+                                                trade.</b> <br> Use the below link to invite your friends.
                                         </div>
                                     </div>
                                     <div class="nk-refwg-action">
@@ -296,7 +278,7 @@
                                             <em class="icon ni ni-link-alt"></em>
                                         </div>
                                         <input type="text" class="form-control copy-text" id="refUrl"
-                                            value="https://dashlite.net/?ref=4945KD48">
+                                            value="http://127.0.0.1:8000/?ref={{ Auth::user()->ref }}">
                                     </div>
                                 </div>
                             </div><!-- .nk-refwg-invite -->

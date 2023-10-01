@@ -9,7 +9,7 @@
                     <li class="nav-item dropup">
                         <a href=""
                             class="dropdown-toggle dropdown-indicator has-indicator nav-link text-base"
-                            data-bs-toggle="dropdown" data-offset="0,10"><span>{{ lang(app()->getLocale()) }}</span></a>
+                            data-bs-toggle="dropdown" data-offset="0,10"><span>{{ lang(Auth::user()->language) }}</span></a>
                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
                             <ul class="language-list">
                                 @foreach ($lang as $l)
