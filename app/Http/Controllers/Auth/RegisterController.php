@@ -73,6 +73,7 @@ class RegisterController extends Controller
             'withdrawalable' => 0,
             'ref' => Str::random(7),
             'language' => app()->getLocale(),
+            'status' => 'active',
         ]);
     }
 }

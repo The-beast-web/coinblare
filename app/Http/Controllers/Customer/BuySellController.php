@@ -8,6 +8,7 @@ use App\Models\SaleOrder;
 use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Notifications\Customer\SellPublish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -26,6 +27,10 @@ class BuySellController extends Controller
         'address' => 'required'
     ];
 
+    public $rules;
+
+    public $wallet;
+
     public function select()
     {
         $this->seo()->setTitle('Cryptocurrency To Trade');
@@ -40,6 +45,44 @@ class BuySellController extends Controller
         request()->session()->put('crypto', $coin[0]);
         request()->session()->put('crypto_abbr', $coin[1]);
         return redirect()->route('customer.buy-sell');
+    }
+
+    public function sell_select(Request $request)
+    {
+        session()->put('sell_method', $request['sell_method']);
+
+        return redirect()->route('customer.sell_view');
+    }
+
+
+
+    public function __construct()
+    {
+        $this->wallet = Wallet::where(
+            'user_id',
+            Auth::id(),
+        )->where('crypto_wallet', 'bitcoin')->where('user_id', Auth::id())->get();
+        foreach ($this->wallet as $wallet) {
+            session()->put('wallet', $wallet->balance_in_crypto);
+        }
+
+
+        $this->rules = [
+            'sell_amount' => ['required', function ($field, $value, $fail) {
+                if (session()->get('sell_method') == "cryptobot") {
+                    if ($value > session()->get('wallet')) {
+                        $fail('Insuffienct Crypto Balance');
+                    }
+                }
+            }],
+            'sell_price' => 'required',
+        ];
+    }
+
+    public function sell_view()
+    {
+        $validator = JsValidatorFacade::make($this->rules);
+        return view('customer.buy-sell.sell', compact('validator'));
     }
 
     public function index()
@@ -77,45 +120,7 @@ class BuySellController extends Controller
 
     public function sell_coin(Request $request)
     {
-        $rules = [
-            'sell_amount' => 'required',
-            'sell_price' => 'required',
-            'payment_method' => 'required'
-        ];
-
-        $validated = Validator::make($request->all(), $rules);
-
-
-        if ($request['payment_method'] == "external") {
-            $route = 'customer.qr';
-        } else {
-            /* Get Prev Route Session */
-            request()->session()->put('s-mzg', 'cryptobot');
-            $crypto = Cryptocurrency::where('name', request()->session()->get('crypto'))->first();
-
-            /* Save to Transaction History Table */
-            $tranx = new TransactionHistory();
-            $tranx->user_id = Auth::id();
-            $tranx->tranx_type = "Sell " . request()->session()->get('crypto');
-            $tranx->amount = request()->session()->get('sell_amount');
-            $tranx->price = request()->session()->get('sell_price');
-            $tranx->abbr = $crypto->abbr;
-            $tranx->save();
-
-            /* Minus from Cryptobot Wallet */
-            $wallet = Wallet::where('user_id', Auth::id())->where('crypto_wallet', request()->session()->get('crypto'))->first();
-            $wallet->balance_in_crypto = $wallet->balance_in_crypto - $request['sell_amount'];
-            $wallet->balance_in_currency = $wallet->balance_in_currency - $request['sell_amount'] * $crypto->r_value;
-            $wallet->save();
-
-            /* Minus from user balance */
-            $user = User::where('id', Auth::id())->first();
-            $user->balance = $user->balance - $request['sell_amount'] * $crypto->r_value;
-            $user->save();
-
-            /* Redirect */
-            $route = 'customer.buy-sell.success';
-        }
+        $validated = Validator::make($request->all(), $this->rules);
 
         if ($validated->fails()) {
             return Response::json(
@@ -129,8 +134,55 @@ class BuySellController extends Controller
         }
 
         if ($validated->passes()) {
-            request()->session()->put('sell_amount', $request['sell_amount']);
-            request()->session()->put('sell_price', $request['sell_price']);
+            if (session()->get('sell_method') == "external") {
+                request()->session()->put('sell_amount', $request['sell_amount']);
+                request()->session()->put('sell_price', $request['sell_price']);
+                $route = 'customer.qr';
+            } else {
+                /* Get Prev Route Session */
+                request()->session()->put('s-mzg', 'cryptobot');
+                $crypto = Cryptocurrency::where('name', request()->session()->get('crypto'))->first();
+
+                /* Save to Transaction History Table */
+                $tranx = new TransactionHistory();
+                $tranx->user_id = Auth::id();
+                $tranx->crypto = request()->session()->get('crypto');
+                $tranx->method = "sell";
+                $tranx->amount = $request['sell_amount'];
+                $tranx->price = $request['sell_price'];
+                $tranx->abbr = $crypto->abbr;
+                $tranx->status = "published";
+                $tranx->save();
+
+                $sell = new SaleOrder();
+                $sell->user_id = Auth::id();
+                $sell->tran_id = $tranx->id;
+                $sell->amount = $request['sell_amount'];
+                $sell->price = $request['sell_price'];
+                $sell->crypto = request()->session()->get('crypto');
+                $sell->address = "sold through wallet";
+                $sell->abbr = request()->session()->get('crypto_abbr');
+                $sell->status = "published";
+                $sell->save();
+
+                /* Minus from Cryptobot Wallet */
+                $wallet = Wallet::where('user_id', Auth::id())->where('crypto_wallet', request()->session()->get('crypto'))->first();
+                $wallet->balance_in_crypto = $wallet->balance_in_crypto - $request['sell_amount'];
+                $wallet->balance_in_currency = $wallet->balance_in_currency - $request['sell_amount'] * $crypto->r_value;
+                $wallet->save();
+
+                /* Minus from user balance */
+                $user = User::where('id', Auth::id())->first();
+                $user->balance = $user->balance - $request['sell_amount'] * $crypto->r_value;
+                $user->save();
+
+                /* Send a notification to the user */
+                $user->notify(new SellPublish($request));
+
+                /* Redirect */
+                $route = 'customer.buy-sell.success';
+            }
+
             return Response::json([
                 'status' => true,
                 'redirect_url' => route($route)
@@ -161,32 +213,32 @@ class BuySellController extends Controller
         }
 
         if ($validated->passes()) {
+            /* Get Prev Route Session */
             request()->session()->put('s-mzg', 'external');
-
-            /* Minus from Cryptobot Wallet */
             $crypto = Cryptocurrency::where('name', request()->session()->get('crypto'))->first();
-            $wallet = Wallet::where('user_id', Auth::id())->where('crypto_wallet', request()->session()->get('crypto'))->first();
-            $wallet->balance_in_crypto = $wallet->balance_in_crypto - request()->session()->get('sell_amount');
-            $wallet->balance_in_currency = $wallet->balance_in_currency - request()->session()->get('sell_price') * $crypto->r_value;
-            $wallet->save();
-
-            $sell = new SaleOrder();
-            $sell->user_id = Auth::id();
-            $sell->amount = request()->session()->get('sell_amount');
-            $sell->price = request()->session()->get('sell_price');
-            $sell->crypto = request()->session()->get('crypto');
-            $sell->abbr = request()->session()->get('crypto_abbr');
-            $sell->save();
 
             /* Save to Transaction History Table */
             $tranx = new TransactionHistory();
             $tranx->user_id = Auth::id();
-            $tranx->tranx_type = "Sell " . request()->session()->get('crypto');
-            $tranx->method = "Sell";
+            $tranx->crypto = request()->session()->get('crypto');
+            $tranx->method = "sell";
             $tranx->amount = request()->session()->get('sell_amount');
             $tranx->price = request()->session()->get('sell_price');
             $tranx->abbr = $crypto->abbr;
+            $tranx->status = "pending";
             $tranx->save();
+
+            /* Save to sale order table */
+            $sell = new SaleOrder();
+            $sell->user_id = Auth::id();
+            $sell->tran_id = $tranx->id;
+            $sell->amount = request()->session()->get('sell_amount');
+            $sell->price = request()->session()->get('sell_price');
+            $sell->crypto = request()->session()->get('crypto');
+            $sell->address = $request['address'];
+            $sell->abbr = request()->session()->get('crypto_abbr');
+            $sell->status = "pending";
+            $sell->save();
 
 
             return Response::json([

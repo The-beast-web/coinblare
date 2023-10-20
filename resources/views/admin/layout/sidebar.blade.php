@@ -48,6 +48,12 @@
                                 <span class="nk-menu-text">Sells</span>
                             </a>
                         </li><!-- .nk-menu-item -->
+                        <li class="nk-menu-item {!! getRoute('admin.crypto.sells') !!}">
+                            <a href="{{ route('admin.crypto.sells') }}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-arrow-up"></em></span>
+                                <span class="nk-menu-text">Deposits</span>
+                            </a>
+                        </li><!-- .nk-menu-item -->
                         <li class="nk-menu-item {!! getRoute('admin.transactions') !!}">
                             <a href="{{ route('admin.transactions') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>

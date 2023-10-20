@@ -43,34 +43,51 @@
                                                     <div class="form-control-wrap">
                                                         <input type="text" name="web_name"
                                                             class="form-control form-control-lg"
-                                                            placeholder="Website's Name">
+                                                            placeholder="Website's Name" value="{{ setting('web_name') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Website Copyright</label>
+                                                    <label class="form-label">Website Email</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" name="copyright"
+                                                        <input type="text" name="email"
                                                             class="form-control form-control-lg"
-                                                            placeholder="Website's Copyright">
+                                                            placeholder="Website's Email" value="{{ setting('email') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Website Description</label>
+                                                    <label class="form-label">Website Copyright</label>
                                                     <div class="form-control-wrap">
-                                                        <textarea name="des" class="form-control form-control-lg" cols="30" rows="10"
-                                                            placeholder="Website's Description"></textarea>
+                                                        <textarea name="copyright" class="form-control form-control-lg" cols="30" rows="10"
+                                                            placeholder="Website's Copyright">{{ setting('copyright') }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Restrict Withdrawal</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" name="restrict" class="form-control form-control-lg" placeholder="example@example.com" value="{{ old('restrict', setting('restrict')) }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Website Logo</label>
                                                     <div class="form-control-wrap">
                                                         <input type="file" name="logo"
+                                                            class="form-control form-control-file form-control-lg ">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Website Favicon</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="file" name="favicon"
                                                             class="form-control form-control-file form-control-lg ">
                                                     </div>
                                                 </div>

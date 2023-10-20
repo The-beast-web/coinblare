@@ -12,20 +12,6 @@
                             <p>You have total {{ $customer->count() }} customer(s).</p>
                         </div>
                     </div><!-- .nk-block-head-content -->
-                    <div class="nk-block-head-content">
-                        <div class="toggle-wrap nk-block-tools-toggle">
-                            <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
-                            <div class="toggle-expand-content" data-content="pageMenu">
-                                <ul class="nk-block-tools g-3">
-                                    <li class="nk-block-tools-opt">
-                                        <div class="drodown">
-                                            <a href="#" data-bs-toggle="tooltip" title="Add Customer" class="btn btn-icon btn-primary"><em class="icon ni ni-plus"></em></a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div><!-- .toggle-wrap -->
-                    </div><!-- .nk-block-head-content -->
                 </div><!-- .nk-block-between -->
             </div><!-- .nk-block-head -->
             <div class="nk-block">
@@ -113,11 +99,6 @@
                                                     <em class="icon ni ni-eye-fill"></em>
                                                 </a>
                                             </li>
-                                            <li class="nk-tb-action-hidden">
-                                                <a href="#" class="btn btn-trigger btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Send Email">
-                                                    <em class="icon ni ni-mail-fill"></em>
-                                                </a>
-                                            </li>
                                             @if ($user->status == 'active')
                                             <li class="nk-tb-action-hidden">
                                                 <a href="{{ route('admin.customers.suspend', $user->id) }}" class="btn btn-trigger btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Suspend">
@@ -126,7 +107,7 @@
                                             </li>
                                             @else
                                             <li class="nk-tb-action-hidden">
-                                                <a href="{{ route('admin.customers.reactive', $user->id) }}" class="btn btn-trigger btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Re-active">
+                                                <a href="{{ route('admin.customers.reactive', $user->id) }}" class="btn btn-trigger btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Reactive">
                                                     <em class="icon ni ni-check-circle-fill"></em>
                                                 </a>
                                             </li>
@@ -136,10 +117,12 @@
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <ul class="link-list-opt no-bdr">
-                                                            <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-mail"></em><span>Send Mail</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-cart"></em><span>Orders</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-na"></em><span>Suspend</span></a></li>
+                                                            <li><a href="{{ route('admin.customers.detail', $user->id) }}"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                            @if ($user->status == 'active')
+                                                            <li><a href="{{ route('admin.customers.suspend', $user->id) }}"><em class="icon ni ni-cross-fill-c"></em><span>Suspend</span></a></li>
+                                                            @else
+                                                            <li><a href="{{ route('admin.customers.reactive', $user->id) }}"><em class="icon ni ni-check-circle-fill"></em><span>Reactive</span></a></li>
+                                                            @endif
                                                         </ul>
                                                     </div>
                                                 </div>

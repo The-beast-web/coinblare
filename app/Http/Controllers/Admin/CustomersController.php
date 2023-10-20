@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Notifications\Customer\AccountReactive;
 use Illuminate\Http\Request;
 
 class CustomersController extends Controller
@@ -40,6 +41,8 @@ class CustomersController extends Controller
         $user = User::find($id);
         $user->status = 'active';
         $user->save();
+
+        $user->notify(new AccountReactive($user));
 
         return redirect()->back();
     }

@@ -30,20 +30,20 @@
                                     @csrf
                                     <div class="buysell-field form-group">
                                         <div class="form-label-group">
-                                            <label class="form-label" for="buysell-amount">Amount to Buy</label>
+                                            <label class="form-label" for="buysell-amount">Amount</label>
                                         </div>
                                         <div class="form-control-group">
                                             <input type="number" class="form-control form-control-lg form-control-number"
-                                                id="buysell-amount" name="amount_buy" placeholder="0.055960">
+                                                id="buysell-amount" name="amount_buy" placeholder="0.00">
                                             <div class="form-dropdown">
-                                                <div class="text">{{ request()->session()->get('crypto_abbr') }}</div>
+                                                <div class="text">USD</div>
                                             </div>
                                         </div>
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action">
                                         <button type="submit" class="btn btn-lg btn-block btn-primary" disabled
                                             id="continue-buy">Buy <span id="buy-amount" class="d-none mx-1"
-                                                style="width:auto;"></span>{{ request()->session()->get('crypto_abbr') }}</button>
+                                                style="width:auto;"></span> USD worth of {{ request()->session()->get('crypto_abbr') }}</button>
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action mt-4">
                                         <a href="{{ route('customer.buy-sell-select') }}"
@@ -58,74 +58,65 @@
                                 <h3 class="title text-capitalize" style="font-family: Georgia;">Sell
                                     {{ request()->session()->get('crypto') }}</h3>
                             </div><!-- .buysell-title -->
-                            <div class="buysell-block">
-                                <form action="{{ route('customer.sell_coin') }}" id="sell-form" method="POST"
-                                    class="buysell-form">
-                                    @csrf
-                                    <div class="buysell-field form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="buysell-amount">Amount to Sell</label>
-                                        </div>
-                                        <div class="form-control-group">
-                                            <input type="number" class="form-control form-control-lg form-control-number"
-                                                id="sell-coin" name="sell_amount" placeholder="0.055960">
-                                            <div class="form-dropdown">
-                                                <div class="text">{{ request()->session()->get('crypto_abbr') }}</div>
+                            <div class="nk-block nk-block-lg">
+                                <div class="card card-bordered">
+                                    <form class="nk-stepper stepper-init is-alter" action="{{ route('customer.sell_select') }}" method="POST" id="stepper-two-factor-auth"
+                                        data-step-current="first" novalidate="novalidate" style="display: block;">
+                                        @csrf
+                                        <div class="card-inner">
+                                            <div class="nk-stepper-content">
+                                                <div class="nk-stepper-steps stepper-steps">
+                                                    <div class="nk-stepper-step active">
+                                                        <h5 class="title mb-3">Available Cryptocurrencies</h5>
+                                                        <p class="sub-text">Select the currency you want to trade and click the "continue" button</p>
+                                                        <ul class="row g-3 justify-content-center">
+                                                            <li class="col-xxl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                <div
+                                                                    class="custom-control custom-control-sm custom-radio pro-control custom-control-full">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        name="sell_method" id="cryptobot" value="cryptobot"
+                                                                        checked>
+                                                                    <label class="custom-control-label" for="cryptobot">
+                                                                        <span class="d-flex flex-column text-center mt-5">
+                                                                            <span class="icon-wrap xl text-primary">
+                                                                                <img src="{{ asset('images/coin/binance.png') }}"
+                                                                                    alt="">
+                                                                            </span>
+                                                                            <span class="lead-text mb-1 mt-3 text-capitalize">Cryptobot {{ request()->session()->get('crypto') }} Wallet</span>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li class="col-xxl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                <div
+                                                                    class="custom-control custom-control-sm custom-radio pro-control custom-control-full">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        name="sell_method" id="external" value="external"
+                                                                        required="">
+                                                                    <label class="custom-control-label" for="external">
+                                                                        <span class="d-flex flex-column text-center mt-5">
+                                                                            <span class="icon-wrap xl text-primary">
+                                                                                <img src="{{ asset('images/coin/binance.png') }}"
+                                                                                    alt="">
+                                                                            </span>
+                                                                            <span class="lead-text mb-1 mt-3 text-capitalize">External Wallet</span>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <ul class="nk-stepper-pagination pt-4 gx-4 gy-2 stepper-pagination">
+                                                    <li class="step-next" style="display: block;"><button type="submit"
+                                                            class="btn btn-primary eg-toastr-default" 
+                                                            >Continue</button></li>
+                                                </ul>
                                             </div>
                                         </div>
-                                    </div><!-- .buysell-field -->
-                                    <div class="buysell-field form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="buysell-amount">Price</label>
-                                        </div>
-                                        <div class="form-control-group">
-                                            <input type="number" class="form-control form-control-lg form-control-number"
-                                                id="sell-amount" name="sell_price" value="" placeholder="1000">
-                                            <div class="form-dropdown">
-                                                <div class="text">USD</div>
-                                            </div>
-                                        </div>
-                                        <div class="form-note-group">
-                                            <span class="buysell-min form-note-alt">Service Fee :
-                                                <span id="commission-sell">0</span> USD
-                                            </span>
-                                        </div>
-                                    </div><!-- .buysell-field -->
-                                    <div class="buysell-field form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label">Payment Method</label>
-                                        </div>
-                                        <div class="form-pm-group">
-                                            <ul class="buysell-pm-list">
-                                                <li class="buysell-pm-item">
-                                                    <input class="buysell-pm-control" type="radio" name="payment_method"
-                                                        id="pm-crypto" value="cryptobot" checked>
-                                                    <label class="buysell-pm-label" for="pm-crypto">
-                                                        <span class="pm-name">Cryptobot
-                                                            {{ request()->session()->get('crypto') }} Wallet</span>
-                                                    </label>
-                                                </li>
-                                                <li class="buysell-pm-item">
-                                                    <input class="buysell-pm-control" type="radio"
-                                                        name="payment_method" id="pm-external" value="external">
-                                                    <label class="buysell-pm-label" for="pm-external">
-                                                        <span class="pm-name">External Wallet</span>
-                                                    </label>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div><!-- .buysell-field -->
-                                    <div class="buysell-field form-action">
-                                        <button type="submit" class="btn btn-lg btn-block btn-primary" id="continue"
-                                            disabled>Continue to Sell</button>
-                                    </div><!-- .buysell-field -->
-                                    <div class="buysell-field form-action">
-                                        <a href="{{ route('customer.buy-sell') }}"
-                                            class="btn btn-lg btn-block btn-warning"><em class="ni ni-arrow-left"></em>
-                                            Back</a>
-                                    </div><!-- .buysell-field -->
-                                </form><!-- .buysell-form -->
-                            </div><!-- .buysell-block -->
+                                    </form>
+                                </div>
+                            </div><!-- .nk-block -->
                         </div>
                     </div>
                 </div><!-- .buysell -->
@@ -133,65 +124,13 @@
         </div>
     </div>
 @endsection
-@push('buy-coin')
+@push('script')
     {!! $validator->selector('#purchase_form') !!}
 
     <script>
         $(document).ready(function() {
 
             $('#purchase_form').on('submit', function(e) {
-
-                e.preventDefault();
-
-                form = $(this);
-
-                if (form.valid()) {
-
-                    var f = form.find(':submit');
-
-                    var button = f.html();
-
-                    f.attr("disabled", "disabled")
-                        .html(
-                            '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span><span>Loading...</span>'
-                        );
-
-                    // $(form).ajaxSubmit();
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: "POST",
-                        data: form.serialize(),
-                        success: function(result) {
-
-                            console.log(result);
-
-                            f.removeAttr("disabled").html(button);
-
-                            window.location.replace(result.redirect_url);
-
-                        },
-                        error: function(xhr, status, error) {
-
-                            f.removeAttr("disabled").html(button);
-
-                            $.each(xhr.responseJSON.errors, function(key, item) {
-                                $('input[name = ' + key + ']')
-                                    .removeClass('is-valid')
-                                    .addClass('is-invalid')
-                                    .after('<div class="invalid-feedback">' + item +
-                                        '</div>');
-
-                            });
-
-                        }
-                    });
-                }
-            });
-        });
-
-        $(document).ready(function() {
-
-            $('#sell-form').on('submit', function(e) {
 
                 e.preventDefault();
 

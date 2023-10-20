@@ -34,7 +34,7 @@
                                             <div class="profile-balance-group gx-4">
                                                 <div class="profile-balance-sub">
                                                     <div class="profile-balance-amount">
-                                                        <div class="number"> <small class="currency currency-usd">{{ request()->session()->get('amount') }} {{ $crypto->abbr }}</small>
+                                                        <div class="number"> <small class="currency currency-usd">{{ number_format($price, 10) }} {{ $crypto->abbr }}</small>
                                                         </div>
                                                     </div>
                                                     <div class="profile-balance-subtitle">Unit Offer</div>
@@ -43,41 +43,21 @@
                                                     <span class="profile-balance-plus text-soft"><em
                                                             class="icon ni ni-minus"></em></span>
                                                     <div class="profile-balance-amount">
-                                                        <div class="number"><em class="ni ni-sign-dollar"></em>{{ number_format($price) }}</div>
+                                                        <div class="number"><em class="ni ni-sign-dollar"></em>{{ number_format(request()->session()->get('amount')) }}</div>
                                                     </div>
-                                                    <div class="profile-balance-subtitle">Unit Price</div>
+                                                    <div class="profile-balance-subtitle">Price</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="nk-block">
-                                        <h6 class="lead-text mb-3">Payment Methods</h6>
                                         <form action="{{ route('customer.payment') }}" method="POST">
                                             @csrf
                                         <div class="row g-3">
                                             <div class="col-12 col-lg-6 col-xl-12">
-                                                <div class="form-pm-group">
-                                                    <ul class="buysell-pm-list">
-                                                        <li class="buysell-pm-item">
-                                                            <input class="buysell-pm-control" checked type="radio"
-                                                                name="bs-method" id="pm-bank" value="Paystack">
-                                                            <label class="buysell-pm-label" for="pm-bank">
-                                                                <span class="pm-name">Paystack</span>
-                                                            </label>
-                                                        </li>
-                                                        <li class="buysell-pm-item">
-                                                            <input class="buysell-pm-control" type="radio"
-                                                                name="bs-method" id="pm-card" value="Flutterwave">
-                                                            <label class="buysell-pm-label" for="pm-card">
-                                                                <span class="pm-name">Flutterwave</span> </label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div><!-- .col -->
-                                            <div class="col-12 col-lg-6 col-xl-12">
                                                 <button
                                                     class="h-100 w-100 btn-dim btn btn-outline-primary border border-dashed round-sm p-4 d-flex align-items-center justify-content-center">
-                                                    <span class="text-soft">Proceed to buy {{ request()->session()->get('amount') }} {{ $crypto->abbr }} for {{ number_format($price) }} USD</span>
+                                                    <span class="text-soft">Proceed to buy {{ number_format($price, 10) }} {{ $crypto->abbr }} for {{ number_format(request()->session()->get('amount')) }} USD</span>
                                                 </button>
                                             </div><!-- .col -->
                                         </div><!-- .row -->
@@ -87,6 +67,12 @@
                             </div><!-- .card -->
                         </div><!-- .col -->
                     </div><!-- .row -->
+                    @if (session()->has('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong>Whoops!</strong> {{ session()->get('error') }}.
+                    </div>
+                    @endif
                 </div><!-- .nk-block -->
             </div>
         </div>

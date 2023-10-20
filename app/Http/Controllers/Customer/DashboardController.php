@@ -7,6 +7,7 @@ use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Notifications\Support;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -25,7 +26,7 @@ class DashboardController extends Controller
     {
         $this->seo()->setTitle('Crypto Dashboard');
         $wallet = Wallet::where('user_id', Auth::id());
-        $wall = Wallet::where('user_id', Auth::id())->get();
+        $wall = Wallet::where('user_id', Auth::id())->orderBy('crypto_wallet')->limit(4)->get();
         $validator = JsValidatorFacade::make($this->rules);
         $transactions = TransactionHistory::all();
         $history = TransactionHistory::where('user_id', Auth::id())->limit(5)->orderByDesc('id')->get();
@@ -33,6 +34,7 @@ class DashboardController extends Controller
         $sell = TransactionHistory::where('user_id', Auth::id())->where('method', 'sell')->limit(5)->orderByDesc('id')->get();
         return view('customer.dashboard.index', compact(['wallet', 'wall', 'validator', 'history', 'buy', 'sell', 'transactions']));
     }
+
 
     public function support(Request $request)
     {

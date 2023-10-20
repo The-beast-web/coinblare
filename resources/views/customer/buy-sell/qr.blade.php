@@ -80,7 +80,7 @@
         </div><!-- .modla-dialog -->
     </div><!-- .modal -->
 @endsection
-@push('sell-coin')
+@push('script')
     {!! $validator->selector('#paid-form') !!}
 
     <script>

@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Language;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
 function getRoute($route)
@@ -19,4 +21,10 @@ function lang($lang)
 function translate($word)
 {
     return GoogleTranslate::trans($word, app()->getLocale());
+}
+
+function markAsRead()
+{
+    $user = User::where('id', Auth::id())->first();
+    return $user->notifications->markAsRead();
 }

@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Customer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class Deposit extends Notification
+class AccountReactive extends Notification
 {
     use Queueable;
+
+    public $user;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($parameter)
     {
-        //
+        $this->user = $parameter;
     }
 
     /**
@@ -34,10 +36,12 @@ class Deposit extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new MailMessage)->view(
+            'customer.email.account-reactive',
+            [
+                'name' => $this->user->name,
+            ]
+        );
     }
 
     /**

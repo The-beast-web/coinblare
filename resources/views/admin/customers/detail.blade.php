@@ -90,16 +90,16 @@
                                         <div class="profile-balance-group gx-4">
                                             <div class="profile-balance-sub">
                                                 <div class="profile-balance-amount">
-                                                    <div class="number">{{ number_format($user->balance, 2) }} <small class="currency currency-usd">USD</small></div>
+                                                    <div class="number">{{ number_format($user->withdrawalable, 2) }} <small class="currency currency-usd">USD</small></div>
                                                 </div>
-                                                <div class="profile-balance-subtitle">Total Balance</div>
+                                                <div class="profile-balance-subtitle">Account Balance</div>
                                             </div>
                                             <div class="profile-balance-sub">
                                                 <span class="profile-balance-plus text-soft"><em class="icon ni ni-minus"></em></span>
                                                 <div class="profile-balance-amount">
-                                                    <div class="number">{{ number_format($user->withdrawalable, 2) }}</div>
+                                                    <div class="number">{{ number_format($user->balance, 2) }}</div>
                                                 </div>
-                                                <div class="profile-balance-subtitle">Withdrawalable Balance</div>
+                                                <div class="profile-balance-subtitle">Wallet Balance</div>
                                             </div>
                                         </div>
                                     </div>
@@ -107,25 +107,35 @@
                                 <div class="nk-block">
                                     <h6 class="lead-text mb-3">Wallets</h6>
                                     <div class="row g-3">
-                                        @foreach ($wallet as $w)
-                                        <div class="col-12 col-lg-6 col-xl-12">
-                                            <div class="card card-bordered">
-                                                <div class="card-inner">
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="icon-circle icon-circle-lg">
-                                                                <em class="{!! $w->wallet_symbol !!}"></em>
-                                                            </div>
-                                                            <div class="ms-3">
-                                                                <h6 class="lead-text text-capitalize">{{ $w->crypto_wallet }} wallet</h6>
-                                                                <span class="sub-text">{{ round($w->balance_in_crypto, 3) }} {{ $w->abbr }} <span><em class="ni ni-equal"></em></span> {{ number_format($w->balance_in_currency, 2) }} USD</span>
+                                        @if ($wallet->count() < 1)
+                                            <div class="col-12">
+                                                <div class="card card-bordered">
+                                                    <div class="card-inner">
+                                                        <h5 class="card-title text-center" style="font-family: Courier New; font-style: italic;">No Wallets!</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @else
+                                            @foreach ($wallet as $w)
+                                            <div class="col-12 col-lg-6 col-xl-12">
+                                                <div class="card card-bordered">
+                                                    <div class="card-inner">
+                                                        <div class="d-flex align-items-center justify-content-between">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="icon-circle icon-circle-lg bg-transparent">
+                                                                    <img src="{{ asset('uploads/'.$w->wallet_symbol) }}" alt="{{ $w->crypto_wallet }}">
+                                                                </div>
+                                                                <div class="ms-3">
+                                                                    <h6 class="lead-text text-capitalize">{{ $w->crypto_wallet }} wallet</h6>
+                                                                    <span class="sub-text">{{ round($w->balance_in_crypto, 3) }} {{ $w->abbr }} <span><em class="ni ni-equal"></em></span> {{ number_format($w->balance_in_currency, 2) }} USD</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div><!-- .col -->
-                                        @endforeach
+                                            </div><!-- .col -->
+                                            @endforeach
+                                        @endif
                                     </div><!-- .row -->
                                 </div>
                             </div><!-- .card-inner -->

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cryptocurrency;
+use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -51,6 +53,7 @@ class CryptoController extends Controller
         $crypto->name = $validated['name'];
         $crypto->abbr = $validated['abbr'];
         $crypto->value = $validated['value'];
+        $increase =  $validated['r_value'] - $crypto->r_value;
         $crypto->r_value = $validated['r_value'];
         $crypto->address = $validated['address'];
         $crypto->cap = $validated['cap'];
@@ -60,9 +63,25 @@ class CryptoController extends Controller
         }
         $crypto->save();
 
-        return redirect()->back();
-    } 
-    
+        $wallet = Wallet::where('crypto_wallet', $crypto->name)->first();
+        if ($wallet->balance_in_crypto > 0 && $wallet->balance_in_currency > 0) {
+            $wallet->balance_in_crypto = $wallet->balance_in_crypto + $increase;
+            dd(number_format($increase, 10));
+            $wallet->balance_in_currency = $wallet->balance_in_currency + $increase * $crypto->r_value;
+        }
+        $wallet->save();
+
+        $user = User::where('id', '!=', 0)->get();
+        foreach ($user as $ur) {
+            if ($ur->balance > 0) {
+                $ur->balance = $ur->balance + $increase * $crypto->r_value;
+            }
+            $ur->save();
+        }
+
+        return redirect()->route('admin.cryptos');
+    }
+
 
     public function add()
     {
@@ -112,10 +131,10 @@ class CryptoController extends Controller
     }
 
     public function delete($id)
-{
-    $crypto = Cryptocurrency::find($id);
-    $crypto->delete();
+    {
+        $crypto = Cryptocurrency::find($id);
+        $crypto->delete();
 
-    return redirect()->back();
-}
+        return redirect()->back();
+    }
 }

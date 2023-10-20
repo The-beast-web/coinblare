@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Customer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BuySell extends Notification
+class SellSold extends Notification
 {
     use Queueable;
+
+    public $sale;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($n)
     {
-        //
+        $this->sale = $n;
     }
 
     /**
@@ -26,7 +28,7 @@ class BuySell extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -48,7 +50,8 @@ class BuySell extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'subject' => 'Your sale of '.$this->sale->amount.' '.$this->sale->abbr.' for '.$this->sale->price.' USD has been sold',
+            'icon' => 'ni ni-check-thick'
         ];
     }
 }

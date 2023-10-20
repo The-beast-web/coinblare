@@ -27,11 +27,11 @@ class SettingsController extends Controller
 
         $rules = [
             'password' => 'required|confirmed',
-            'current_password' => ['required', function($field, $value, $fail){
+            'current_password' => ['required', function ($field, $value, $fail) {
                 if (!Hash::check($value, Auth::user()->password)) {
                     $fail('Incorrect Password');
                 }
-            }], 
+            }],
         ];
 
         $message = [
@@ -110,8 +110,10 @@ class SettingsController extends Controller
         $rules = [
             'web_name' => 'required',
             'copyright' => 'required',
-            'des' => 'nullable',
-            'logo' => 'required'
+            'email' => 'required|email',
+            'logo' => 'nullable',
+            'favicon' => 'nullable',
+            'restrict' => 'email'
         ];
 
         $validated = $request->validate($rules);
@@ -120,6 +122,11 @@ class SettingsController extends Controller
         if (request()->has('logo')) {
             $path = Storage::disk('mydisk')->put('settings', $request->file('logo'));
             $validated['logo'] = $path;
+        }
+
+        if (request()->has('favicon')) {
+            $path = Storage::disk('mydisk')->put('settings', $request->file('favicon'));
+            $validated['favicon'] = $path;
         }
 
         setting($validated)->save();

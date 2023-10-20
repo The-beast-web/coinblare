@@ -21,9 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Config::set('seotools.meta.defaults.title', "Cryptobot");
-        Config::set('app.name', "Cryptobot");
+        Config::set('seotools.meta.defaults.title', setting('web_name'));
+        Config::set('app.name', setting('web_name'));
 
         view()->composer('customer.layout.footer', UserDataComposer::class);
+        view()->composer('customer.layout.topbar', UserDataComposer::class);
     }
 }

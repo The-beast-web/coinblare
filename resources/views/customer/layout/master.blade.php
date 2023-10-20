@@ -13,6 +13,7 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.2') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
 
 <body class="nk-body npc-crypto bg-white has-sidebar dark-mode">
@@ -43,13 +44,7 @@
     <script src="{{ asset('assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('assets/js/charts/chart-crypto.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
-    @stack('script') @stack('widget') @stack('buy-coin')
-    @stack('sell-coin') @stack('profile') @stack('support')
-    <script>
-        $('.lang').on('click', function() {
-            $('#lang-form').submit();
-        });
-    </script>
+    @stack('script')
 </body>
 
 </html>
