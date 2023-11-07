@@ -17,7 +17,7 @@ class MarketplaceController extends Controller
 {
     public function list()
     {
-        $this->seo()->setTitle('Buy '.Str::ucfirst(request()->session()->get('crypto')));
+        $this->seo()->setTitle('Buy ' . Str::ucfirst(request()->session()->get('crypto')));
         $crypto = Cryptocurrency::where('name', request()->session()->get('crypto'))->first();
         $price = request()->session()->get('amount') / $crypto->value;
         request()->session()->put('price', $price);
@@ -45,7 +45,9 @@ class MarketplaceController extends Controller
             $tranx->amount = request()->session()->get('price');
             $tranx->price = request()->session()->get('amount');
             $tranx->abbr = request()->session()->get('abbr');
+            $tranx->status = 'successful';
             $tranx->save();
+
 
             if (is_null($wallet)) {
                 /* Create new wallet if there is no existing one */
@@ -55,16 +57,16 @@ class MarketplaceController extends Controller
                 $wallet->crypto_wallet = request()->session()->get('crypto_wallet');
                 $wallet->abbr = request()->session()->get('abbr');
                 $wallet->balance_in_crypto = request()->session()->get('price');
-                $wallet->balance_in_currency = request()->session()->get('price') * request()->session()->get('r_value');
-                $user->balance = $user->balance + request()->session()->get('price') * request()->session()->get('r_value');
+                $wallet->balance_in_currency = request()->session()->get('price') * $crypto->r_value;
+                $user->balance = $user->balance + request()->session()->get('price') * $crypto->r_value;
                 $user->withdrawalable = $user->withdrawalable - request()->session()->get('amount');
                 $wallet->save();
                 $user->save();
             } else {
                 /* Else update the existing wallet */
                 $wallet->balance_in_crypto = $wallet->balance_in_crypto + request()->session()->get('price');
-                $wallet->balance_in_currency = $wallet->balance_in_currency + request()->session()->get('price') * request()->session()->get('r_value');
-                $user->balance = $user->balance + request()->session()->get('price') * request()->session()->get('r_value');
+                $wallet->balance_in_currency = $wallet->balance_in_currency + request()->session()->get('price') * $crypto->r_value;
+                $user->balance = $user->balance + request()->session()->get('price') * $crypto->r_value;
                 $user->withdrawalable = $user->withdrawalable - request()->session()->get('amount');
                 $wallet->save();
                 $user->save();

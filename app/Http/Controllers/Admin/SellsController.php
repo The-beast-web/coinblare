@@ -16,7 +16,7 @@ class SellsController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Sells | Admin');
-        $tranx = SaleOrder::all();
+        $tranx = SaleOrder::orderByDesc('id')->get();
         return view('admin.sells.index', compact('tranx'));
     }
 

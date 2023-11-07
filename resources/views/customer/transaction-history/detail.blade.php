@@ -34,9 +34,9 @@
                                 <div class="invoice-contact">
                                     <span class="overline-title">Transaction</span>
                                     <div class="invoice-contact-info">
-                                        <h4 class="title text-capitalize">{{ $coin[1] }} @if ($tranx->method == "sell") Sale @endif @if ($tranx->method == "buy") Purchase @endif @if ($tranx->method == "transfer") Transfer @endif</h4>
+                                        <h4 class="title text-capitalize">{{ $tranx->crypto }} @if ($tranx->method == "sell") Sale @endif @if ($tranx->method == "Buy") Purchase @endif @if ($tranx->method == "transfer") Transfer @endif</h4>
                                         <ul class="list-plain">
-                                            <li><span>Unit:</span><span class="mx-2">{{ round($tranx->amount, 3) }} {{ $tranx->abbr }}</li>
+                                            <li><span>Unit:</span><span class="mx-2">{{ number_format($tranx->amount, 10) }} {{ $tranx->abbr }}</li>
                                             <li><span>Price:</span><span class="mx-2">{{ number_format($tranx->price, 2) }} USD</span></li>
                                             <li><span>Status:</span><span class="mx-2 text-capitalize @if ($tranx->status == "successful" || $tranx->status == "sold")
                                                 text-success

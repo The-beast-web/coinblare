@@ -37,11 +37,13 @@
                                             <input type="number" class="form-control form-control-lg form-control-number" style="padding-right: 50px;"
                                                 id="sell-amount" name="sell_price" value="" placeholder="0.00" autocomplete="off">
                                         </div>
+                                        @if (session()->get('sell_method') == 'external')
                                         <div class="form-note-group">
                                             <span class="buysell-min form-note-alt">
                                                 Note : A 5% Service Fee Applies
                                             </span>
                                         </div>
+                                        @endif
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action">
                                         <button type="submit" class="btn btn-lg btn-block btn-primary"

@@ -48,6 +48,9 @@
                                                     <div class="profile-balance-subtitle">Price</div>
                                                 </div>
                                             </div>
+                                            <div class="mt-4">
+                                                <span class="text-soft">Note: A 2% service fee applies</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="nk-block">

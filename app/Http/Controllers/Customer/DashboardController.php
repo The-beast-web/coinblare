@@ -26,12 +26,12 @@ class DashboardController extends Controller
     {
         $this->seo()->setTitle('Crypto Dashboard');
         $wallet = Wallet::where('user_id', Auth::id());
-        $wall = Wallet::where('user_id', Auth::id())->orderBy('crypto_wallet')->limit(4)->get();
+        $wall = Wallet::where('user_id', Auth::id())->orderBy('crypto_wallet')->limit(3)->get();
         $validator = JsValidatorFacade::make($this->rules);
-        $transactions = TransactionHistory::all();
-        $history = TransactionHistory::where('user_id', Auth::id())->limit(5)->orderByDesc('id')->get();
-        $buy = TransactionHistory::where('user_id', Auth::id())->where('method', 'buy')->limit(5)->orderByDesc('id')->get();
-        $sell = TransactionHistory::where('user_id', Auth::id())->where('method', 'sell')->limit(5)->orderByDesc('id')->get();
+        $transactions = TransactionHistory::where('user_id', Auth::id())->get();
+        $history = TransactionHistory::where('user_id', Auth::id())->limit(3)->orderByDesc('id')->get();
+        $buy = TransactionHistory::where('user_id', Auth::id())->where('method', 'buy')->limit(3)->orderByDesc('id')->get();
+        $sell = TransactionHistory::where('user_id', Auth::id())->where('method', 'sell')->limit(3)->orderByDesc('id')->get();
         return view('customer.dashboard.index', compact(['wallet', 'wall', 'validator', 'history', 'buy', 'sell', 'transactions']));
     }
 

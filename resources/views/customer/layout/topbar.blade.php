@@ -2,22 +2,25 @@
     <div class="container-fluid">
         <div class="nk-header-wrap">
             <div class="nk-menu-trigger d-xl-none ms-n1">
-                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em
+                        class="icon ni ni-menu"></em></a>
             </div>
             <div class="nk-header-brand d-xl-none">
                 <a href="html/crypto/index.html" class="logo-link">
-                    <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
-                    <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                    <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x"
+                        alt="logo">
+                    <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x"
+                        alt="logo-dark">
                     <span class="nio-version">Crypto</span>
                 </a>
             </div>
             <div class="nk-header-tools">
                 <ul class="nk-quick-nav">
                     <li class="dropdown notification-dropdown me-n1">
-                        <a href="#" onclick="{{ markAsRead() }}" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                            <div class="@if ($unread == true)
-                            icon-status icon-status-info
-                            @endif"><em class="icon ni ni-bell"></em></div>
+                        <a href="#" onclick="{{ markAsRead() }}" class="dropdown-toggle nk-quick-nav-icon"
+                            data-bs-toggle="dropdown">
+                            <div class="@if ($unread == true) icon-status icon-status-info @endif"><em
+                                    class="icon ni ni-bell"></em></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end dropdown-menu-s1">
                             <div class="dropdown-head">
@@ -27,15 +30,17 @@
                             <div class="dropdown-body">
                                 <div class="nk-notification">
                                     @foreach ($notification as $n)
-                                                                            <div class="nk-notification-item dropdown-inner">
-                                        <div class="nk-notification-icon">
-                                            <em class="icon icon-circle bg-warning-dim {!! $n->data['icon'] !!}"></em>
-                                        </div>
-                                        <div class="nk-notification-content">
-                                            <div class="nk-notification-text">{{ $n->data['subject'] }}</div>
-                                            <div class="nk-notification-time">{{ $n->created_at->diffForHumans() }}</div>
-                                        </div>
-                                    </div><!-- .dropdown-inner -->
+                                        <div class="nk-notification-item dropdown-inner">
+                                            <div class="nk-notification-icon">
+                                                <em
+                                                    class="icon icon-circle bg-warning-dim {!! $n->data['icon'] !!}"></em>
+                                            </div>
+                                            <div class="nk-notification-content">
+                                                <div class="nk-notification-text">{{ $n->data['subject'] }}</div>
+                                                <div class="nk-notification-time">{{ $n->created_at->diffForHumans() }}
+                                                </div>
+                                            </div>
+                                        </div><!-- .dropdown-inner -->
                                     @endforeach
                                 </div>
                             </div><!-- .nk-dropdown-body -->
@@ -51,10 +56,10 @@
                             </div>
                             <div class="user-info d-none d-md-block">
                                 <div class="user-status text-success">User</div>
-                                <div class="user-name">{{ Auth::user()->name }}</div>
+                                <div class="user-name text-capitalize">{{ Auth::user()->name }}</div>
                             </div>
                         </div>
-                </li>
+                    </li>
                 </ul>
             </div>
         </div>

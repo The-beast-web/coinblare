@@ -23,24 +23,11 @@ class WalletController extends Controller
         'amount.required' => 'Enter An Amount',
     ];
 
-    protected $rules_depo = [
-        'address' => 'required',
-        'file' => 'required'
+    protected $rules_with = [
+        'crypto' => 'required',
+        'amount' => 'required'
     ];
 
-    public $withdraw_rule;
-
-    public function __construct()
-    {
-        $this->withdraw_rule = [
-            'crypto' => 'required',
-            'amount' => ['required', function ($field, $value, $fail) {
-                if($value > 20) {
-                    $fail('Error');
-                }
-            }]
-        ];
-    }
 
     public function index()
     {
@@ -48,7 +35,7 @@ class WalletController extends Controller
         $wallet = Wallet::where('user_id', Auth::id())->get();
         $crypto = Cryptocurrency::all();
         $validator = JsValidatorFacade::make($this->rules, $this->message);
-        $validator2 = JsValidatorFacade::make($this->withdraw_rule);
+        $validator2 = JsValidatorFacade::make($this->rules_with, $this->message);
         return view('customer.wallets.index', compact(['wallet', 'crypto', 'validator', 'validator2']));
     }
 
@@ -85,15 +72,18 @@ class WalletController extends Controller
     {
         $this->seo()->setTitle('Crypto Deposit');
         $crypto = Cryptocurrency::where('name', session()->get('crypto'))->first();
-        $validator = JsValidatorFacade::make($this->rules_depo);
-        return view('customer.wallets.deposit', compact(['crypto', 'validator']));
+        return view('customer.wallets.deposit', compact(['crypto']));
     }
 
-    public function deposit_process2(Request $request)
+    public function deposit_success()
     {
-        dd($request->all());
-        $validated = Validator::make($request->all(), $this->rules_depo);
+        $this->seo()->setTitle('Crypto Deposit Successful');
+        return view('customer.wallets.review');
+    }
 
+    public function withdraw(Request $request)
+    {
+        $validated = Validator::make($request->all(), $this->rules_with, $this->message);
 
         if ($validated->fails()) {
             return Response::json(
@@ -108,12 +98,16 @@ class WalletController extends Controller
 
         if ($validated->passes()) {
 
-            dd($request->all());
-
             return Response::json([
                 'status' => true,
-                'redirect_url' => route('customer.wallets.deposit.view')
+                'redirect_url' => route('customer.server.error'),
             ], 200);
         }
+    }
+
+    public function withdraw_error()
+    {
+        $this->seo()->setTitle('Server Error');
+        return view('customer.wallets.error');
     }
 }

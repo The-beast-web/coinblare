@@ -43,7 +43,7 @@
                                 <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
                                     <div class="data-col">
                                         <span class="data-label">Full Name</span>
-                                        <span class="data-value">{{ $user->name }}</span>
+                                        <span class="data-value text-capitalize">{{ $user->name }}</span>
                                     </div>
                                     <div class="data-col data-col-end">
                                         <span class="data-more">
@@ -80,7 +80,7 @@
                             </div><!-- .nk-data -->
                             <div class="nk-data data-list">
                                 <div class="data-head">
-                                    <h6 class="overline-title">Preferences</h6>
+                                    <h6 class="overline-title">Preferences & Others</h6>
                                 </div>
                                 <div class="data-item">
                                     <div class="data-col">
@@ -88,8 +88,21 @@
                                         <span class="data-value">{{ lang(app()->getLocale()) }}</span>
                                     </div>
                                     <div class="data-col data-col-end">
-                                        <a data-bs-toggle="modal" href="#profile-edit" class="link link-primary">Change
+                                        <a data-bs-toggle="modal" href="#lang" class="link link-primary">Change
                                             Language</a>
+                                    </div>
+                                </div><!-- .data-item -->
+                                <div class="data-item">
+                                    <div class="data-col">
+                                        <span class="data-label">Your Promo Code</span>
+                                        <span class="data-value" id="refUrl">{{ $user->promo_code}}</span>
+                                    </div>
+                                    <div class="data-col data-col-end">
+                                        <div class="form-clip clipboard-init mt-2" data-clipboard-target="#refUrl"
+                                            data-success="Copied" data-text="Copy Address">
+                                            <em class="clipboard-icon icon ni ni-copy"></em>
+                                            <span class="clipboard-text">Copy Code</span>
+                                        </div>
                                     </div>
                                 </div><!-- .data-item -->
                             </div><!-- .nk-data -->
@@ -258,7 +271,7 @@
         </div><!-- .modal-dialog -->
     </div><!-- .modal -->
 @endsection
-@push('profile')
+@push('script')
     {!! $validator->selector('#update-profile') !!}
 
     <script>

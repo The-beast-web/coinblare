@@ -6,17 +6,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class CryptoDeposit extends Notification
 {
     use Queueable;
 
+    public $deposit;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($param)
     {
-        //
+        $this->deposit = $param;
     }
 
     /**
@@ -26,7 +29,7 @@ class CryptoDeposit extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -48,7 +51,8 @@ class CryptoDeposit extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'subject' => 'Your crypto deposit of '.$this->deposit->amount.' '.$this->deposit->abbr.' has been approved and added to your '.Str::ucfirst($this->deposit->crypto).' wallet',
+            'icon' => 'ni ni-arrow-up'
         ];
     }
 }

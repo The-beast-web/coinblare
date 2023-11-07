@@ -16,7 +16,7 @@ class Restrict
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->email != "ehiogu@gmail.com"){
+        if(Auth::user()->email != "admin@admin.com"){
             return redirect()->back();
         }
         return $next($request);

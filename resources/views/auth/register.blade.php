@@ -3,7 +3,7 @@
 @section('content')
     @include('customer.layout.preloader')
     <div class="nk-content d-none" id="market">
-        <div class="nk-block nk-block-middle nk-auth-body wide-lg">
+        <div class="nk-block nk-block-middle nk-auth-body wide-lg" style="margin-bottom: 100px">
             <div class="brand-logo pb-4 text-center">
                 <a href="html/index.html" class="logo-link">
                     <img class="logo-light logo-img logo-img-lg" src="./images/logo.png" srcset="./images/logo2x.png 2x"
@@ -78,6 +78,15 @@
                                         <input type="password" name="password_confirmation"
                                             class="required form-control form-control-lg" id="password-confirm"
                                             placeholder="Enter your passcode">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Promo Code <small class="text-soft">(Optional)</small></label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" name="promo_code" class="form-control form-control-lg required"
+                                            id="name" placeholder="Enter a promo code" autocomplete="off">
                                     </div>
                                 </div>
                             </div>

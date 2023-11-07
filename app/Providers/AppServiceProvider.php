@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('customer.layout.footer', UserDataComposer::class);
         view()->composer('customer.layout.topbar', UserDataComposer::class);
+        view()->composer('admin.layout.topbar', UserDataComposer::class);
     }
 }

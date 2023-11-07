@@ -42,7 +42,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->email == "ehiogu@gmail.com") {
+        if ($user->email == "admin@admin.com") {
             return redirect()->route('admin.dashboard');
         } else {
             return redirect()->route('customer.dashboard');

@@ -51,7 +51,7 @@
                                                 <span class="title text-capitalize">{{ $sale->crypto }}</span>
                                             </div>
                                             <div class="tb-tnx-date">
-                                                <span class="date">{{ $sale->amount }} {{ $sale->abbr }}</span>
+                                                <span class="date">{{ number_format($sale->amount, 10) }} {{ $sale->abbr }}</span>
                                                 <span class="date">{{ $sale->created_at->toFormattedDateString() }}</span>
                                             </div>
                                         </td>

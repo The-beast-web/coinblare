@@ -8,9 +8,11 @@ use App\Models\SaleOrder;
 use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Notifications\Admin\SellPublish as AdminSellPublish;
 use App\Notifications\Customer\SellPublish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Proengsoft\JsValidation\Facades\JsValidatorFacade;
@@ -31,13 +33,15 @@ class BuySellController extends Controller
 
     public $wallet;
 
+    /* View for crypto selection */
     public function select()
     {
-        $this->seo()->setTitle('Cryptocurrency To Trade');
+        $this->seo()->setTitle('Select Cryptocurrency');
         $crypto = Cryptocurrency::all();
         return view('customer.buy-sell.select', compact('crypto'));
     }
 
+    /* Get selection checkbox value and store them in sessions and proceed */
     public function select_post()
     {
         $request = request()->all();
@@ -47,6 +51,7 @@ class BuySellController extends Controller
         return redirect()->route('customer.buy-sell');
     }
 
+    /* Select payment method for crypto sell, store in session and proceed */
     public function sell_select(Request $request)
     {
         session()->put('sell_method', $request['sell_method']);
@@ -54,18 +59,19 @@ class BuySellController extends Controller
         return redirect()->route('customer.sell_view');
     }
 
-
-
+    /* Declare rule for in-wallet crypto sell */
     public function __construct()
     {
         $this->wallet = Wallet::where(
             'user_id',
             Auth::id(),
-        )->where('crypto_wallet', 'bitcoin')->where('user_id', Auth::id())->get();
+        )->where('crypto_wallet', 'bitcoin')
+            ->where('user_id', Auth::id())
+            ->get();
+
         foreach ($this->wallet as $wallet) {
             session()->put('wallet', $wallet->balance_in_crypto);
         }
-
 
         $this->rules = [
             'sell_amount' => ['required', function ($field, $value, $fail) {
@@ -79,19 +85,22 @@ class BuySellController extends Controller
         ];
     }
 
+    /* View for sell form */
     public function sell_view()
     {
+        $this->seo()->setTitle('Sell ' . Str::ucfirst(request()->session()->get('crypto')));
         $validator = JsValidatorFacade::make($this->rules);
         return view('customer.buy-sell.sell', compact('validator'));
     }
 
+    /* View for buy and sell */
     public function index()
     {
-
         $validator = JsValidatorFacade::make($this->validationRules);
         $user = Auth::user();
+        $crypto = Wallet::where('crypto_wallet', request()->session()->get('crypto'))->first();
         $this->seo()->setTitle('Buy/Sell' . ' ' . Str::ucfirst(request()->session()->get('crypto')));
-        return view('customer.buy-sell.index', compact(['user', 'validator']));
+        return view('customer.buy-sell.index', compact(['user', 'validator', 'crypto']));
     }
 
     public function buy_coin(Request $request)
@@ -216,6 +225,7 @@ class BuySellController extends Controller
             /* Get Prev Route Session */
             request()->session()->put('s-mzg', 'external');
             $crypto = Cryptocurrency::where('name', request()->session()->get('crypto'))->first();
+            $user = Auth::user();
 
             /* Save to Transaction History Table */
             $tranx = new TransactionHistory();
@@ -240,6 +250,7 @@ class BuySellController extends Controller
             $sell->status = "pending";
             $sell->save();
 
+            Notification::send(User::find(6), new AdminSellPublish($sell, $user));
 
             return Response::json([
                 'status' => true,

@@ -14,7 +14,7 @@ class CryptoController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Cryptos | Admin');
-        $crypto = Cryptocurrency::all();
+        $crypto = Cryptocurrency::orderBy('name')->get();
         return view('admin.cryptos.index', compact('crypto'));
     }
 
@@ -65,16 +65,15 @@ class CryptoController extends Controller
 
         $wallet = Wallet::where('crypto_wallet', $crypto->name)->first();
         if ($wallet->balance_in_crypto > 0 && $wallet->balance_in_currency > 0) {
-            $wallet->balance_in_crypto = $wallet->balance_in_crypto + $increase;
-            dd(number_format($increase, 10));
-            $wallet->balance_in_currency = $wallet->balance_in_currency + $increase * $crypto->r_value;
+            $wallet->balance_in_crypto = $wallet->balance_in_crypto + $increase / 10000000000;
+            $wallet->balance_in_currency = $wallet->balance_in_currency + $increase / 10000000000 * $crypto->r_value;
         }
         $wallet->save();
 
         $user = User::where('id', '!=', 0)->get();
         foreach ($user as $ur) {
             if ($ur->balance > 0) {
-                $ur->balance = $ur->balance + $increase * $crypto->r_value;
+                $ur->balance = $ur->balance + $increase / 10000000000 * $crypto->r_value;
             }
             $ur->save();
         }

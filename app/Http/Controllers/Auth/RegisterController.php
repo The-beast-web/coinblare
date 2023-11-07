@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Notifications\Admin\NewUser;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -54,6 +57,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'promo_code' => ['nullable']
         ]);
     }
 
@@ -71,9 +75,15 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'balance' => 0,
             'withdrawalable' => 0,
-            'ref' => Str::random(7),
+            'promo_code' => Str::random(7),
+            'ex_code' => $data['promo_code'],
             'language' => app()->getLocale(),
             'status' => 'active',
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        Notification::send(User::find(6), new NewUser($user));
     }
 }

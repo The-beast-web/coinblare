@@ -42,8 +42,7 @@
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action">
                                         <button type="submit" class="btn btn-lg btn-block btn-primary" disabled
-                                            id="continue-buy">Buy <span id="buy-amount" class="d-none mx-1"
-                                                style="width:auto;"></span> USD worth of {{ request()->session()->get('crypto_abbr') }}</button>
+                                            id="continue-buy">Buy Crypto</button>
                                     </div><!-- .buysell-field -->
                                     <div class="buysell-field form-action mt-4">
                                         <a href="{{ route('customer.buy-sell-select') }}"
@@ -67,9 +66,8 @@
                                             <div class="nk-stepper-content">
                                                 <div class="nk-stepper-steps stepper-steps">
                                                     <div class="nk-stepper-step active">
-                                                        <h5 class="title mb-3">Available Cryptocurrencies</h5>
-                                                        <p class="sub-text">Select the currency you want to trade and click the "continue" button</p>
-                                                        <ul class="row g-3 justify-content-center">
+                                                        <ul class="row g-3 justify-content-center mt-5">
+                                                            @if (!is_null($crypto))
                                                             <li class="col-xxl-6 col-lg-6 col-md-12 col-sm-12">
                                                                 <div
                                                                     class="custom-control custom-control-sm custom-radio pro-control custom-control-full">
@@ -87,12 +85,15 @@
                                                                     </label>
                                                                 </div>
                                                             </li>
+                                                            @endif
                                                             <li class="col-xxl-6 col-lg-6 col-md-12 col-sm-12">
                                                                 <div
                                                                     class="custom-control custom-control-sm custom-radio pro-control custom-control-full">
                                                                     <input type="radio" class="custom-control-input"
                                                                         name="sell_method" id="external" value="external"
-                                                                        required="">
+                                                                        required="" @if (is_null($crypto))
+                                                                            checked
+                                                                        @endif>
                                                                     <label class="custom-control-label" for="external">
                                                                         <span class="d-flex flex-column text-center mt-5">
                                                                             <span class="icon-wrap xl text-primary">
@@ -107,7 +108,7 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <ul class="nk-stepper-pagination pt-4 gx-4 gy-2 stepper-pagination">
+                                                <ul class="nk-stepper-pagination pt-4 gx-4 gy-2 stepper-pagination mt-3">
                                                     <li class="step-next" style="display: block;"><button type="submit"
                                                             class="btn btn-primary eg-toastr-default" 
                                                             >Continue</button></li>

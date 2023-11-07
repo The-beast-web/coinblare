@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'balance',
         'withdrawalable',
-        'ref',
+        'promo_code',
+        'ex_code',
         'language',
         'status',
     ];

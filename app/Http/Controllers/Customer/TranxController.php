@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Cryptocurrency;
 use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Notifications\Admin\Deposit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -54,10 +56,17 @@ class TranxController extends Controller
 
     public function deposit_verify(Request $request)
     {
+        $paymentDetails = Paystack::getPaymentData();
         $user = User::where('id', Auth::id())->first();
         $user->balance = $user->balance + $request->session()->get('amount');
         $user->withdrawalable = $user->balance + $request->session()->get('amount');
         $user->save();
+
+        $rev = new Admin();
+        $rev->total_revenue = $request->session()->get('amouunt');
+        $rev->save();
+
+        $user->notify(new Deposit($paymentDetails, $user));
 
         return redirect()->route('customer.dashboard');
     }

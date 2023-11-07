@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\BuysController;
 use App\Http\Controllers\Admin\CryptoController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\LangController as AdminLangController;
 use App\Http\Controllers\Admin\MarketAnalysisController as AdminMarketAnalysisController;
 use App\Http\Controllers\Admin\SellsController;
@@ -14,19 +16,14 @@ use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Customer\MarketAnalysisController;
 use App\Http\Controllers\Customer\MarketplaceController;
 use App\Http\Controllers\Customer\MySalesController;
-use App\Http\Controllers\Customer\PaystackController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\TransactioHistoryController;
 use App\Http\Controllers\Customer\TranxController;
 use App\Http\Controllers\Customer\WalletController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\SuspendedController;
-use App\Models\Cryptocurrency;
-use App\Models\Wallet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Unicodeveloper\Paystack\Facades\Paystack;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +44,7 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+/* Customer Routes @s */
 Route::middleware(['auth', 'verified', 'suspended'])->name('customer.')->prefix('myaccount')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/support', [DashboardController::class, 'support'])->name('support');
@@ -68,7 +66,9 @@ Route::middleware(['auth', 'verified', 'suspended'])->name('customer.')->prefix(
     Route::get('/wallets', [WalletController::class, 'index'])->name('wallets');
     Route::post('/wallets', [WalletController::class, 'deposit_process1'])->name('wallets.deposit');
     Route::get('/wallets/crypto-deposit', [WalletController::class, 'deposit_view'])->name('wallets.deposit.view');
-    Route::post('/wallets/crypto-deposit', [WalletController::class, 'deposit_process2'])->name('wallets.deposit.process');
+    Route::get('/wallets/crypto-deposit/success', [WalletController::class, 'deposit_success'])->name('wallets.deposit.success');
+    Route::post('/wallets/withdraw', [WalletController::class, 'withdraw'])->name('wallets.withdraw');
+    Route::get('/server-error', [WalletController::class, 'withdraw_error'])->name('server.error');
     /* End of Wallets Route */
 
     /* Transaction History Route */
@@ -111,19 +111,16 @@ Route::middleware(['auth', 'verified', 'suspended'])->name('customer.')->prefix(
 
     Route::get('/my-sales', [MySalesController::class, 'index'])->name('my-sales');
     Route::get('/market-analysis', [MarketAnalysisController::class, 'index'])->name('market-analysis');
-
-    /* Buy Crypto Payment Route */
-    Route::get('/pay', [PaystackController::class, 'pay'])->name('pay');
-
-    Route::get('/verify', [PaystackController::class, 'verify'])->name('verify');
-    /* End of Buy Crypto Payment Route */
 });
+/* Customer Routes @e */
 
-/* Suspended Route */
+/* Suspended Route @s */
 Route::middleware(['auth', 'verified', 'unsuspended'])->group(function () {
     Route::get('/myaccount/suspended', [SuspendedController::class, 'index'])->name('suspended');
 });
+/* Suspended Route @e */
 
+/* Admin Routes @s */
 Route::middleware(['auth', 'verified', 'restrict'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
@@ -182,7 +179,27 @@ Route::middleware(['auth', 'verified', 'restrict'])->prefix('admin')->name('admi
     Route::get('/languages/edit/{id}', [AdminLangController::class, 'edit'])->name('lang.edit');
     Route::post('/languages/edit/process/{id}', [AdminLangController::class, 'edit_process'])->name('lang.edit.process');
     Route::get('/languages/delete/{id}', [AdminLangController::class, 'delete'])->name('lang.delete');
+    /* Language Route @e */
+
+    /* Currency Route */
+    Route::prefix('/currencies')->name('currency.')->group(function () {
+        Route::get('/', [CurrencyController::class, 'index'])->name('index');
+        Route::get('/add', [CurrencyController::class, 'add'])->name('add');
+        Route::post('/add', [CurrencyController::class, 'add_process'])->name('add_process');
+        Route::get('/edit/{id}', [CurrencyController::class, 'edit'])->name('edit');
+        Route::post('/edit/{id}', [CurrencyController::class, 'edit_process'])->name('edit.process');
+        Route::get('/delete/{id}', [CurrencyController::class, 'delete'])->name('delete');
+    });
+    /* Currency Routes @e */
+
+    /* Crypto Deposit Route */
+    Route::get('/crypto-deposits', [DepositController::class, 'index'])->name('crypto-deposit');
+    Route::get('/crypto-deposits/{id}', [DepositController::class, 'detail'])->name('crypto-deposit.detail');
+    Route::get('/crypto-deposits/approve/{id}', [DepositController::class, 'approve'])->name('crypto-deposit.approve');
+    Route::get('/crypto-deposits/cancel/{id}', [DepositController::class, 'cancel_approval'])->name('crypto-deposit.cancel');
+    Route::get('/crypto-deposits/decline/{id}', [DepositController::class, 'decline'])->name('crypto-deposit.decline');
 });
+/* Admin Routes @e */
 
 Route::get('/change-language/{code}', [LangController::class, 'changeLang'])->name('changeLang');
 

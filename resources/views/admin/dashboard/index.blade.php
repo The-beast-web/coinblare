@@ -16,7 +16,7 @@
             </div><!-- .nk-block-head -->
             <div class="nk-block">
                 <div class="row g-gs">
-                    <div class="col-xxl-7">
+                    <div class="col-xxl-12">
                         <div class="row g-gs">
                             <div class="col-lg-7 col-xxl-12">
                                 <div class="card card-bordered">
@@ -32,11 +32,8 @@
                                         <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
                                             <div class="nk-sale-data-group flex-md-nowrap g-4">
                                                 <div class="nk-sale-data">
-                                                    <span class="amount">{{ number_format($revenue?->sum('total_revenue'), 2) }} <small class="currency currency-usd text-primary">USD</small></span>
+                                                    <span class="amount">{{ number_format($revenue, 2) }} <small class="currency currency-usd text-primary">USD</small></span>
                                                 </div>
-                                            </div>
-                                            <div class="nk-sales-ck sales-revenue">
-                                                <canvas class="sales-bar-chart" id="salesRevenue"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -44,12 +41,12 @@
                             </div><!-- .col -->
                             <div class="col-lg-5 col-xxl-12">
                                 <div class="row g-gs">
-                                    <div class="col-sm-6 col-lg-12 col-xxl-6">
+                                    <div class="col-sm-12 col-lg-12 col-xxl-4">
                                         <div class="card card-bordered">
                                             <div class="card-inner">
                                                 <div class="card-title-group align-start mb-2">
                                                     <div class="card-title">
-                                                        <h6 class="title">Buy Revenue</h6>
+                                                        <h6 class="title">Crypto Deposit Revenue</h6>
                                                     </div>
                                                     <div class="card-tools">
                                                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="Revenue from crypto buys"></em>
@@ -57,21 +54,18 @@
                                                 </div>
                                                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                     <div class="nk-sale-data">
-                                                        <span class="amount">{{ number_format($revenue?->sum('buy_revenue'), 2) }}  <small class="currency currency-usd text-primary">USD</small></span>
-                                                    </div>
-                                                    <div class="nk-sales-ck">
-                                                        <canvas class="sales-bar-chart" id="activeSubscription"></canvas>
+                                                        <span class="amount">{{ number_format($deposit->sum('value'), 2)}} <small class="currency currency-usd text-primary">USD</small></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div><!-- .card -->
                                     </div><!-- .col -->
-                                    <div class="col-sm-6 col-lg-12 col-xxl-6">
+                                    <div class="col-sm-12 col-lg-12 col-xxl-4">
                                         <div class="card card-bordered">
                                             <div class="card-inner">
                                                 <div class="card-title-group align-start mb-2">
                                                     <div class="card-title">
-                                                        <h6 class="title">Sell Revenue</h6>
+                                                        <h6 class="title">External Wallet Sale Revenue</h6>
                                                     </div>
                                                     <div class="card-tools">
                                                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="Revenue from crypto sells"></em>
@@ -79,10 +73,26 @@
                                                 </div>
                                                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                     <div class="nk-sale-data">
-                                                        <span class="amount">{{ number_format($revenue?->sum('sell_revenue'), 2) }} <small class="currency currency-usd text-primary">USD</small></span>
+                                                        <span class="amount">{{ number_format($sell->sum('price'), 2)}} <small class="currency currency-usd text-primary">USD</small></span>
                                                     </div>
-                                                    <div class="nk-sales-ck">
-                                                        <canvas class="sales-bar-chart" id="totalSubscription"></canvas>
+                                                </div>
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-sm-12 col-lg-12 col-xxl-4">
+                                        <div class="card card-bordered">
+                                            <div class="card-inner">
+                                                <div class="card-title-group align-start mb-2">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Cash Deposit Revenue</h6>
+                                                    </div>
+                                                    <div class="card-tools">
+                                                        <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="Revenue from crypto sells"></em>
+                                                    </div>
+                                                </div>
+                                                <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
+                                                    <div class="nk-sale-data">
+                                                        <span class="amount">{{ number_format($rev->sum('total_revenue'), 2)}} <small class="currency currency-usd text-primary">USD</small></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,26 +101,6 @@
                                 </div><!-- .row -->
                             </div><!-- .col -->
                         </div><!-- .row -->
-                    </div><!-- .col -->
-                    <div class="col-xxl-5">
-                        <div class="card card-bordered h-100">
-                            <div class="card-inner">
-                                <div class="card-title-group align-start gx-3">
-                                    <div class="card-title">
-                                        <h6 class="title">Service Fee Revenue</h6>
-                                        <p>Revenue gotten from service fee charges.</p>
-                                    </div>
-                                </div>
-                                <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
-                                    <div class="nk-sale-data">
-                                        <span class="amount">{{ number_format($revenue?->sum('service_revenue'), 2) }} <small class="currency currency-usd text-primary">USD</small></span>
-                                    </div>
-                                </div>
-                                <div class="nk-sales-ck large pt-3">
-                                    <canvas class="sales-overview-chart" id="salesOverview"></canvas>
-                                </div>
-                            </div>
-                        </div><!-- .card -->
                     </div><!-- .col -->
                     <div class="col-xxl-8">
                         <div class="card card-bordered h-100">

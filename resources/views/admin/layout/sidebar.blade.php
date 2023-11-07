@@ -48,8 +48,8 @@
                                 <span class="nk-menu-text">Sells</span>
                             </a>
                         </li><!-- .nk-menu-item -->
-                        <li class="nk-menu-item {!! getRoute('admin.crypto.sells') !!}">
-                            <a href="{{ route('admin.crypto.sells') }}" class="nk-menu-link">
+                        <li class="nk-menu-item {!! getRoute(['admin.crypto-deposit', 'admin.crypto-deposit.detail']) !!}">
+                            <a href="{{ route('admin.crypto-deposit')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-arrow-up"></em></span>
                                 <span class="nk-menu-text">Deposits</span>
                             </a>
@@ -72,6 +72,12 @@
                                 <span class="nk-menu-text">Languages</span>
                             </a>
                         </li><!-- .nk-menu-item -->
+                        <li class="nk-menu-item {!! getRoute(['admin.currency.index', 'admin.currency.add', 'admin.currency.edit']) !!}">
+                            <a href="{{ route('admin.currency.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-coin"></em></span>
+                                <span class="nk-menu-text">Currencies</span>
+                            </a>
+                        </li><!-- .nk-menu-item -->
                         <li class="nk-menu-heading">
                             <h6 class="overline-title text-primary-alt">Admin</h6>
                         </li><!-- .nk-menu-heading -->
@@ -82,10 +88,13 @@
                             </a>
                         </li><!-- .nk-menu-item -->
                         <li class="nk-menu-item has-sub">
-                            <a href="#" class="nk-menu-link">
+                            <a href="{{ route('logout') }}" class="nk-menu-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <span class="nk-menu-icon"><em class="icon ni ni-signout"></em></span>
                                 <span class="nk-menu-text">Log Out</span>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </li><!-- .nk-menu-item -->
                     </ul><!-- .nk-menu -->
                 </div><!-- .nk-sidebar-menu -->
