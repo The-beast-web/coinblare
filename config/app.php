@@ -170,6 +170,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
         KingFlamez\Rave\RaveServiceProvider::class,
+        \Torann\GeoIP\GeoIPServiceProvider::class,
+        \Torann\Currency\CurrencyServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -188,6 +190,8 @@ return [
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
         'GoogleTranslate' => Stichoza\GoogleTranslate\GoogleTranslate::class,
         'Rave' => KingFlamez\Rave\Facades\Rave::class,
+        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
+        'Currency' => \Torann\Currency\Facades\Currency::class,
     ])->toArray(),
 
 ];

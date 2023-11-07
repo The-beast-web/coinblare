@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use AmrShawky\LaravelCurrency\Facade\Currency;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Cryptocurrency;
@@ -9,6 +10,7 @@ use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Notifications\Admin\Deposit;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +18,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Unicodeveloper\Paystack\Facades\Paystack;
 use Illuminate\Support\Str;
+use KingFlamez\Rave\Facades\Rave as Flutterwave;
+
 
 class TranxController extends Controller
 {
@@ -27,6 +31,14 @@ class TranxController extends Controller
 
     public function deposit_process(Request $request)
     {
+        $ip = '41.242.79.255';
+        $geoData = geoip($ip);
+        $country = $geoData['country'];
+        $currency = $geoData['currency'];
+
+        //This generates a payment reference
+        $reference = Flutterwave::generateReference();
+
         $rules = [
             'amount' => 'required',
         ];
@@ -37,36 +49,55 @@ class TranxController extends Controller
 
         $validated =  $request->validate($rules, $message);
 
+        // Enter the details of the payment
+        $data = [
+            'payment_options' => 'card',
+            'amount' => $validated['amount'],
+            'email' => Auth::user()->email,
+            'tx_ref' => $reference,
+            'currency' => $currency,
+            'redirect_url' => route('customer.deposit.verify'),
+            'customer' => [
+                'email' => Auth::user()->email,
+                "phone_number" => Auth::user()?->phone,
+                "name" => Auth::user()->name
+            ],
+        ];
+
+        $payment = Flutterwave::initializePayment($data);
+
         $request->session()->put('amount', $validated['amount']);
 
-        $data = array(
-            "amount" => $validated['amount'] * 100,
-            "reference" => Str::random(10),
-            "email" => Auth::user()->email,
-            "currency" => "USD",
-            "orderID" => rand(0000, 9999),
-            'metadata' => [
-                'order_id' => rand(000000000, 999999999)
-            ],
-            'callback_url' => route('customer.deposit.verify')
-        );
-
-        return Paystack::getAuthorizationUrl($data)->redirectNow();
+        return redirect($payment['data']['link']);
     }
 
     public function deposit_verify(Request $request)
     {
-        $paymentDetails = Paystack::getPaymentData();
-        $user = User::where('id', Auth::id())->first();
-        $user->balance = $user->balance + $request->session()->get('amount');
-        $user->withdrawalable = $user->balance + $request->session()->get('amount');
-        $user->save();
+        $status = request()->status;
 
-        $rev = new Admin();
-        $rev->total_revenue = $request->session()->get('amouunt');
-        $rev->save();
+        //if payment is successful
+        if ($status ==  'successful') {
 
-        $user->notify(new Deposit($paymentDetails, $user));
+            $transactionID = Flutterwave::getTransactionIDFromCallback();
+            $data = Flutterwave::verifyTransaction($transactionID);
+
+            $user = User::where('id', Auth::id())->first();
+            $user->withdrawalable = $user->withdrawalable + $request->session()->get('amount');
+            $user->save();
+
+            $rev = new Admin();
+            $rev->total_revenue = $request->session()->get('amount');
+            $rev->save();
+
+            $user->notify(new Deposit($data, $user));
+        } elseif ($status ==  'cancelled') {
+
+            return redirect()->route('customer.dashboard')->with('warning', 'Transaction has been cancelled, please try again later');
+        } else {
+
+            return redirect()->route('customer.dashboard')->with('danger', 'Transaction failed');
+        }
+
 
         return redirect()->route('customer.dashboard');
     }

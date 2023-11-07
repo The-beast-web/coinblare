@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\View\Composers\UserDataComposer;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::defaultView('vendor.pagination.bootstrap-5');
+
         Config::set('seotools.meta.defaults.title', setting('web_name'));
         Config::set('app.name', setting('web_name'));
 
