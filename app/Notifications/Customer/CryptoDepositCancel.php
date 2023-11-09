@@ -51,7 +51,8 @@ class CryptoDepositCancel extends Notification
     {
         return [
             'subject' => 'Your '.$this->deposit->amount.' '.$this->deposit->abbr.' crypto deposit approval has been cancelled due to some unresolved issues. Contact support for more',
-            'icon' => 'ni ni-cross'
+            'icon' => 'ni ni-cross',
+            'color' => 'warning'
         ];
     }
 }

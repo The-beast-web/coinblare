@@ -79,7 +79,8 @@ class MarketplaceController extends Controller
             $user->notify(new Buy([$price, $qty, $abbr]));
 
             /* Redirect */
-            return redirect()->route('customer.dashboard');
+            request()->session()->put('s-mzg', 'buy');
+            return redirect()->route('customer.buy-sell.success');
         }
     }
 }

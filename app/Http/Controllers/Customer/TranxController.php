@@ -10,10 +10,12 @@ use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Notifications\Admin\Deposit;
+use App\Notifications\Customer\FundDeposit;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Unicodeveloper\Paystack\Facades\Paystack;
@@ -89,16 +91,17 @@ class TranxController extends Controller
             $rev->total_revenue = $request->session()->get('amount');
             $rev->save();
 
-            $user->notify(new Deposit($data, $user));
+            $user->notify(new FundDeposit($data, $user));
+            Notification::send(new Deposit($data, $user));
         } elseif ($status ==  'cancelled') {
-
-            return redirect()->route('customer.dashboard')->with('warning', 'Transaction has been cancelled, please try again later');
+            return redirect()
+                ->route('customer.dashboard')
+                ->with('warning', 'Transaction has been cancelled, please try again later');
         } else {
-
-            return redirect()->route('customer.dashboard')->with('danger', 'Transaction failed');
+            return redirect()
+                ->route('customer.dashboard')
+                ->with('danger', 'Transaction failed');
         }
-
-
         return redirect()->route('customer.dashboard');
     }
 
@@ -150,31 +153,58 @@ class TranxController extends Controller
         return view('customer.transactions.withdraw-restrict');
     }
 
-    public function withdraw_pay()
+    public function withdraw_pay(Request $request)
     {
-        $data = array(
-            "amount" => 50 * 100,
-            "reference" => Str::random(10),
-            "email" => Auth::user()->email,
-            "currency" => "USD",
-            "orderID" => rand(111, 555),
-            'metadata' => [
-                'order_id' => rand(000000000, 999999999)
-            ],
-            'callback_url' => route('customer.withdrawal.anti-fraud.success')
-        );
+        $ip = '41.242.79.255';
+        $geoData = geoip($ip);
+        $currency = $geoData['currency'];
 
-        return Paystack::getAuthorizationUrl($data)->redirectNow();
+        //This generates a payment reference
+        $reference = Flutterwave::generateReference();
+
+        // Enter the details of the payment
+        $data = [
+            'payment_options' => 'card',
+            'amount' => 50,
+            'email' => Auth::user()->email,
+            'tx_ref' => $reference,
+            'currency' => $currency,
+            'redirect_url' => route('customer.withdrawal.anti-fraud.success'),
+            'customer' => [
+                'email' => Auth::user()->email,
+                "phone_number" => Auth::user()?->phone,
+                "name" => Auth::user()->name
+            ],
+        ];
+
+        $payment = Flutterwave::initializePayment($data);
+
+        return redirect($payment['data']['link']);
     }
 
 
     public function withdraw_restrict_success()
     {
         $this->seo()->setTitle('Anti-fraud Payment Successful');
-        $paymentDetails = Paystack::getPaymentData();
-        $user = User::where('id', Auth::id())->first();
-        $user->withdrawalable = $user->withdrawalable + 50;
-        $user->save();
+
+        $status = request()->status;
+
+        if ($status = 'successful') {
+            $transactionID = Flutterwave::getTransactionIDFromCallback();
+            $data = Flutterwave::verifyTransaction($transactionID);
+            $user = User::where('id', Auth::id())->first();
+            $user->withdrawalable = $user->withdrawalable + 50;
+            $user->save();
+        } elseif ($status ==  'cancelled') {
+            return redirect()
+                ->route('customer.dashboard')
+                ->with('warning', 'Transaction has been cancelled, please try again later');
+        } else {
+            return redirect()
+                ->route('customer.dashboard')
+                ->with('danger', 'Transaction failed');
+        }
+
         return view('customer.transactions.withdraw-restrict-success');
     }
 

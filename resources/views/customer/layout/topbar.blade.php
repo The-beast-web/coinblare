@@ -33,7 +33,7 @@
                                         <div class="nk-notification-item dropdown-inner">
                                             <div class="nk-notification-icon">
                                                 <em
-                                                    class="icon icon-circle bg-warning-dim {!! $n->data['icon'] !!}"></em>
+                                                    class="icon icon-circle bg-{{ $n->data['color'] }}-dim {!! $n->data['icon'] !!}"></em>
                                             </div>
                                             <div class="nk-notification-content">
                                                 <div class="nk-notification-text">{{ $n->data['subject'] }}</div>

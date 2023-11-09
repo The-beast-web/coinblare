@@ -70,7 +70,11 @@
     }
   });
 
-
+  let clockTimeout = null
+  clearTimeout(clockTimeout)
+  clockTimeout = setTimeout(() => {
+    document.getElementById('alert-con').style.display = 'none'
+  }, 2500)
 
   $(window).on('load', function () {
     $('.ok').fadeIn();

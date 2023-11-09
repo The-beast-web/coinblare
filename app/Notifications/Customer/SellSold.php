@@ -51,7 +51,8 @@ class SellSold extends Notification
     {
         return [
             'subject' => 'Your sale of '.$this->sale->amount.' '.$this->sale->abbr.' for '.$this->sale->price.' USD has been sold',
-            'icon' => 'ni ni-check-thick'
+            'icon' => 'ni ni-check-thick',
+            'color' => 'success'
         ];
     }
 }

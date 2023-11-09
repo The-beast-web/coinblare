@@ -11,8 +11,9 @@ class LangController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Languages | Admin');
-        $lang = Language::all();
-        return view('admin.language.index', compact('lang'));
+        $language = Language::all();
+        $lang = Language::orderBy('language_name')->paginate(5);
+        return view('admin.language.index', compact(['lang', 'language']));
     }
 
     public function add()
@@ -37,7 +38,7 @@ class LangController extends Controller
 
         $lang = new Language();
         $lang->language_name = $validated['name'];
-        $lang->lang_code = $validated['code'];
+        $lang->language_code = $validated['code'];
         $lang->save();
 
         return redirect()->route('admin.lang');

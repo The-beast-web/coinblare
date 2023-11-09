@@ -17,8 +17,9 @@ class DepositController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Deposits | Admin');
-        $deposit = Deposit::orderByDesc('id')->get();
-        return view('admin.deposit.index', compact('deposit'));
+        $dep = Deposit::all();
+        $deposit = Deposit::orderByDesc('id')->paginate(5);
+        return view('admin.deposit.index', compact(['deposit', 'dep']));
     }
 
     public function detail($id)

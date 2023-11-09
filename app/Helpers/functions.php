@@ -14,7 +14,7 @@ function getRoute($route)
 
 function lang($lang)
 {
-    $lange = Language::where('lang_code', $lang)->first();
+    $lange = Language::where('language_code', $lang)->first();
     return $lange->language_name;
 }
 

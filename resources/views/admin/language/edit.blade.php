@@ -45,7 +45,7 @@
                                                         <div class="buysell-field form-group">
                                                             <div class="form-label-group">
                                                                 <label class="form-label" style="font-size: 23px;"
-                                                                    for="buysell-amount">Language Universal Code</label>
+                                                                    for="buysell-amount">Language Code</label>
                                                             </div>
                                                             <div class="form-control-group">
                                                                 <input type="text"

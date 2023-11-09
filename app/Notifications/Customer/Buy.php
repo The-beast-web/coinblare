@@ -55,7 +55,8 @@ class Buy extends Notification
     {
         return [
             'subject' => 'You have successfully bought ' . number_format(request()->session()->get('price'), 10) . ' ' . request()->session()->get('abbr') . ' for ' . request()->session()->get('amount') . ' USD',
-            'icon' => 'ni ni-bag'
+            'icon' => 'ni ni-bag',
+            'color' => 'success'
         ];
     }
 }

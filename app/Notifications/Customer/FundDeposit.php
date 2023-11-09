@@ -11,12 +11,14 @@ class FundDeposit extends Notification
 {
     use Queueable;
 
+    public $deposit;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($param)
     {
-        //
+        $this->deposit = $param;
     }
 
     /**
@@ -26,7 +28,7 @@ class FundDeposit extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -48,7 +50,9 @@ class FundDeposit extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'subject' => 'You have successfully deposited '.$this->deposit['amount'].' USD',
+            'icon' => 'ni ni-arrow-up',
+            'color' => 'success'
         ];
     }
 }

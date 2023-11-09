@@ -51,7 +51,8 @@ class SellPublished extends Notification
     {
         return [
             'subject' => 'Your sale of '.$this->sale->amount.' '.$this->sale->abbr.' for '.$this->sale->price.' USD through an external wallet has been approved and published',
-            'icon' => 'ni ni-curve-up-right'
+            'icon' => 'ni ni-curve-up-right',
+            'color' => 'info'
         ];
     }
 }

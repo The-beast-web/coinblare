@@ -14,8 +14,9 @@ class CustomersController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Customers | Admin');
-        $customer = User::all();
-        return view('admin.customers.index', compact('customer'));
+        $customers = User::all();
+        $customer = User::orderByDesc('id')->paginate(5);
+        return view('admin.customers.index', compact(['customer', 'customers']));
     }
 
     public function detail($id)

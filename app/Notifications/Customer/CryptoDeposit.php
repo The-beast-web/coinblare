@@ -52,7 +52,8 @@ class CryptoDeposit extends Notification
     {
         return [
             'subject' => 'Your crypto deposit of '.$this->deposit->amount.' '.$this->deposit->abbr.' has been approved and added to your '.Str::ucfirst($this->deposit->crypto).' wallet',
-            'icon' => 'ni ni-arrow-up'
+            'icon' => 'ni ni-arrow-up',
+            'color' => 'success'
         ];
     }
 }

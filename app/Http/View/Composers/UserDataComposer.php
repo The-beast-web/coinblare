@@ -16,7 +16,7 @@ class UserDataComposer
 
     public function compose(View $view)
     {
-        $lang = Language::where('lang_code', '!=', app()->getLocale())->limit(2)->get();
+        $lang = Language::where('language_code', '!=', app()->getLocale())->limit(2)->get();
         $f_lang = Language::orderBy('language_name')->get();
         $user = User::where('id', Auth::id())->first();
         $notification = $user->notifications;

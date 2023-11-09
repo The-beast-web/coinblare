@@ -10,7 +10,8 @@ class TranxController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Transactions | Admin');
-        $tranx = TransactionHistory::orderByDesc('id')->get();
-        return view('admin.transactions.index', compact('tranx'));
+        $tran = TransactionHistory::all();
+        $tranx = TransactionHistory::orderByDesc('id')->paginate(5);
+        return view('admin.transactions.index', compact(['tranx', 'tran']));
     }
 }

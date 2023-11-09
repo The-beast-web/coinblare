@@ -12,7 +12,8 @@ class BuysController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Buys | Admin');
-        $tranx = TransactionHistory::where('method', 'buy')->orderByDesc('id')->get();
-        return view('admin.buys.index', compact(['tranx']));
+        $buy = TransactionHistory::where('method', 'buy')->get();
+        $tranx = TransactionHistory::where('method', 'buy')->orderByDesc('id')->paginate(5);
+        return view('admin.buys.index', compact(['tranx', 'buy']));
     }
 }

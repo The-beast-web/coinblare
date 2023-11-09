@@ -78,7 +78,9 @@
                                 </table>
                             </div><!-- .card-inner -->
                             <div class="card-inner">
-                                {{ $tranx->links() }}
+                                <div class="gs">
+                                    {{ $tranx->links() }}
+                                </div>
                             </div><!-- .card-inner -->
                         </div><!-- .card-inner-group -->
                     </div><!-- .card -->

@@ -14,8 +14,9 @@ class CryptoController extends Controller
     public function index()
     {
         $this->seo()->setTitle('Cryptos | Admin');
-        $crypto = Cryptocurrency::orderBy('name')->get();
-        return view('admin.cryptos.index', compact('crypto'));
+        $crypt = Cryptocurrency::all();
+        $crypto = Cryptocurrency::orderBy('name')->paginate(5);
+        return view('admin.cryptos.index', compact(['crypto', 'crypt']));
     }
 
     public function edit($id)

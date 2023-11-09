@@ -51,7 +51,8 @@ class SellPublish extends Notification
     {
         return [
             'subject' => 'Your crypto sale of '.$this->request['sell_amount'].' '.request()->session()->get('crypto_abbr').' for '.$this->request['sell_price'].' USD has been published',
-            'icon' => 'ni ni-curve-up-right'
+            'icon' => 'ni ni-curve-up-right',
+            'color' => 'info'
         ];
     }
 }

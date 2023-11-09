@@ -30,6 +30,7 @@
                 @include('customer.layout.topbar')
                 <!-- main header @e -->
                 <!-- content @s -->
+                @include('customer.layout.alert')
                 @yield('content')
                 <!-- content @e -->
                 @include('customer.layout.footer')

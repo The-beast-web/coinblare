@@ -51,7 +51,8 @@ class CryptoDepositDecline extends Notification
     {
         return [
             'subject' => 'Dear Customer, your crypto deposit of '.$this->deposit->amount.' '.$this->deposit->abbr.' was declined. Contact support for more',
-            'icon' => 'ni ni-na'
+            'icon' => 'ni ni-na',
+            'color' => 'danger'
         ];
     }
 }
