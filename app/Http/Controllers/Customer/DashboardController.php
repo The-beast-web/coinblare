@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use AmrShawky\LaravelCurrency\Facade\Currency;
 use App\Http\Controllers\Controller;
 use App\Models\TransactionHistory;
 use App\Models\User;

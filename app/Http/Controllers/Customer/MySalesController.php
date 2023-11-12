@@ -12,7 +12,7 @@ class MySalesController extends Controller
     public function index()
     {
         $this->seo()->setTitle('My Sales');
-        $sales = SaleOrder::where('user_id', Auth::id())->get();
+        $sales = SaleOrder::where('user_id', Auth::id())->orderByDesc('id')->paginate(5);
         return view('customer.my-sales.index', compact('sales'));
     }
 }

@@ -60,9 +60,9 @@
                                             <label class="custom-control-label" for="cid"></label>
                                         </div>
                                     </div>
-                                    <div class="nk-tb-col"><span class="sub-text">Country</span></div>
-                                    <div class="nk-tb-col tb-col-sm"><span class="sub-text">Currency</span></div>
-                                    <div class="nk-tb-col tb-col-sm"><span class="sub-text">Currency Abbrievation</span></div>
+                                    <div class="nk-tb-col"><span class="sub-text">Currency</span></div>
+                                    <div class="nk-tb-col tb-col-sm"><span class="sub-text">Code</span></div>
+                                    <div class="nk-tb-col tb-col-sm"><span class="sub-text">Exchange Rate</span></div>
                                     <div class="nk-tb-col text-end"><span class="sub-text">Actions</span></div>
                                 </div><!-- .nk-tb-item -->
                                @foreach ($currency as $c)
@@ -77,16 +77,16 @@
                                     <a href="html/customer-details.html">
                                         <div class="user-card">
                                             <div class="user-name">
-                                                <span class="tb-lead text-capitalize">{{ $c->country }}</span>
+                                                <span class="tb-lead text-capitalize">{{ $c->name }}</span>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                                 <div class="nk-tb-col tb-col-sm">
-                                    <span class="sub-texttext-bold text-capitalize">{{ $c->currency }}</span>
+                                    <span class="sub-texttext-bold text-capitalize">{{ $c->code }}</span>
                                 </div>
                                 <div class="nk-tb-col tb-col-sm">
-                                    <span class="sub-texttext-bold text-uppercase">{{ $c->currency_abbr }}</span>
+                                    <span class="sub-texttext-bold text-uppercase">{{ $c->exchange_rate }}</span>
                                 </div>
                                 <div class="nk-tb-col nk-tb-col-tools">
                                     <ul class="nk-tb-actions gx-1">

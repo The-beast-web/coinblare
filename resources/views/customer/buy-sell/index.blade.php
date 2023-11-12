@@ -97,10 +97,10 @@
                                                                     <label class="custom-control-label" for="external">
                                                                         <span class="d-flex flex-column text-center mt-5">
                                                                             <span class="icon-wrap xl text-primary">
-                                                                                <img src="{{ asset('images/coin/binance.png') }}"
+                                                                                <img src="{{ asset('images/external.png') }}"
                                                                                     alt="">
                                                                             </span>
-                                                                            <span class="lead-text mb-1 mt-3 text-capitalize">External Wallet</span>
+                                                                            <span class="lead-text mb-1 mt-4 text-capitalize">External Wallet</span>
                                                                         </span>
                                                                     </label>
                                                                 </div>

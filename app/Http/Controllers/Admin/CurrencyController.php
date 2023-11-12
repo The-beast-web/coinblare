@@ -24,9 +24,9 @@ class CurrencyController extends Controller
     public function add_process(Request $request)
     {
         $rules = [
-            'country' => 'required',
-            'currency' => 'required',
-            'currency_abbr' => 'required'
+            'name' => 'required',
+            'code' => 'required',
+            'exchange_rate' => 'required'
         ];
 
         $validated = $request->validate($rules);
@@ -46,9 +46,9 @@ class CurrencyController extends Controller
     public function edit_process(Request $request, $id)
     {
         $rules = [
-            'country' => 'required',
-            'currency' => 'required',
-            'currency_abbr' => 'required'
+            'name' => 'required',
+            'code' => 'required',
+            'exchange_rate' => 'required'
         ];
 
         $validated = $request->validate($rules);

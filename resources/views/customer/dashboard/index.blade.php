@@ -7,7 +7,7 @@
             <div class="nk-content-body">
                 <div class="nk-block-head">
                     <div class="nk-block-head-sub">
-                        <span>Welcome!</span>
+                        <span>{{ translate('Welcome!') }}</span>
                     </div>
                     <div class="nk-block-between-md g-4">
                         <div class="nk-block-head-content">

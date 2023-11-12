@@ -172,6 +172,7 @@ return [
         KingFlamez\Rave\RaveServiceProvider::class,
         \Torann\GeoIP\GeoIPServiceProvider::class,
         \Torann\Currency\CurrencyServiceProvider::class,
+        \Cartalyst\Converter\Laravel\ConverterServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -192,6 +193,7 @@ return [
         'Rave' => KingFlamez\Rave\Facades\Rave::class,
         'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
         'Currency' => \Torann\Currency\Facades\Currency::class,
+        'Converter' => \Cartalyst\Converter\Laravel\Facades\Converter::class,
     ])->toArray(),
 
 ];

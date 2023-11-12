@@ -50,7 +50,7 @@ class FundDeposit extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'You have successfully deposited '.$this->deposit['amount'].' USD',
+            'subject' => 'You have successfully deposited '.request()->session()->get('amount').' USD',
             'icon' => 'ni ni-arrow-up',
             'color' => 'success'
         ];

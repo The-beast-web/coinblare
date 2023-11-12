@@ -42,7 +42,7 @@
 <!-- Language Modal -->
 <!-- Modal Content Code -->
 <div class="modal fade zoom" tabindex="-1" id="lang">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>

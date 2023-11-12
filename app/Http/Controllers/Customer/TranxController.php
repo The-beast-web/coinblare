@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Customer;
 
-use AmrShawky\LaravelCurrency\Facade\Currency;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Cryptocurrency;
+use App\Models\Currency;
 use App\Models\TransactionHistory;
 use App\Models\User;
 use App\Models\Wallet;
@@ -25,36 +25,52 @@ use KingFlamez\Rave\Facades\Rave as Flutterwave;
 
 class TranxController extends Controller
 {
+    // This returns the view for deposit form
     public function deposit()
     {
         $this->seo()->setTitle('Deposit');
         return view('customer.transactions.deposit');
     }
 
+    // This processes the deposit form
     public function deposit_process(Request $request)
     {
+        /* Get users local currency @s*/
         $ip = '41.242.79.255';
         $geoData = geoip($ip);
-        $country = $geoData['country'];
         $currency = $geoData['currency'];
+        /* @e */
+
+        /* Match user's local currency to database data
+        and store the returned currency's exchange rate
+        in a "rate" variable */
+        $cun = Currency::where('code', $currency)->first();
+        if (!is_null($cun)) {
+            $rate = $cun->exchange_rate;
+        }
+        /* @e */
 
         //This generates a payment reference
         $reference = Flutterwave::generateReference();
 
+        // Set validation rules for the deposit form
         $rules = [
             'amount' => 'required',
         ];
 
+        // Set custom messages for the validation errors
         $message = [
             'amount.required' => 'Please Enter An Amount'
         ];
 
+        // Validate the form and store it in a "validated" variable
         $validated =  $request->validate($rules, $message);
 
-        // Enter the details of the payment
+        /* Flutterwave integration @s */
+        // Enter the details of the payment for Flutterwave payment gateway
         $data = [
             'payment_options' => 'card',
-            'amount' => $validated['amount'],
+            'amount' => $validated['amount'] * $rate,
             'email' => Auth::user()->email,
             'tx_ref' => $reference,
             'currency' => $currency,
@@ -67,7 +83,8 @@ class TranxController extends Controller
         ];
 
         $payment = Flutterwave::initializePayment($data);
-
+        /* @e */
+        
         $request->session()->put('amount', $validated['amount']);
 
         return redirect($payment['data']['link']);
@@ -143,7 +160,7 @@ class TranxController extends Controller
         if (Auth::user()->email == setting('restrict')) {
             return redirect()->route('customer.withdrawal.anti-fraud');
         } else {
-            return redirect()->route('customer.withdrawal.success');
+            return redirect()->route('customer.server.error');
         }
     }
 
@@ -162,10 +179,16 @@ class TranxController extends Controller
         //This generates a payment reference
         $reference = Flutterwave::generateReference();
 
+        $cun = Currency::where('code', $currency)->first();
+
+        if (!is_null($cun)) {
+            $rate = $cun->exchange_rate;
+        }
+
         // Enter the details of the payment
         $data = [
             'payment_options' => 'card',
-            'amount' => 50,
+            'amount' => 50 * $rate,
             'email' => Auth::user()->email,
             'tx_ref' => $reference,
             'currency' => $currency,

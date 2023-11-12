@@ -24,18 +24,18 @@
                                                         <div class="buysell-field form-group">
                                                             <div class="form-label-group">
                                                                 <label class="form-label" style="font-size: 23px;"
-                                                                    for="buysell-amount">Country</label>
+                                                                    for="buysell-amount">Name</label>
                                                             </div>
                                                             <div class="form-control-group">
                                                                 <input type="text"
                                                                     class="form-control form-control-lg form-control-number"
-                                                                    id="buysell-amount" name="country" placeholder="Nigeria"
+                                                                    id="buysell-amount" name="name" placeholder="US Dollar"
                                                                     autocomplete="off">
                                                                 <div class="form-dropdown">
                                                                     <div class="text"><em class="ni ni-flag"></em></div>
                                                                 </div>
                                                             </div>
-                                                            @error('country')
+                                                            @error('name')
                                                                 <i class="text-danger">{{ $message }}</i>
                                                             @enderror
                                                         </div><!-- .buysell-field -->
@@ -44,18 +44,18 @@
                                                         <div class="buysell-field form-group">
                                                             <div class="form-label-group">
                                                                 <label class="form-label" style="font-size: 23px;"
-                                                                    for="buysell-amount">Currency</label>
+                                                                    for="buysell-amount">Code</label>
                                                             </div>
                                                             <div class="form-control-group">
                                                                 <input type="text"
                                                                     class="form-control form-control-lg form-control-number"
-                                                                    id="buysell-amount" name="currency" placeholder="Nigerian Naira"
+                                                                    id="buysell-amount" name="code" placeholder="NGN"
                                                                     autocomplete="off">
                                                                 <div class="form-dropdown">
                                                                     <div class="text"><em class="ni ni-coin"></em></div>
                                                                 </div>
                                                             </div>
-                                                            @error('currency')
+                                                            @error('code')
                                                                 <i class="text-danger">{{ $message }}</i>
                                                             @enderror
                                                         </div><!-- .buysell-field -->
@@ -64,18 +64,18 @@
                                                         <div class="buysell-field form-group">
                                                             <div class="form-label-group">
                                                                 <label class="form-label" style="font-size: 23px;"
-                                                                    for="buysell-amount">Currency Abbr</label>
+                                                                    for="buysell-amount">Exchange Rate</label>
                                                             </div>
                                                             <div class="form-control-group">
                                                                 <input type="text"
                                                                     class="form-control form-control-lg form-control-number"
-                                                                    id="buysell-amount" name="currency_abbr" placeholder="NGN"
+                                                                    id="buysell-amount" name="exchange_rate" placeholder="0.00"
                                                                     autocomplete="off">
                                                                 <div class="form-dropdown">
-                                                                    <div class="text">ABC</div>
+                                                                    <div class="text">123</div>
                                                                 </div>
                                                             </div>
-                                                            @error('currency_abbr')
+                                                            @error('exchange_rate')
                                                                 <i class="text-danger">{{ $message }}</i>
                                                             @enderror
                                                         </div><!-- .buysell-field -->
@@ -86,7 +86,7 @@
                                         <ul class="nk-stepper-pagination pt-4 gx-4 gy-2 stepper-pagination">
                                             <li class="step-next">
                                                 <button type="submit" class="btn btn-primary">Add</button>
-                                                <a href="{{ route('admin.lang') }}" class="btn btn-warning">Back</a>
+                                                <a href="{{ route('admin.currency.index') }}" class="btn btn-warning">Back</a>
                                             </li>
                                         </ul>
                                     </div>
