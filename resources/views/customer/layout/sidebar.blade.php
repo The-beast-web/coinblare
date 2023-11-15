@@ -1,11 +1,8 @@
 <div class="nk-sidebar nk-sidebar-fixed " data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
-            <a href="html/crypto/index.html" class="logo-link nk-sidebar-logo">
-                <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
-                <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x"
-                    alt="logo-dark">
-                <span class="nio-version">Crypto</span>
+            <a href="html/crypto/index.html" class="nk-sidebar-logo">
+                <img src="{{ asset('images/coinblare-logo.png') }}" alt="logo" width="140">
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">

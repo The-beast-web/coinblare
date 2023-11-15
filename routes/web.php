@@ -22,6 +22,7 @@ use App\Http\Controllers\Customer\TranxController;
 use App\Http\Controllers\Customer\WalletController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\SuspendedController;
+use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,10 +38,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-Route::get('/', function () {
-    return view('website.index');
-})->name('customer.home');
+Route::name('website.')->group(function () {
+    Route::get('/', [WebsiteController::class, 'home'])->name('home');
+    Route::get('/about', [WebsiteController::class, 'about'])->name('about');
+    Route::get('/faq', [WebsiteController::class, 'faq'])->name('faq');
+    Route::get('/features', [WebsiteController::class, 'features'])->name('features');
+    Route::get('/lang/{code}', [WebsiteController::class, 'change_lang'])->name('change-lang');
+    Route::get('/terms-and-conditions', [WebsiteController::class, 'terms'])->name('terms');
+});
 
 Auth::routes(['verify' => true]);
 
@@ -111,6 +116,8 @@ Route::middleware(['auth', 'verified', 'suspended'])->name('customer.')->prefix(
 
     Route::get('/my-sales', [MySalesController::class, 'index'])->name('my-sales');
     Route::get('/market-analysis', [MarketAnalysisController::class, 'index'])->name('market-analysis');
+
+    Route::get('/lang/{code}', [LangController::class, 'changeLang'])->name('changeLang');
 });
 /* Customer Routes @e */
 
@@ -200,9 +207,3 @@ Route::middleware(['auth', 'verified', 'restrict'])->prefix('admin')->name('admi
     Route::get('/crypto-deposits/decline/{id}', [DepositController::class, 'decline'])->name('crypto-deposit.decline');
 });
 /* Admin Routes @e */
-
-Route::get('/change-language/{code}', [LangController::class, 'changeLang'])->name('changeLang');
-
-Route::get('/cr', function () {
-    return view('home');
-});

@@ -1,11 +1,8 @@
 <div class="nk-sidebar nk-sidebar-fixed " data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
-            <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                <img class="logo-light logo-img" src="{{ asset('images/logo.png') }}" srcset="./images/logo2x.png 2x"
-                    alt="logo">
-                <img class="logo-dark logo-img" src="{{ asset('images/logo-dark.png') }}"
-                    srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+            <a href="html/index.html" class="nk-sidebar-logo">
+                <img src="{{ asset('images/coinblare-logo.png') }}" width="140" alt="logo">
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">

@@ -1,15 +1,11 @@
 @extends('auth.master')
 
 @section('content')
-    @include('customer.layout.preloader')
-    <div class="nk-content d-none" id="market">
+    <div class="nk-content">
         <div class="nk-block nk-block-middle nk-auth-body wide-lg" style="margin-bottom: 100px">
             <div class="brand-logo pb-4 text-center">
-                <a href="html/index.html" class="logo-link">
-                    <img class="logo-light logo-img logo-img-lg" src="./images/logo.png" srcset="./images/logo2x.png 2x"
-                        alt="logo">
-                    <img class="logo-dark logo-img logo-img-lg" src="./images/logo-dark.png"
-                        srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                <a href="{{ route('website.home') }}">
+                    <img src="{{ asset('images/coinblare-logo.png') }}" width="140" alt="logo">
                 </a>
             </div>
             <div class="card card-bordered">
@@ -18,7 +14,7 @@
                         <div class="nk-block-head-content">
                             <h4 class="nk-block-title">Register</h4>
                             <div class="nk-block-des">
-                                <p>Create New Dashlite Account</p>
+                                <p>Create New Coinblare Account</p>
                             </div>
                         </div>
                     </div>
@@ -45,8 +41,8 @@
                                             id="email" placeholder="Enter your email address" autocomplete="off">
                                     </div>
                                     @error('email')
-                                    <b><i class="text-danger">{{ $message }}</i></b>
-                                @enderror
+                                        <b><i class="text-danger">{{ $message }}</i></b>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12">
@@ -62,8 +58,8 @@
                                             id="password" placeholder="Enter your passcode">
                                     </div>
                                     @error('password')
-                                    <b><i class="text-danger">{{ $message }}</i></b>
-                                @enderror
+                                        <b><i class="text-danger">{{ $message }}</i></b>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12">
@@ -83,20 +79,24 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Promo Code <small class="text-soft">(Optional)</small></label>
+                                    <label class="form-label" for="name">Promo Code <small
+                                            class="text-soft">(Optional)</small></label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="promo_code" class="form-control form-control-lg required"
-                                            id="name" placeholder="Enter a promo code" autocomplete="off">
+                                        <input type="text" name="promo_code"
+                                            class="form-control form-control-lg required" id="name"
+                                            placeholder="Enter a promo code" autocomplete="off">
                                     </div>
+                                    @error('promo_code')
+                                        <b><i class="text-danger">{{ $message }}</i></b>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <div class="custom-control custom-control-xs custom-checkbox">
                                         <input type="checkbox" class="custom-control-input required" id="checkbox">
-                                        <label class="custom-control-label" for="checkbox">I agree to Dashlite <a
-                                                href="#">Privacy Policy</a> &amp; <a href="#">
-                                                Terms.</a></label>
+                                        <label class="custom-control-label" for="checkbox">I agree to Coinblare Privacy Policy &amp;
+                                                Terms.</label>
                                     </div>
                                 </div>
                             </div>

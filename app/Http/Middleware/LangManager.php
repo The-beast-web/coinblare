@@ -17,10 +17,12 @@ class LangManager
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
-            if(Auth::user()->language == true){
+        if (Auth::check()) {
+            if (Auth::user()->language == true) {
                 App::setLocale(Auth::user()->language);
             }
+        } elseif (session()->has('lang')) {
+            App::setLocale(session()->get('lang'));
         }
         return $next($request);
     }

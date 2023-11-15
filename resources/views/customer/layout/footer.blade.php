@@ -11,22 +11,22 @@
                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
                             <ul class="language-list">
                                 <li>
-                                    <a href="{{ route('changeLang', Auth::user()->language) }}" class="language-item">
+                                    <a href="{{ route('customer.changeLang', Auth::user()->language) }}" class="language-item">
                                         <span
                                             class="language-name text-capitalize">{{ lang(Auth::user()->language) }}</span>
                                     </a>
                                 </li>
                                 @foreach ($lang as $l)
                                     <li>
-                                        <a href="{{ route('changeLang', $l->language_code) }}" class="language-item">
-                                            <span class="language-name text-capitalize">{{ $l->language_name }}</span>
+                                        <a href="{{ route('customer.changeLang', $l->language_code) }}" class="language-item">
+                                            <span class="language-name text-capitalize">{{ translate($l->language_name) }}</span>
                                         </a>
                                     </li>
                                 @endforeach
                                 @if ($lang->count() == 2)
                                     <li>
                                         <a href="#lang" data-bs-toggle="modal" class="language-item">
-                                            <span class="language-name text-capitalize text-primary">see all</span>
+                                            <span class="language-name text-capitalize text-primary">{{ translate('see all') }}</span>
                                         </a>
                                     </li>
                                 @endif
@@ -47,14 +47,11 @@
             <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>
             </a>
-            <div class="modal-header">
-                <h5 class="modal-title">Languages</h5>
-            </div>
             <div class="modal-body">
                 <div class="row g-3">
                     @foreach ($f_lang as $fl)
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <a href="{{ route('changeLang', $fl->language_code) }}">
+                            <a href="{{ route('customer.changeLang', $fl->language_code) }}">
                                 <div class="card card-bordered" onmouseover="$(this).addClass('bg-primary')"
                                     onmouseout="$(this).removeClass('bg-primary')">
                                     <div class="card-body">

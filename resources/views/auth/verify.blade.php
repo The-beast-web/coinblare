@@ -4,11 +4,8 @@
 <div class="nk-content">
     <div class="nk-block">
         <div class="brand-logo pb-4 text-center" style="margin-top: 300px">
-            <a href="html/index.html" class="logo-link">
-                <img class="logo-light logo-img logo-img-lg" src="./images/logo.png" srcset="./images/logo2x.png 2x"
-                    alt="logo">
-                <img class="logo-dark logo-img logo-img-lg" src="./images/logo-dark.png"
-                    srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+            <a href="{{ route('website.home') }}">
+                <img src="{{ asset('images/coinblare-logo.png') }}" width="140" alt="logo">
             </a>
         </div>
         <div class="container" >

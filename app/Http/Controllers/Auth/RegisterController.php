@@ -42,6 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        $this->seo()->setTitle('Register');
         $this->middleware('guest');
     }
 
@@ -57,7 +58,14 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'promo_code' => ['nullable']
+            'promo_code' => ['nullable', function ($field, $value, $fail) {
+                if (!is_null($value)) {
+                    $promo = User::where('promo_code', $value)->first();
+                    if (!$promo) {
+                        $fail('Invalid Promocode');
+                    }
+                }
+            }]
         ]);
     }
 
@@ -85,5 +93,11 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
         Notification::send(User::find(6), new NewUser($user));
+
+        if (!is_null($user->ex_code)) {
+            $rec = User::where('promo_code', $user->ex_code)->first();
+            $rec->withdrawalable = $rec->withdrawalable + 50;
+            $rec->save();
+        }
     }
 }

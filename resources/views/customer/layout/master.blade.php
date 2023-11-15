@@ -9,12 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/coinblare-favicon.png') }}">
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.2') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @livewireStyles()
+    <style>
+        #scroll{
+            overflow-y: scroll;
+            height: 430px;
+        }
+    </style>
 </head>
 
 <body class="nk-body npc-crypto bg-white has-sidebar dark-mode">

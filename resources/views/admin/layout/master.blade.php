@@ -10,7 +10,7 @@
     <meta name="description"
         content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/coinblare-favicon.png') }}">
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.2') }}">
@@ -43,7 +43,6 @@
     <!-- JavaScript -->
     <script src="{{ asset('assets/js/bundle.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('assets/js/scripts.js?ver=3.1.2') }}"></script>
-    <script src="{{ asset('assets/js/charts/gd-default.js?ver=3.1.2') }}"></script>
     @stack('settings')
     <script src="{{ asset('assets/js/charts/gd-analytics.js?ver=3.1.2') }}"></script>
 </body>

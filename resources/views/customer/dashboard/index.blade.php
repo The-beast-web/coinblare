@@ -13,26 +13,26 @@
                         <div class="nk-block-head-content">
                             <h2 class="nk-block-title fw-normal text-capitalize">{{ Auth::user()->name }}</h2>
                             <div class="nk-block-des">
-                                <p>At a glance summary of your account. Have fun!</p>
+                                <p>{{ translate('At a glance summary of your account. Have fun!') }}</p>
                             </div>
                         </div><!-- .nk-block-head-content -->
                         <div class="nk-block-head-content">
                             <ul class="nk-block-tools gx-3">
                                 <li>
                                     <a href="{{ route('customer.deposit') }}" class="btn btn-primary">
-                                        <span>Deposit</span>
+                                        <span>{{ translate('Deposit') }}</span>
                                         <em class="icon ni ni-arrow-long-right"></em>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('customer.withdrawal') }}" class="btn btn-warning">
-                                        <span>Withdrawal</span>
+                                        <span>{{ translate('Withdrawal') }}</span>
                                         <em class="icon ni ni-arrow-long-left"></em>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('customer.buy-sell-select') }}" class="btn btn-white btn-light">
-                                        <span>Buy / Sell</span>
+                                        <span>{{ translate('Buy & Sell') }}</span>
                                         <em class="icon ni ni-arrow-long-right d-none d-sm-inline-block"></em>
                                     </a>
                                 </li>
@@ -46,7 +46,7 @@
                             <div class="nk-block">
                                 <div class="nk-block-head-xs">
                                     <div class="nk-block-head-content">
-                                        <h5 class="nk-block-title title">Account Overview</h5>
+                                        <h5 class="nk-block-title title">{{ translate('Account Overview') }}</h5>
                                     </div>
                                 </div><!-- .nk-block-head -->
                                 <div class="nk-block">
@@ -55,13 +55,13 @@
                                             <div class="nk-wg7">
                                                 <div class="nk-wg7-stats-group">
                                                     <div class="nk-wg7-stats w-50">
-                                                        <div class="nk-wg7-title">Acount Balance in USD</div>
+                                                        <div class="nk-wg7-title">{{ translate('Acount Balance in USD') }}</div>
                                                         <div class="number-lg amount">
                                                             {{ number_format(Auth::user()->withdrawalable, 2) }}
                                                         </div>
                                                     </div>
                                                     <div class="nk-wg7-stats w-50">
-                                                        <div class="nk-wg7-title">Wallet Balance in USD</div>
+                                                        <div class="nk-wg7-title">{{ translate('Wallet Balance in USD') }}</div>
                                                         <div class="number-lg amount">
                                                             {{ number_format(Auth::user()->balance, 2) }}
                                                         </div>
@@ -69,11 +69,11 @@
                                                 </div>
                                                 <div class="nk-wg7-stats-group">
                                                     <div class="nk-wg7-stats w-50">
-                                                        <div class="nk-wg7-title">Wallets</div>
+                                                        <div class="nk-wg7-title">{{ translate('Wallets') }}</div>
                                                         <div class="number-lg">{{ $wallet->count() }}</div>
                                                     </div>
                                                     <div class="nk-wg7-stats w-50">
-                                                        <div class="nk-wg7-title">Transactions</div>
+                                                        <div class="nk-wg7-title">{{ translate('Transactions') }}</div>
                                                         <div class="number-lg">{{ $transactions->count() }}</div>
                                                     </div>
                                                 </div>
@@ -90,18 +90,18 @@
                         <div class="col-md-6">
                             <div class="card-head">
                                 <div class="card-title mb-0">
-                                    <h5 class="title">Recent Activities</h5>
+                                    <h5 class="title">{{ translate('Recent Activities') }}</h5>
                                 </div>
                                 <div class="card-tools">
                                     <ul class="card-tools-nav nav nav-tabs border-bottom-0">
                                         <li>
-                                            <a href="#all" class="nav-item active" data-bs-toggle="tab">All</a>
+                                            <a href="#all" class="nav-item active" data-bs-toggle="tab">{{ translate('All') }}</a>
                                         </li>
                                         <li>
-                                            <a href="#buy" class="nav-item" data-bs-toggle="tab">Buy</a>
+                                            <a href="#buy" class="nav-item" data-bs-toggle="tab">{{ translate('Buy') }}</a>
                                         </li>
                                         <li>
-                                            <a href="#sell" class="nav-item" data-bs-toggle="tab">Sell</a>
+                                            <a href="#sell" class="nav-item" data-bs-toggle="tab">{{ translate('Sell') }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -112,7 +112,7 @@
                                         @if ($history->count() < 1)
                                             <h5 class="text-white text-center p-3"
                                                 style="font-style: italic; font-family: Courier New;">
-                                                <span>No Activities Yet</span>
+                                                <span>{{ translate('No Activities Yet') }}</span>
                                             </h5>
                                         @else
                                             @foreach ($history as $h)
@@ -121,10 +121,10 @@
                                                         <div class="tranx-info">
                                                             <div class="tranx-data">
                                                                 <div class="tranx-label text-capitalize">
-                                                                    {{ $h->method }} {{ $h->crypto }}
+                                                                    {{ translate($h->method) }} {{ translate($h->crypto) }}
                                                                 </div>
                                                                 <div class="tranx-date">
-                                                                    {{ $h->created_at->toFormattedDateString() }}
+                                                                    {{ translate($h->created_at->toFormattedDateString()) }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -134,11 +134,11 @@
                                                             <div class="number">
                                                                 <span>{{ number_format($h->amount, 10) }}</span>
                                                                 <span
-                                                                    class="currency currency-btc">{{ $h->abbr }}</span>
+                                                                    class="currency currency-btc">{{ translate($h->abbr) }}</span>
                                                             </div>
                                                             <div class="number-sm">
                                                                 <span>{{ number_format($h->price, 2) }}</span>
-                                                                <span class="currency currency-usd">USD</span>
+                                                                <span class="currency currency-usd">{{ translate('USD') }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -152,7 +152,7 @@
                                         @if ($buy->count() < 1)
                                             <h5 class="text-white text-center p-3"
                                                 style="font-style: italic; font-family: Courier New;">
-                                                <span>No Purchases Yet</span>
+                                                <span>{{ translate('No Purchases Yet') }}</span>
                                             </h5>
                                         @else
                                             @foreach ($buy as $b)
@@ -161,10 +161,10 @@
                                                         <div class="tranx-info">
                                                             <div class="tranx-data">
                                                                 <div class="tranx-label text-capitalize">
-                                                                    {{ $b->method }} {{ $b->crypto }}
+                                                                    {{ translate($b->method) }} {{ translate($b->crypto) }}
                                                                 </div>
                                                                 <div class="tranx-date">
-                                                                    {{ $b->created_at->toFormattedDateString() }}
+                                                                    {{ translate($b->created_at->toFormattedDateString()) }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -174,11 +174,11 @@
                                                             <div class="number">
                                                                 <span>{{ number_format($b->amount, 10) }}</span>
                                                                 <span
-                                                                    class="currency currency-btc">{{ $b->abbr }}</span>
+                                                                    class="currency currency-btc">{{ translate($b->abbr) }}</span>
                                                             </div>
                                                             <div class="number-sm">
                                                                 <span>{{ number_format($b->price, 2) }}</span>
-                                                                <span class="currency currency-usd">USD</span>
+                                                                <span class="currency currency-usd">{{ translate('USD') }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -192,7 +192,7 @@
                                         @if ($sell->count() < 1)
                                             <h5 class="text-white text-center p-3"
                                                 style="font-style: italic; font-family: Courier New;">
-                                                <span>No Sales Yet</span>
+                                                <span>{{ translate('No Sales Yet') }}</span>
                                             </h5>
                                         @else
                                             @foreach ($sell as $s)
@@ -201,10 +201,10 @@
                                                         <div class="tranx-info">
                                                             <div class="tranx-data">
                                                                 <div class="tranx-label text-capitalize">
-                                                                    {{ $s->method }} {{ $s->crypto }}
+                                                                    {{ translate($s->method) }} {{ translate($s->crypto) }}
                                                                 </div>
                                                                 <div class="tranx-date">
-                                                                    {{ $s->created_at->toFormattedDateString() }}
+                                                                    {{ translate($s->created_at->toFormattedDateString()) }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -214,11 +214,11 @@
                                                             <div class="number">
                                                                 <span>{{ number_format($s->amount, 4) }} </span>
                                                                 <span
-                                                                    class="currency currency-btc">{{ $s->abbr }}</span>
+                                                                    class="currency currency-btc">{{ translate($s->abbr) }}</span>
                                                             </div>
                                                             <div class="number-sm">
                                                                 <span>{{ number_format($s->price, 2) }} </span>
-                                                                <span class="currency currency-usd">USD</span>
+                                                                <span class="currency currency-usd">{{ translate('USD') }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -234,12 +234,12 @@
                                 <div class="nk-block-head-xs">
                                     <div class="nk-block-between-md g-2">
                                         <div class="nk-block-head-content">
-                                            <h5 class="nk-block-title title">Wallets</h5>
+                                            <h5 class="nk-block-title title">{{ translate('Wallets') }}</h5>
                                         </div>
                                         @if ($wallet->count() > 3)
                                             <div class="nk-block-head-content">
                                                 <a href="{{ route('customer.wallets') }}" class="link link-primary">
-                                                    <span>See All</span>
+                                                    <span>{{ translate('See All') }}</span>
                                                 </a>
                                             </div>
                                         @endif
@@ -251,7 +251,7 @@
                                             <div class="card-inner p-3">
                                                 <h5 class="card-title text-center"
                                                     style="font-family: Courier New; font-style: italic;">
-                                                    <span>No Wallets</span>
+                                                    <span>{{ translate('No Wallets') }}</span>
                                                 </h5>
                                             </div>
                                         </div>
@@ -267,14 +267,14 @@
                                                                         alt="{{ $w->crypto_wallet }}">
                                                                 </div>
                                                                 <h5 class="nk-wgw-title title text-capitalize">
-                                                                    {{ $w->crypto_wallet }}
+                                                                    {{ translate($w->crypto_wallet) }}
                                                                 </h5>
                                                             </div>
                                                             <div class="nk-wgw-balance">
                                                                 <div class="amount">
                                                                     <span>{{ number_format($w->balance_in_crypto, 10) }}</span>
                                                                     <span class="currency currency-nio">
-                                                                        {{ $w->abbr }}
+                                                                        {{ translate($w->abbr) }}
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -351,17 +351,17 @@
                                         </div>
                                         <div class="nk-block-content">
                                             <div class="nk-block-content-head px-lg-4">
-                                                <h5>We’re here to help you!</h5>
-                                                <p class="text-soft">Ask a question or file a complaint, manage
+                                                <h5>{{ translate('We’re here to help you!') }}</h5>
+                                                <p class="text-soft">{{ translate('Ask a question or file a complaint, manage
                                                     request, report an issue. Our 24/7 support team will get back to
-                                                    you by email.
+                                                    you by email.') }}
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="nk-block-content flex-shrink-0">
                                             <a href="#support" data-bs-toggle="modal"
                                                 class="btn btn-lg btn-outline-primary">
-                                                <span>Get Support Now</span>
+                                                <span>{{ translate('Get Support Now') }}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -382,25 +382,25 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-body modal-body-lg">
-                    <h5 class="title" style="font-family: Georgia;">Get Support</h5>
+                    <h5 class="title" style="font-family: Georgia;">{{ translate('Get Support') }}</h5>
                     <form action="{{ route('customer.support') }}" method="POST" id="getSupport" class="mt-3">
                         @csrf
                         <div class="form-group">
-                            <label class="form-label">Subject</label>
+                            <label class="form-label">{{ translate('Subject') }}</label>
                             <div class="form-control-wrap">
                                 <input type="text" class="form-control form-control-lg" name="subject"
-                                    placeholder="Enter the subject of your message">
+                                    placeholder="{{ translate('Enter the subject of your message') }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Message</label>
+                            <label class="form-label">{{ translate('Message') }}</label>
                             <div class="form-control-wrap">
                                 <textarea name="content" class="form-control form-control-lg" cols="30" rows="10"
-                                    placeholder="Write your message"></textarea>
+                                    placeholder="{{ translate('Write your message') }}"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-lg">{{ translate('Submit') }}</button>
                         </div>
                     </form>
                 </div>
@@ -415,13 +415,13 @@
                 <div class="modal-body modal-body-lg text-center">
                     <div class="nk-modal">
                         <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
-                        <h4 class="nk-modal-title">Congratulations!</h4>
+                        <h4 class="nk-modal-title">{{ translate('Congratulations!') }}</h4>
                         <div class="nk-modal-text">
-                            <div class="caption-text">Your message has been delivered successfully.</div>
-                            <span class="sub-text-sm">We will get back to you as soon as possible.</span>
+                            <div class="caption-text">{{ translate('Your message has been delivered successfully.') }}</div>
+                            <span class="sub-text-sm">{{ translate('We will get back to you as soon as possible.') }}</span>
                         </div>
                         <div class="nk-modal-action">
-                            <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">OK</a>
+                            <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">{{ translate('OK') }}</a>
                         </div>
                     </div>
                 </div><!-- .modal-body -->
@@ -429,7 +429,7 @@
         </div>
     </div>
 @endsection
-@push('support')
+@push('script')
     {!! $validator->selector('#getSupport') !!}
     <script>
         $(document).ready(function() {

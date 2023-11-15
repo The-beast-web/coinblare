@@ -28,3 +28,10 @@ function markAsRead()
     $user = User::where('id', Auth::id())->first();
     return $user->notifications->markAsRead();
 }
+
+function web_route($route)
+{
+    if (request()->routeIs($route)) {
+        return "text-primary";
+    }
+}

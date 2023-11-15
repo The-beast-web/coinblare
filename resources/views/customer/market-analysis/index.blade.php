@@ -8,9 +8,9 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between g-3">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Market Analysis</h3>
+                            <h3 class="nk-block-title page-title">{{ translate('Market Analysis') }}</h3>
                             <div class="nk-block-des text-soft">
-                                <p>Crypto Market Overview</p>
+                                <p>{{ translate('Crypto Market Overview') }}</p>
                             </div>
                         </div><!-- .nk-block-head-content -->
                     </div><!-- .nk-block-between -->
@@ -42,7 +42,7 @@
                                         "GEMINI:USDCUSD|1D"
                                     ],
                                     [
-                                        "BTSE:DOGUSD|1D"
+                                        "EASYMARKETS:DOGUSD|1D"
                                     ],
                                     [
                                         "KRAKEN:ADAUSD|1D"
