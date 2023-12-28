@@ -351,7 +351,7 @@
                                         </div>
                                         <div class="nk-block-content">
                                             <div class="nk-block-content-head px-lg-4">
-                                                <h5>{{ translate('We’re here to help you!') }}</h5>
+                                                <h5>{{ translate('Wre here to help you!') }}</h5>
                                                 <p class="text-soft">{{ translate('Ask a question or file a complaint, manage
                                                     request, report an issue. Our 24/7 support team will get back to
                                                     you by email.') }}
@@ -393,7 +393,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">{{ translate('Message') }}</label>
+                            <label class="form-label">Message</label>
                             <div class="form-control-wrap">
                                 <textarea name="content" class="form-control form-control-lg" cols="30" rows="10"
                                     placeholder="{{ translate('Write your message') }}"></textarea>
@@ -407,27 +407,7 @@
             </div>
         </div>
     </div>
-    <!-- Success Modal -->
-    <div class="modal fade zoom" tabindex="-1" id="success" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
-                <div class="modal-body modal-body-lg text-center">
-                    <div class="nk-modal">
-                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
-                        <h4 class="nk-modal-title">{{ translate('Congratulations!') }}</h4>
-                        <div class="nk-modal-text">
-                            <div class="caption-text">{{ translate('Your message has been delivered successfully.') }}</div>
-                            <span class="sub-text-sm">{{ translate('We will get back to you as soon as possible.') }}</span>
-                        </div>
-                        <div class="nk-modal-action">
-                            <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">{{ translate('OK') }}</a>
-                        </div>
-                    </div>
-                </div><!-- .modal-body -->
-            </div>
-        </div>
-    </div>
+
 @endsection
 @push('script')
     {!! $validator->selector('#getSupport') !!}

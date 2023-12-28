@@ -19,14 +19,14 @@
                                 @foreach ($lang as $l)
                                     <li>
                                         <a href="{{ route('customer.changeLang', $l->language_code) }}" class="language-item">
-                                            <span class="language-name text-capitalize">{{ translate($l->language_name) }}</span>
+                                            <span class="language-name text-capitalize"></span>
                                         </a>
                                     </li>
                                 @endforeach
                                 @if ($lang->count() == 2)
                                     <li>
                                         <a href="#lang" data-bs-toggle="modal" class="language-item">
-                                            <span class="language-name text-capitalize text-primary">{{ translate('see all') }}</span>
+                                            <span class="language-name text-capitalize text-primary"></span>
                                         </a>
                                     </li>
                                 @endif

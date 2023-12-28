@@ -66,11 +66,10 @@ class BuySellController extends Controller
             'user_id',
             Auth::id(),
         )->where('crypto_wallet', 'bitcoin')
-            ->where('user_id', Auth::id())
             ->get();
 
         foreach ($this->wallet as $wallet) {
-            session()->put('wallet', $wallet->balance_in_crypto);
+            session()->put('wallet', $wallet->balance_in_currency);
         }
 
         $this->rules = [

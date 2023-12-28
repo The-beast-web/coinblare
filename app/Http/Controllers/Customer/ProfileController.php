@@ -19,8 +19,9 @@ class ProfileController extends Controller
         'email' => 'required',
     ];
 
-    public function password(){
-         $rules = [
+    public function password()
+    {
+        $rules = [
             'current_password' => ['required', function ($field, $value, $fail) {
                 if (!Hash::check($value, Auth::user()->password)) {
                     $fail('Incorrect Password');
@@ -73,11 +74,11 @@ class ProfileController extends Controller
 
         $rules = [
             'password' => 'required|confirmed',
-            'current_password' => ['required', function($field, $value, $fail){
+            'current_password' => ['required', function ($field, $value, $fail) {
                 if (!Hash::check($value, Auth::user()->password)) {
                     $fail('Incorrect Password');
                 }
-            }], 
+            }],
         ];
 
         $message = [
